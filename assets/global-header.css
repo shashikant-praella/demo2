@@ -241,7 +241,6 @@
         background-color: #fff;
         box-shadow: var(--bs-shadow);
         transition: all 0.2s ease-in-out;
-        /* transform: translate3d(0, -2%, 0); */
     }
     .navbar-main .megamenu .dropdown-menu{
         width: 100%;
@@ -255,7 +254,6 @@
     .dropdown.open > .dropdown-menu{
         opacity: 1;
         visibility: visible;
-        /* transform: translate3d(0,0,0); */
     }
 
     .navbar-icon-links .nav-item,
@@ -269,10 +267,6 @@
     .topbar{
         transition: 0.25s ease-in-out;
     }
-
-    /* .shopify-section-header-sticky .topbar{
-        height: 0;
-    } */
     
     .cart-count {
         font-size: 12px;
@@ -286,13 +280,4 @@
         position: absolute;
         right: -5px;
         top: -4px;
-    }
-    
-    .menu-list{
-        column-count: 3;
-    }
-    .menu-list > li{
-        -webkit-column-break-inside: avoid;
-        page-break-inside: avoid;
-             break-inside: avoid;
     }

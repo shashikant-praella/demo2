@@ -18,14 +18,14 @@
                         <div class="contact_banner position-relative{{ section.settings.height }}">
                             {%- if section.settings.image != blank -%}
                             <img srcset="
-                                {%- if section.settings.image.width >= 350 -%}{{ section.settings.image | img_url: '350x' }} 350w,{%- endif -%}
-                                {%- if section.settings.image.width >= 550 -%}{{ section.settings.image | img_url: '550x' }} 550w,{%- endif -%}
-                                {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | img_url: '750x' }} 750w,{%- endif -%}
-                                {%- if section.settings.image.width >= 991 -%}{{ section.settings.image | img_url: '991x' }} 991w,{%- endif -%}
-                                {%- if section.settings.image.width >= 1200 -%}{{ section.settings.image | img_url: '1200x' }} 1200w,{%- endif -%}
-                                {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
-                                {{ section.settings.image | img_url: 'master' }} {{ section.settings.image.width }}w"
-                                src="{{ section.settings.image | img_url: '1500x' }}" loading="lazy"
+                                {%- if section.settings.image.width >= 350 -%}{{ section.settings.image | image_url: width: 350 }} 350w,{%- endif -%}
+                                {%- if section.settings.image.width >= 550 -%}{{ section.settings.image | image_url: width: 550 }} 550w,{%- endif -%}
+                                {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                                {%- if section.settings.image.width >= 991 -%}{{ section.settings.image | image_url: width: 991 }} 991w,{%- endif -%}
+                                {%- if section.settings.image.width >= 1200 -%}{{ section.settings.image | image_url: width: 1200 }} 1200w,{%- endif -%}
+                                {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                {{ section.settings.image | image_url }} {{ section.settings.image.width }}w"
+                                src="{{ section.settings.image | image_url: width: 1500 }}" loading="lazy"
                                 sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"
                                 alt="{{ section.settings.image.alt | default: section.settings.heading | escape }}"
                                 width="{{ section.settings.image.width }}"
@@ -52,7 +52,7 @@
                                                 <li class="list-inline-item">
                                                     <a {% if settings.social_instagram_link != blank %}href="{{ settings.social_instagram_link }}"{% endif %} target="_blank" style="color: {{ section.settings.footer_top_link_color }};"  name="Instagram" title="Instagram" rel="nofollow noreferrer" aria-label="Instagram"
                                                     class="d-flex align-items-center justify-content-center text-decoration-none">
-                                                        <i class="icon-instagram d-flex text-white"></i>
+                                                        <span class="icon-instagram d-flex text-white"></span>
                                                     </a>
                                                 </li>
                                             {% endif %}
@@ -61,7 +61,7 @@
                                                 <li class="list-inline-item">
                                                     <a {% if settings.social_facebook_link != blank %}href="{{ settings.social_facebook_link }}"{% endif %} target="_blank" style="color: {{ section.settings.footer_top_link_color }};" name="Facebook" title="Facebook" rel="nofollow noreferrer" aria-label="Facebook"
                                                     class="d-flex align-items-center justify-content-center text-decoration-none">
-                                                        <i class="icon-facebook d-flex text-white"></i>
+                                                        <span class="icon-facebook d-flex text-white"></span>
                                                     </a>
                                                 </li>
                                             {% endif %}
@@ -70,7 +70,7 @@
                                                 <li class="list-inline-item">
                                                     <a {% if settings.social_pinterest_link != blank %}href="{{ settings.social_pinterest_link }}"{% endif %} target="_blank" style="color: {{ section.settings.footer_top_link_color }};" name="pinterest" title="pinterest" rel="nofollow noreferrer" aria-label="pinterest"
                                                     class="d-flex align-items-center justify-content-center text-decoration-none">
-                                                        <i class="icon-pinterest d-flex text-white"></i>
+                                                        <span class="icon-pinterest d-flex text-white"></span>
                                                     </a>
                                                 </li>
                                             {% endif %}
@@ -79,7 +79,7 @@
                                                 <li class="list-inline-item">
                                                     <a {% if settings.social_twitter_link != blank %}href="{{ settings.social_twitter_link }}"{% endif %} target="_blank" style="color: {{ section.settings.footer_top_link_color }};"  name="Twitter" title="Twitter" rel="nofollow noreferrer" aria-label="Twitter"
                                                     class="d-flex align-items-center justify-content-center text-decoration-none">
-                                                        <i class="icon-twitter d-flex text-white"></i>
+                                                        <span class="icon-twitter d-flex text-white"></span>
                                                     </a>
                                                 </li>
                                             {% endif %}
@@ -88,7 +88,7 @@
                                                 <li class="list-inline-item">
                                                     <a {% if settings.social_youtube_link != blank %}href="{{ settings.social_youtube_link }}"{% endif %} target="_blank" style="color: {{ section.settings.footer_top_link_color }};"  name="YouTube" title="YouTube" rel="nofollow noreferrer" aria-label="YouTube"
                                                     class="d-flex align-items-center justify-content-center text-decoration-none">
-                                                        <i class="icon-youtube d-flex text-white"></i>
+                                                        <span class="icon-youtube d-flex text-white"></span>
                                                     </a>
                                                 </li>
                                             {% endif %}
@@ -171,7 +171,7 @@
 
     <div class="bg-light-white p-md-6 p-3">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d97400.25358776405!2d-74.41495688892194!3d40.28112733503218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3d2030736c22f%3A0x302b9cdc39c0014c!2sEnglishtown%2C+NJ+07726!5e0!3m2!1sen!2sus!4v1507282473485" 
-        width="600" height="450" frameborder="0" style="border: 0px; pointer-events: none; width: 100%;" allowfullscreen=""></iframe>
+        width="600" height="450" style="border: 0px; pointer-events: none; width: 100%;" allowfullscreen=""></iframe>
     </div>
 </section>
 
@@ -255,7 +255,8 @@
         {
             "type": "image_picker",
             "id": "image",
-            "label": "Select Image"
+            "label": "Select Image",
+            "info": "Use 650x650 sized image."
         },
         {
             "type": "text",

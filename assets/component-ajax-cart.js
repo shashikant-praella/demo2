@@ -4,7 +4,7 @@ const drawerSelectors = {
   cartIconDesktop: document.querySelector('#cart-icon-desktop'),
   cartIconMobile: document.querySelector('#cart-icon-mobile'),
 };
-class ajaxCart extends HTMLElement {
+class AjaxCart extends HTMLElement {
     constructor() {
       super();
   
@@ -41,7 +41,7 @@ class ajaxCart extends HTMLElement {
      * @param {string} oldValue attribute Old value
      * @param {string} newValue attribute latest value
      */
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, _oldValue, newValue) {
       // called when one of attributes listed above is modified
       if(name == 'updating' && newValue == 'false'){
         this.updateEvents();
@@ -193,11 +193,9 @@ class ajaxCart extends HTMLElement {
       if(drawerSelectors.cartIconDesktop) drawerSelectors.cartIconDesktop.innerHTML = cartIcon.innerHTML;
       if(drawerSelectors.cartIconMobile) drawerSelectors.cartIconMobile.innerHTML = cartIcon.innerHTML;
 
-      if(window.globalVariables.cart_drawer == true && action == 'open_drawer' && window.globalVariables.template != 'cart'){
+      if(window.globalVariables.cart_drawer && action == 'open_drawer' && window.globalVariables.template != 'cart'){
           this.openCartDrawer();
       }
-
-      if(typeof customGWPJS == 'function') customGWPJS.prototype.cartGWP();
     }
 
     /**
@@ -206,9 +204,12 @@ class ajaxCart extends HTMLElement {
      * @param {string} action Open Drawer as value if need to Open Cart drawer or else let it be empty
      */
     getCartData(action){
-        let fetchCart = fetch(`${routes.cart_fetch_url}?sections=template-cart,header`);
-        if(window.globalVariables.template != 'cart') fetchCart = fetch(`${routes.cart_fetch_url}?sections=template-cart-drawer,header`);
-        fetchCart.then(response => {
+        let cartRoute = `${routes.cart_fetch_url}?sections=template-cart,header`;
+        if(window.globalVariables.template != 'cart'){
+          cartRoute = `${routes.cart_fetch_url}?sections=template-cart-drawer,header`;
+        }
+
+        fetch(cartRoute).then(response => {
           return response.json();
         }).then(response => {
             this._updateCart(response, action);
@@ -238,7 +239,7 @@ class ajaxCart extends HTMLElement {
         .then((response) => {
             return response.text();
         })
-        .then((state) => {
+        .then((_state) => {
           this.getCartData();
           setTimeout(() => {
             if(lineItem){ lineItem.classList.remove('updating'); }
@@ -301,29 +302,25 @@ class ajaxCart extends HTMLElement {
       if(itemIndex) this.updateItemQty(itemIndex, qtyValue);
     }
 
+    /**
+     * Manage Cart Notes
+     */
     cartNoteInput(){
       const cartNoteEle = document.querySelector('[data-cartNote] [name="note"]');
       if(!cartNoteEle) return;
 
       const cartNoteSave = document.querySelector('[data-saveNote]');
-      cartNoteEle.addEventListener( "input", event => {
-          cartNoteEle.value = cartNoteEle.value;
+      let cartNoteEvents = ['input', 'paste'];
+      cartNoteEvents.forEach((eventName)=>{
+        cartNoteEle.addEventListener( eventName, ()=> {
           const defaultNote = cartNoteEle.dataset.default;
           if(defaultNote != cartNoteEle.value){
               cartNoteSave.style.display = 'block';
           }else{
               cartNoteSave.style.display = 'none';
           }
-      }, false);
-      cartNoteEle.addEventListener( "paste", event => {
-          cartNoteEle.value = cartNoteEle.value;
-          const defaultNote = cartNoteEle.dataset.default;
-          if(defaultNote != cartNoteEle.value){
-              cartNoteSave.style.display = 'block';
-          }else{
-              cartNoteSave.style.display = 'none';
-          }
-      }, false);
+        }, false);
+      });
 
       //  Cart Note Change event
       cartNoteSave.addEventListener( "click", e => {
@@ -343,6 +340,10 @@ class ajaxCart extends HTMLElement {
       });
     }
 
+    /**
+     * Update Cart Note
+     * @param {element} cartNoteContainer 
+     */
     updateCartNote(cartNoteContainer){
       const _this = this;
       const cartNoteEle = cartNoteContainer.querySelector('[name="note"]');
@@ -388,6 +389,10 @@ class ajaxCart extends HTMLElement {
       });
     }
 
+    /**
+     * fade effect on reponse
+     * @param {element} element 
+     */
     manageResponseText(element){
       Utility.fadeEffect(element, 'fadeIn');
       setTimeout(() => {
@@ -395,5 +400,4 @@ class ajaxCart extends HTMLElement {
       }, 3000);
     }
 }
-customElements.define("ajax-cart", ajaxCart);
-  
+customElements.define("ajax-cart", AjaxCart);

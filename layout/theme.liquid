@@ -7,9 +7,11 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    {%- render 'preload-script' -%}
+
     {%- comment -%}Favicon Icon{%- endcomment -%}
     {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
     {%- comment -%}Pre-connects{%- endcomment -%}
@@ -26,7 +28,7 @@
     {%- render 'meta-tags' -%}
     {% capture CFH %}{{ content_for_header }}{% endcapture %}
     {% if template.name != 'product' and template.name != 'cart' %}
-      {% capture CFH %}{{ CFH | replace: 'data-source-attribution="shopify.dynamic-checkout"', 'data-source-attribution="shopify.dynamic-checkout" type="text/gzip"'  }}{% endcapture %}
+      {% capture CFH %}{{ CFH | replace: 'data-source-attribution="shopify.dynamic-checkout"', 'data-source-attribution="shopify.dynamic-checkout" type="text/gzip"' }}{% endcapture %}
     {% endif %}
     {% comment %}theme-check-enable LiquidTag{% endcomment %}
     {{ CFH }}
@@ -34,12 +36,11 @@
     {%- render 'styles-tags' -%}
 
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
-
-  </head>
+</head>
 
   <body class="template-{{ template.name }}">
     
-    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+    <a class="skip-to-content-link button visually-hidden-skip" href="#MainContent" title="{{ "accessibility.skip_to_text" | t }}">
       {{ "accessibility.skip_to_text" | t }}
     </a>
 
@@ -74,7 +75,7 @@
             <div class="modal-content">
               <div class="modal-head">
                 <button class="btn p-2 close-quickshop" type="button" id="ModalClose-video" aria-label="{{ 'sections.video-with-text.close_video' | t }}">
-                  <i class="icon-close"></i>
+                  <span class="icon-close"></span>
                 </button>
               </div>
               <div class="modal-body video-section">
@@ -112,7 +113,7 @@
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
     </ul>
 
-    <script>
+    <script type="text/javascript">
       window.globalVariables = {
         cart: {{ cart | json }},
         product: {%- if template.name == 'product' -%}{{ product | json }}{%- else -%}{}{%- endif -%},
@@ -147,37 +148,6 @@
       }
     </script>
 
-    {% assign gwp_prod1 = all_products[settings.gwp_product_thr1_1] %}
-    {% assign gwp_prod2 = all_products[settings.gwp_product_thr2_1] %}
-    {% assign gwp_prod3 = all_products[settings.gwp_product_thr3_1] %}
-    <script type="application/json" data-GWP-schema>
-            {
-              "enable": "{{ settings.is_gwp_enabled | json }}",
-              "auto_add": {{ settings.is_gwp_auto_add | json }},
-              "threashould_1": {
-                  "enable": {{ settings.is_gwp_1_enabled | json }},
-                  "amount": {{ settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | times: 100 }},
-                  "original_amount": {{ settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | json }},
-                  "gwp_pro": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
-                  "gwp_pro_JSON": {% if gwp_prod1 %}{{ gwp_prod1 | json }}{% else %}''{% endif %}
-              },
-              "threashould_2": {
-                  "enable": {{ settings.is_gwp_2_enabled | json }},
-                  "amount": {{ settings.gwp_qualifier_minimum_cart_amount_2 | plus: 0 | times: 100 }},
-                  "original_amount": {{ settings.gwp_qualifier_minimum_cart_amount_2 | plus: 0 | json }},
-                  "gwp_pro": {% if gwp_prod2 %}{{ gwp_prod2.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
-                  "gwp_pro_JSON": {% if gwp_prod2 %}{{ gwp_prod2 | json }}{% else %}''{% endif %}
-              },
-              "threashould_3": {
-                  "enable": {{ settings.is_gwp_3_enabled | json }},
-                  "amount": {{ settings.gwp_qualifier_minimum_cart_amount_3 | plus: 0 | times: 100 }},
-                  "original_amount": {{ settings.gwp_qualifier_minimum_cart_amount_3 | plus: 0 | json }},
-                  "gwp_pro": {% if gwp_prod3 %}{{ gwp_prod3.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
-                  "gwp_pro_JSON": {% if gwp_prod3 %}{{ gwp_prod3 | json }}{% else %}''{% endif %}
-              }
-            }
-    </script>
-
     {% if settings.enable_login_helper %}
       <script type="application/json" data-login-json>
         {
@@ -190,6 +160,7 @@
               "account_invited": "{% if settings.account_invited %}{{ settings.account_invited | escape }}{% else %}null{% endif %}",
               "account_declined": "{% if settings.account_declined %}{{ settings.account_declined | escape }}{% else %}null{% endif %}"
             },
+            "sender_email": {% if settings.sender_email %}"{{ settings.sender_email | escape }}"{% else %}null{% endif %},
             "status": null,
             "message": null,
             "customerEmail": "{{ customer.email }}",
@@ -203,27 +174,29 @@
     {%- render 'script-tags' -%}
 
     {% if template.name != 'product' and template.name != 'cart' %}
-    <script type="text/javascript">
-        (function manageDynamicCheckoutJS(){
+    <script type="text/javascript" defer>
+        (function manageDynamicCheckoutJS() {
           let checkoutBtn = document.querySelector('#additional-checkout-buttons');
-          const onIntersection = (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                console.log('Load Payement buttons');
-                let checkoutScript = document.createElement('script');
-                checkoutScript.integrity="sha256-h+g5mYiIAULyxidxudjy/2wpCz/3Rd1CbrDf4NudHa4=";
-                checkoutScript.setAttribute('data-source-attribution', "shopify.dynamic-checkout");
-                checkoutScript.src="https://cdn.shopify.com/shopifycloud/shopify/assets/storefront/features-87e8399988880142f2c62771b9d8f2ff6c290b3ff745dd426eb0dfe0db9d1dae.js";
-                checkoutScript.setAttribute('crossorigin', "anonymous");
-                document.head.appendChild(checkoutScript);
-                observer.disconnect();
+          if (checkoutBtn != null) {
+            const onIntersection = (entries) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  let checkoutScript = document.createElement('script');
+                  let paymentTarget = document.querySelector('[data-source-attribution="shopify.dynamic-checkout"]');
+                  checkoutScript.integrity = paymentTarget.getAttribute('integrity');
+                  checkoutScript.setAttribute('data-source-attribution', "shopify.dynamic-checkout");
+                  checkoutScript.src = paymentTarget.getAttribute('src');
+                  checkoutScript.setAttribute('crossorigin', "anonymous");
+                  document.head.appendChild(checkoutScript);
+                  observer.disconnect();
+                }
               }
-            }
-          };
-          const observer = new IntersectionObserver(onIntersection);
-          observer.observe(checkoutBtn);
+            };
+            const observer = new IntersectionObserver(onIntersection);
+            observer.observe(checkoutBtn);
+          }
         })();
     </script>
     {% endif %}
-  </body>
+</body>
 </html>

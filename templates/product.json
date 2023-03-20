@@ -12,7 +12,7 @@
         "f74187b8-c891-42b8-9a6b-2c67a497b018": {
           "type": "subtitle",
           "settings": {
-            "subtitle": "<p>{{ product.metafields.descriptors.subtitle.value }}<\/p>"
+            "subtitle": ""
           }
         },
         "3b316236-d91e-4dd0-953a-173c1f40bfcf": {
@@ -24,15 +24,6 @@
           "type": "description",
           "disabled": true,
           "settings": {
-          }
-        },
-        "7fb0587b-5269-4ed8-8653-8fbac22913b5": {
-          "type": "addons",
-          "disabled": true,
-          "settings": {
-            "enable_addons": true,
-            "addons_title": "Pair it with",
-            "addons_value": ""
           }
         },
         "b253ffff-d04d-43a0-9d68-fabdd77b595a": {
@@ -80,7 +71,6 @@
         "f74187b8-c891-42b8-9a6b-2c67a497b018",
         "3b316236-d91e-4dd0-953a-173c1f40bfcf",
         "fcbf423b-3c83-4097-901c-ca70b8b80e5c",
-        "7fb0587b-5269-4ed8-8653-8fbac22913b5",
         "b253ffff-d04d-43a0-9d68-fabdd77b595a",
         "e53b8574-dd34-4eca-8c40-ac20d2e38598",
         "product-tabs",
@@ -88,11 +78,8 @@
       ],
       "settings": {
         "template_type": "classic-vertical",
-        "slider_type": "color-based",
         "fluid_layout": false,
         "show_vendor": true,
-        "enable_images_zoom": false,
-        "zoom_type": "click",
         "enable_dynamic_checkout": false,
         "product_tabs_placement": "below_slider"
       }

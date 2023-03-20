@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ 'global-video-with-text.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript>{{ 'global-video-with-text.css' | asset_url | stylesheet_tag }}</noscript>
+{% comment %}<noscript>{{ 'global-video-with-text.css' | asset_url | stylesheet_tag }}</noscript>{% endcomment %}
 
-<section class="{% unless section.settings.fluid_video_layout %}section-content{% endunless %} video-with-text" data-section-id="{{ section.id }}" style="background:{{ section.settings.section_bg_color }}; color:{{ section.settings.section_txt_color }}">
+<section class="{% unless section.settings.fluid_layout %}section-content{% endunless %} video-with-text" data-section-id="{{ section.id }}" style="background:{{ section.settings.section_bg_color }}; color:{{ section.settings.section_txt_color }}">
     <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}">
         <div class="custom-video-container {% if section.settings.fluid_video_layout %} full-video-layout position-relative{% else %}row align-items-center{% endif %}">
             <div class="{% if section.settings.fluid_video_layout %}px-0{%else%}col-12 col-md-6 col-lg-7 {% endif %}">
@@ -11,24 +11,27 @@
                     {% if section.settings.mobile_video_id != blank %}data-mobileVideo="{{ section.settings.mobile_video_id }}"{% endif %} data-video-id="{{ section.settings.video_id }}">
                     <div class="cta-btn">
                         <button class="play__button btn btn-primary" data-trigger-video aria-label="{{ 'sections.video-with-text.play_video' | t }}">
-                            <i class="icon-play"></i>
+                            <span class="icon-play"></span>
                         </button>
                         <button class="pause__button btn btn-primary" data-pause-video aria-label="{{ 'sections.video-with-text.paused_video' | t }}">
-                            <i class="icon-pause"></i>
+                            <span class="icon-pause"></span>
                         </button>
                     </div>
                     <div class="content-section">
                         <div class="poster-image {{ section.settings.height }}">
-                            {%- if section.settings.poster_image != blank -%}
+                            {%- if section.settings.poster_type == 'video' and section.settings.bg_video != blank -%}
+                                <video data-posterVideo preload="yes" playsinline muted loop data-mobileSrc="{{ section.settings.mobile_bg_video }}">
+                                    <source src="{{ section.settings.bg_video }}" type="video/mp4">
+                                </video>
+                            {%- elsif section.settings.poster_image != blank -%}
                                 <img srcset="
-                                    {%- if section.settings.poster_image.width >= 350 -%}{{ section.settings.poster_image | img_url: '350x' }} 350w,{%- endif -%}
-                                    {%- if section.settings.poster_image.width >= 550 -%}{{ section.settings.poster_image | img_url: '550x' }} 550w,{%- endif -%}
-                                    {%- if section.settings.poster_image.width >= 750 -%}{{ section.settings.poster_image | img_url: '750x' }} 750w,{%- endif -%}
-                                    {%- if section.settings.poster_image.width >= 991 -%}{{ section.settings.poster_image | img_url: '991x' }} 991w,{%- endif -%}
-                                    {%- if section.settings.poster_image.width >= 1200 -%}{{ section.settings.poster_image | img_url: '1200x' }} 1200w,{%- endif -%}
-                                    {%- if section.settings.poster_image.width >= 1500 -%}{{ section.settings.poster_image | img_url: '1500x' }} 1500w,{%- endif -%}
-                                    {{ section.settings.poster_image | img_url: 'master' }} {{ section.settings.poster_image.width }}w"
-                                    src="{{ section.settings.poster_image | img_url: '1500x' }}" loading="lazy"
+                                    {%- if section.settings.poster_image.width >= 350 -%}{{ section.settings.poster_image | image_url: width: 350 }} 350w,{%- endif -%}
+                                    {%- if section.settings.poster_image.width >= 550 -%}{{ section.settings.poster_image | image_url: width: 550 }} 550w,{%- endif -%}
+                                    {%- if section.settings.poster_image.width >= 750 -%}{{ section.settings.poster_image | image_url: width: 750 }} 750w,{%- endif -%}
+                                    {%- if section.settings.poster_image.width >= 991 -%}{{ section.settings.poster_image | image_url: width: 991 }} 991w,{%- endif -%}
+                                    {%- if section.settings.poster_image.width >= 1200 -%}{{ section.settings.poster_image | image_url: width: 1200 }} 1200w,{%- endif -%}
+                                    {%- if section.settings.poster_image.width >= 1500 -%}{{ section.settings.poster_image | image_url: width: 1500 }} 1500w{%- endif -%}"
+                                    src="{{ section.settings.poster_image | image_url: width: 100 }}" loading="lazy"
                                     sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"
                                     alt="{{ section.settings.poster_image.alt | default: section.settings.title | escape }}"
                                     width="{{ section.settings.poster_image.width }}"
@@ -56,7 +59,6 @@
                         <div class="mb-3 mb-lg-5">{{ section.settings.subtitle }}</div>
                     {% endif %}
                     <div>
-
                         {% if section.settings.fluid_video_layout %}
                             <a data-trigger-videobtn href="#" class="btn btn{% if section.settings.btn_type == 'outline' %}-{% endif %}{{ section.settings.btn_type }}-{{ section.settings.btn_variant }} {{ section.settings.btn_size }}" title="{{ 'sections.video-with-text.play_video' | t }}">{{ 'sections.video-with-text.play_video' | t }}</a>
                         {% endif %}
@@ -66,13 +68,12 @@
                     </div>
                     {% if section.settings.fluid_video_layout %}
                         </div>
-                    {% endif %}    
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 
 {% schema %}
     {
@@ -199,6 +200,52 @@
             },
             {
                 "type": "header",
+                "content": "Poster"
+            },
+            {
+                "type": "select",
+                "id": "poster_type",
+                "label": "Poster Type",
+                "options": [
+                    {
+                        "value": "",
+                        "label": "Image"
+                    },
+                    {
+                        "value": "video",
+                        "label": "Video"
+                    }
+                ],
+                "default": ""
+            },
+            {
+                "type": "paragraph",
+                "content": "Video"
+            },
+            {
+                "type": "textarea",
+                "id": "bg_video",
+                "label": "Poster Video URL",
+                "info": "Only Mute video can autoplay. Use local video URL."
+            },
+            {
+                "type": "textarea",
+                "id": "mobile_bg_video",
+                "label": "Mobile Poster Video URL",
+                "info": "Only Mute video can autoplay. Use local video URL."
+            },
+            {
+                "type": "paragraph",
+                "content": "Image"
+            },
+            {
+                "type": "image_picker",
+                "id": "poster_image",
+                "label": "Select Image",
+                "info": "For Better Viewing Use Example dimentions: 1350*765 ( Aspect Ratio: 1.76 )"
+            },
+            {
+                "type": "header",
                 "content": "Video"
             },
             {
@@ -207,11 +254,6 @@
                 "label": "Full Width video?",
                 "default": true,
                 "info": "If checked only video with full width will be visible"
-            },
-            {
-                "type": "image_picker",
-                "id": "poster_image",
-                "label": "Select Image"
             },
             {
                 "type": "select",

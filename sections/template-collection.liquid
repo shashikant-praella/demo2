@@ -1,18 +1,37 @@
 <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}">
     <div class="row">
 
-        {%- assign filter_type = section.settings.filter_type -%}
+        <!-- {%- assign filter_type = section.settings.filter_type -%} -->
+
+        {%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+
+        {%- liquid 
+          assign product_count = section.settings.products_per_page
+          assign page_url = contentForQuerystring | split: '"pageurl":"' | last | split: '"' | first | split: '.myshopify.com' | last | replace: '\/', '/' | replace: '%20', ' ' | replace: '\u0026', '&' 
+          assign product_count = section.settings.products_per_page
+
+          if section.settings.enable_custom_pagination and page_url contains "?" and page_url contains 'count='
+            assign page_url = page_url | split: '?'
+            assign page_url = page_url[1] | split: '&'
+            for param in page_url
+              if param contains 'count'
+                assign page_url = param | split: '='
+                assign product_count = page_url[1] | plus: 0
+              endif
+            endfor
+          endif
+        -%}
 
         {%- case filter_type -%}
           {%- when 'horizontal-filters' -%}
-            {%- render 'collection-topbar-filters' -%}
+            {%- render 'collection-topbar-filters' , product_count : product_count -%}
           {%- else -%}
-            {%- render 'collection-sidebar-filters' -%}
+            {%- render 'collection-sidebar-filters' , product_count : product_count -%}
         {%- endcase -%}
 
         <div class="col">
             <div id="collection-product-grid">
-                {%- paginate collection.products by section.settings.products_per_page -%}
+                {%- paginate collection.products by product_count -%}
                     {%- if collection.products.size == 0 -%}
                         <div class="row mt-5" id="template-collection" data-id="{{ section.id }}">
                             <div class="col-12 text-center mt-5">
@@ -48,7 +67,7 @@
                                     {{ 'templates.collection.load-more' | t }}
                                 </a>
                                 {% elsif section.settings.pagination_type == 'numbers' %}
-                                {% render 'pagination', paginate: paginate %}
+                                {% render 'pagination', paginate: paginate , product_count : product_count %}
                                 {% endif %}
                                 </div>
                             </div>
@@ -170,6 +189,10 @@
         {
           "value": "default",
           "label": "Range"
+        },
+        {
+          "value": "range_slider",
+          "label": "Range Slider"
         }
       ],
       "default": "default"
@@ -179,6 +202,19 @@
       "id": "price_filter_values",
       "label": "Price Filters",
       "info": "Each entry should be in new line. Use same money format as store without currency symbol. Ex: 0.00-10.00"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_pagination",
+      "default": true,
+      "label": "Enable dynamic Product Per Page"
+    },
+    {
+      "type": "text",
+      "id": "custom_pagination",
+      "label": "Product per page",
+      "default": "16,24,32",
+      "info": "Each entry should be separated by comma"
     },
     {
       "type": "checkbox",

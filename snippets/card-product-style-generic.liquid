@@ -44,16 +44,15 @@
 
     {% if current_variant and current_variant.image %}
       {% assign secondaryImage = product.featured_image %}
-      <a href="{{ product.url | within: collection }}" class="d-block product-link test" >
+      <a href="{{ product.url | within: collection }}" class="d-block product-link" >
             <img
             srcset="
-              {%- if current_variant.image.width >= 360 -%}{{ current_variant.image | img_url: '360x' }} 360w,{%- endif -%}
-              {%- if current_variant.image.width >= 533 -%}{{ current_variant.image | img_url: '533x' }} 533w,{%- endif -%}
-              {%- if current_variant.image.width >= 720 -%}{{ current_variant.image | img_url: '720x' }} 720w,{%- endif -%}
-              {{ current_variant.image | img_url: 'master' }} {{ current_variant.image.width }}w"
-            src="{{ current_variant.image | img_url: '533x' }}"
+              {%- if current_variant.image.width >= 360 -%}{{ current_variant.image | image_url: width: 360 }} 360w,{%- endif -%}
+              {%- if current_variant.image.width >= 533 -%}{{ current_variant.image | image_url: width: 533 }} 533w,{%- endif -%}
+              {%- if current_variant.image.width >= 720 -%}{{ current_variant.image | image_url: width: 720 }} 720w{%- endif -%}"
+            src="{{ current_variant.image | image_url: width: 50 }}"
 
-            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
+            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
             loading="lazy"
             data-feauredImage
             alt="{{ current_variant.image.alt | default: current_variant.title | escape }}"
@@ -63,13 +62,12 @@
         {%- if settings.show_secondary_image and secondaryImage -%}
         <img 
             srcset="
-              {%- if secondaryImage.width >= 360 -%}{{ secondaryImage | img_url: '360x' }} 360w,{%- endif -%}
-              {%- if secondaryImage.width >= 533 -%}{{ secondaryImage | img_url: '533x' }} 533w,{%- endif -%}
-              {%- if secondaryImage.width >= 720 -%}{{ secondaryImage | img_url: '720x' }} 720w,{%- endif -%}
-              {{ secondaryImage | img_url: 'master' }} {{ secondaryImage.width }}w"
-            src="{{ secondaryImage | img_url: '533x' }}"
+              {%- if secondaryImage.width >= 360 -%}{{ secondaryImage | image_url: width: 360 }} 360w,{%- endif -%}
+              {%- if secondaryImage.width >= 533 -%}{{ secondaryImage | image_url: width: 533 }} 533w,{%- endif -%}
+              {%- if secondaryImage.width >= 720 -%}{{ secondaryImage | image_url: width: 720 }} 720w{%- endif -%}"
+            src="{{ secondaryImage | image_url: width: 50 }}"
 
-            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
+            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
 
             loading="lazy"
             class="w-100"
@@ -83,13 +81,12 @@
         <a href="{{ product.url | within: collection }}" class="d-block product-link" >
                 <img
                 srcset="
-                  {%- if product.featured_image.width >= 360 -%}{{ product.featured_image | img_url: '360x' }} 360w,{%- endif -%}
-                  {%- if product.featured_image.width >= 533 -%}{{ product.featured_image | img_url: '533x' }} 533w,{%- endif -%}
-                  {%- if product.featured_image.width >= 720 -%}{{ product.featured_image | img_url: '720x' }} 720w,{%- endif -%}
-                  {{ product.featured_image | img_url: 'master' }} {{ product.featured_image.width }}w"
-                src="{{ product.featured_image | img_url: '533x' }}"
+                  {%- if product.featured_image.width >= 360 -%}{{ product.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if product.featured_image.width >= 533 -%}{{ product.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if product.featured_image.width >= 720 -%}{{ product.featured_image | image_url: width: 720 }} 720w{%- endif -%}"
+                src="{{ product.featured_image | image_url: width: 50 }}"
 
-                sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
+                sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
                 loading="lazy"
                 data-feauredImage
                 alt="{{ product.featured_image.alt | default: current_variant.title | escape }}"
@@ -100,12 +97,11 @@
 
             {%- if settings.show_secondary_image and product.images[1] -%}
             <img srcset="
-                  {%- if product.images[1].width >= 360 -%}{{ product.images[1] | img_url: '360x' }} 360w,{%- endif -%}
-                  {%- if product.images[1].width >= 533 -%}{{ product.images[1] | img_url: '533x' }} 533w,{%- endif -%}
-                  {%- if product.images[1].width >= 720 -%}{{ product.images[1] | img_url: '720x' }} 720w,{%- endif -%}
-                  {{ product.images[1] | img_url: 'master' }} {{ product.images[1].width }}w"
-                src="{{ product.images[1] | img_url: '533x' }}"
-                sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
+                  {%- if product.images[1].width >= 360 -%}{{ product.images[1] | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if product.images[1].width >= 533 -%}{{ product.images[1] | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if product.images[1].width >= 720 -%}{{ product.images[1] | image_url: width: 720 }} 720w{%- endif -%}"
+                src="{{ product.images[1] | image_url: width: 50 }}"
+                sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                 loading="lazy"
                 class="w-100"
                 data-hoverImage
@@ -114,15 +110,14 @@
                 height="{{ product.images[1].width | divided_by: product.images[1].aspect_ratio }}" >
             {%- endif -%}
         </a>
-    {% else if settings.no_image_replacement != blank %}
+    {% elsif settings.no_image_replacement != blank %}
       <a href="{{ product.url | within: collection }}" class="d-block product-link" >
-        <img src="{{ settings.no_image_replacement | img_url: 'pico' }}"
+        <img src="{{ settings.no_image_replacement | image_url }}"
             srcset="
-                  {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | img_url: '360x' }} 360w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | img_url: '533x' }} 533w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | img_url: '720x' }} 720w,{%- endif -%}
-                  {{ settings.no_image_replacement | img_url: 'master' }} {{ settings.no_image_replacement.width }}w"
-            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
+                  {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w{%- endif -%}"
+            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
             loading="lazy"
             class="w-100"
             data-feauredImage
@@ -138,7 +133,7 @@
     <div class="row no-gutter">
         <div class="col-8">
             <h6 class="card-title m-0 font-family-base">
-                <a class="product-link lh-base" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                <a class="product-link lh-base" role="button" href="{{ product.url | within: collection }}">{{ product.title }}</a>
             </h6>
         </div>
         <div class="col-4 text-end">
@@ -171,13 +166,9 @@
         <p>{{ product.vendor }}</p>
     {%- endif -%}
   </div>
-
-  <div class="card-footer bg-transparent border-0 p-0">
-    {%- if settings.enable_product_card_swatches -%}
-      {%- render 'form-product', product: product, current_variant: current_variant, format: 'grid' -%}
-    {%- else -%}
-      <input type="hidden" name="quantity" value="1" />
-      <input type="hidden" name="id" value="{{ current_variant.id }}" />
-    {%- endif -%}
-  </div>
+  {%- if settings.enable_product_card_swatches -%}
+    <div class="card-footer bg-transparent border-0 p-0">
+      {%- render 'form-product-grid', product: product, current_variant: current_variant -%}
+    </div>
+  {%- endif -%}
 </div>

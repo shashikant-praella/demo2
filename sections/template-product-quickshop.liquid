@@ -14,14 +14,14 @@
         <div class="modal-content">
           <div class="modal-head">
             <button class="btn p-2 close-quickshop" aria-label="{{ 'products.product.close_quickshop' | t }}">
-              <i class="icon-close"></i>
+              <span class="icon-close"></span>
             </button>
           </div>
           <div class="modal-body px-5 py-7">
             <div class="container">
               <div class="row">
                   <div class="col-lg-7">
-                    <a class="skip-to-content-link button visually-hidden" href="#ProductInfo-quickshop-{{ product.id }}">
+                    <a class="skip-to-content-link button visually-hidden-skip" href="#ProductInfo-quickshop-{{ product.id }}">
                       {{ "accessibility.skip_to_product_info" | t }}
                     </a>
                       <div data-type="slider" class="product-images-wrapper pr-lg-4 text-center" data-main-slider>
@@ -45,17 +45,17 @@
                                           <div class="swiper-slide carousel-cell d-flex align-items-center product--media" data-mediaID="{{ image.id }}" role="treeitem">
                    
                                               <img srcset="
-                                                {%- if image.src.width >= 350 -%}{{ image.src | img_url: '350x' }} 350w,{%- endif -%}
-                                                {%- if image.src.width >= 550 -%}{{ image.src | img_url: '550x' }} 550w,{%- endif -%}
-                                                {%- if image.src.width >= 750 -%}{{ image.src | img_url: '750x' }} 750w,{%- endif -%}
-                                                {%- if image.src.width >= 991 -%}{{ image.src | img_url: '991x' }} 991w,{%- endif -%}
-                                                {%- if image.src.width >= 1200 -%}{{ image.src | img_url: '1200x' }} 1200w,{%- endif -%} 
-                                                {%- if image.src.width >= 1500 -%}{{ image.src | img_url: '1500x' }} 1500w,{%- endif -%} 
-                                                {{ image.src | img_url: 'master' }} {{ image.src.width }}w"
-                                                src="{{ image.src | img_url: '1500x' }}" loading="lazy"
+                                                {%- if image.src.width >= 350 -%}{{ image.src | image_url: width: 350 }} 350w,{%- endif -%}
+                                                {%- if image.src.width >= 550 -%}{{ image.src | image_url: width: 550 }} 550w,{%- endif -%}
+                                                {%- if image.src.width >= 750 -%}{{ image.src | image_url: width: 750 }} 750w,{%- endif -%}
+                                                {%- if image.src.width >= 991 -%}{{ image.src | image_url: width: 991 }} 991w,{%- endif -%}
+                                                {%- if image.src.width >= 1200 -%}{{ image.src | image_url: width: 1200 }} 1200w,{%- endif -%} 
+                                                {%- if image.src.width >= 1500 -%}{{ image.src | image_url: width: 1500 }} 1500w,{%- endif -%} 
+                                                {{ image.src | image_url }} {{ image.src.width }}w"
+                                                src="{{ image.src | image_url: width: 1500 }}" loading="lazy"
                                                 data-variant-title="{{ image.alt | escape }}"
                                                 sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | divided_by: 2 }}px, 100vw"
-                                                alt="{{ image.alt | default: product.title | escape }}"
+                                                alt="{{ image.alt | default: product.title | escape | append: '-Image' | append: forloop.index }}"
                                                 width="{{ image.src.width }}"
                                                 height="{{ image.src.width | divided_by: image.src.aspect_ratio | round }}"
                                             >
@@ -92,13 +92,13 @@
       
                         {% if product.description %}
                           <h6 class="mt-5 mb-2">{{ 'products.product.description' | t }}</h6>
-                          <div class="rte">
+                          <div class="rte quick-view-des">
                               {{ product.description }}
-                          </div>
+                          </div> 
                         {% endif %}
       
                         {% if section.settings.show_social_share %}
-                          <h6 class="mt-5 mb-2">{{ 'products.product.share' | t }}</h6>
+                          <p class="mt-5 mb-2">{{ 'products.product.share' | t }}</p>
                           {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
                         {% endif %}
                       </div>

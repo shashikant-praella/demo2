@@ -10,14 +10,16 @@
   }
 </style>
 
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="link body-large">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+<div class="template-404 page-width section-content text-center">
+    <div class="container">
+        <p class="mb-0 fw-bold lh-1" style="font-size: 16vw;">
+            {{ 'templates.404.subtext' | t }}
+        </p>
+        <h1 class="title">
+            {{ 'templates.404.title' | t }}
+        </h1>
+        <a href="{{ routes.all_products_collection_url }}" class="link body-large">
+            {{ 'general.continue_shopping' | t }}
+        </a>
+    </div>
 </div>

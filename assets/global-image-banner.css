@@ -61,6 +61,6 @@
     text-align: center;
     position: relative;
     width: calc(50% - 3px);
-    box-shadow: 2px 2px 4px rgb(0 0 0 / 16%);
+    box-shadow: 2px 2px 4px rgb(0, 0, 0,0.16);
     background: linear-gradient(#3e4a62 2rem,#222b45 0);
   }

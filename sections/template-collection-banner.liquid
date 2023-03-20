@@ -6,9 +6,9 @@
 
     <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %} collection-banner__caption">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 {{ section.settings.alignment }} {{ section.settings.caption_alignment }}" style="color: {{ section.settings.txt_color }};">
+            <div class="col-sm-12 col-md-6 col-xl-5 {{ section.settings.alignment }} {{ section.settings.caption_alignment }}" style="color: {{ section.settings.txt_color }};">
                 <div class="fancy-heading">
-                    <h1 class="page-title mb-2"> 
+                    <h1 class="h3 page-title mb-2"> 
                         {{- collection.title | escape -}}
                     </h1>
                     {%- if section.settings.show_collection_description -%}
@@ -22,18 +22,18 @@
     {%- if section.settings.show_collection_image and collection.image -%}
         <div class="collection-hero__image-container">
             <img srcset="
-                {%- if collection.image.width >= 360 -%}{{ collection.image | img_url: '360x', crop: 'center', format: 'pjpg' }} 360w,{%- endif -%}
-                {%- if collection.image.width >= 535 -%}{{ collection.image | img_url: '535x', crop: 'center', format: 'pjpg' }} 535w,{%- endif -%}
-                {%- if collection.image.width >= 720 -%}{{ collection.image | img_url: '720x', crop: 'center', format: 'pjpg' }} 720w,{%- endif -%}
-                {%- if collection.image.width >= 940 -%}{{ collection.image | img_url: '940x', crop: 'center', format: 'pjpg' }} 940w,{%- endif -%}
-                {%- if collection.image.width >= 1200 -%}{{ collection.image | img_url: '1200x', crop: 'center', format: 'pjpg' }} 1200w,{%- endif -%}
-                {%- if collection.image.width >= 1500 -%}{{ collection.image | img_url: '1500x', crop: 'center', format: 'pjpg' }} 1500w,{%- endif -%}
-                {%- if collection.image.width >= 1780 -%}{{ collection.image | img_url: '1780x', crop: 'center', format: 'pjpg' }} 1780w,{%- endif -%}
-                {%- if collection.image.width >= 1920 -%}{{ collection.image | img_url: '1920x', crop: 'center', format: 'pjpg' }} 1920w,{%- endif -%}
-                {%- if collection.image.width >= 2560 -%}{{ collection.image | img_url: '2560x', crop: 'center', format: 'pjpg' }} 2560w{%- endif -%}
-                {%- if collection.image.width >= 3800 -%}{{ collection.image | img_url: '3800x', crop: 'center', format: 'pjpg' }} 3800w{%- endif -%}
-                {{ collection.image | img_url: 'master' }} {{ collection.image.width }}w"
-                    src="{{ collection.image | img_url: '1500x' }}" loading="lazy"
+                {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360, crop: 'center', format: 'pjpg' }} 360w,{%- endif -%}
+                {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535, crop: 'center', format: 'pjpg' }} 535w,{%- endif -%}
+                {%- if collection.image.width >= 720 -%}{{ collection.image | image_url: width: 720, crop: 'center', format: 'pjpg' }} 720w,{%- endif -%}
+                {%- if collection.image.width >= 940 -%}{{ collection.image | image_url: width: 940, crop: 'center', format: 'pjpg' }} 940w,{%- endif -%}
+                {%- if collection.image.width >= 1200 -%}{{ collection.image | image_url: width: 1200, crop: 'center', format: 'pjpg' }} 1200w,{%- endif -%}
+                {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500, crop: 'center', format: 'pjpg' }} 1500w,{%- endif -%}
+                {%- if collection.image.width >= 1780 -%}{{ collection.image | image_url: width: 1780, crop: 'center', format: 'pjpg' }} 1780w,{%- endif -%}
+                {%- if collection.image.width >= 1920 -%}{{ collection.image | image_url: width: 1920, crop: 'center', format: 'pjpg' }} 1920w,{%- endif -%}
+                {%- if collection.image.width >= 2560 -%}{{ collection.image | image_url: width: 2560, crop: 'center', format: 'pjpg' }} 2560w{%- endif -%}
+                {%- if collection.image.width >= 3800 -%}{{ collection.image | image_url: width: 3800, crop: 'center', format: 'pjpg' }} 3800w{%- endif -%}
+                {{ collection.image | image_url }} {{ collection.image.width }}w"
+                    src="{{ collection.image | image_url: width: 1500 }}" fetchpriority="high"
                     sizes="(max-width: 375px) 375px, (max-width: 550px) 550px, (max-width: 750px) 750px,
                            (max-width: 991px) 991px, (max-width: 1200px) 1200px, (max-width: 1500px) 1500px, (max-width: 1780px) 1780px, (max-width: 1920px) 1920px,
                            (max-width: 2560px) 2560px, (max-width: 3800px) 3800px, {{ collection.image.width }}px"

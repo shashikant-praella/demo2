@@ -17,18 +17,9 @@
     <script src="{{ 'component-ajax-cart.js' | asset_url }}" defer></script>
 {%- endif -%}
 
-{%- if settings.is_gwp_enabled == true -%}
-    <script src="{{ 'global-GWP-script.js' | asset_url }}" defer></script>
-{%- endif -%}
-
 {%- comment -%} Index Page JS {%- endcomment -%}
 {%- if template.name == 'index' -%}
 <script src="{{ 'template-index.js' | asset_url }}" defer></script>
-{%- endif -%}
-
-{%- comment -%} List Collection Page JS {%- endcomment -%}
-{%- if template.name == 'list-collections' -%}
-<script src="{{ 'template-list-collections.js' | asset_url }}" defer></script>
 {%- endif -%}
 
 {%- comment -%} Collection Page Filtering and Sorting {%- endcomment -%}
@@ -65,13 +56,8 @@
 {%- endif -%}
 
 {%- comment -%} Blog Page JS {%- endcomment -%}
-{%- if template.name == 'blog' -%}
-<script src="{{ 'template-blog.js' | asset_url }}" defer></script>
-{%- endif -%}
-
-{%- comment -%} Article Page JS {%- endcomment -%}
-{%- if template.name == 'article' -%}
-<script src="{{ 'template-article.js' | asset_url }}" defer></script>
+{%- if template.name == 'blog' or template.name == 'article' -%}
+<script src="{{ 'template-blog-article.js' | asset_url }}" defer></script>
 {%- endif -%}
 
 {%- comment -%} Article Page JS {%- endcomment -%}
@@ -79,12 +65,7 @@
 <script src="{{ 'template-faq.js' | asset_url }}" defer></script>
 {%- endif -%}
 
-{%- comment -%} Article Page JS {%- endcomment -%}
-{%- if template == 'page.quiz' -%}
-<script src="{{ 'template-quiz.js' | asset_url }}" defer></script>
-{%- endif -%}
-
-<!-- <script src="{{ 'custom.js' | asset_url }}" defer></script> -->
+{%- comment -%} <script src="{{ 'custom.js' | asset_url }}" defer></script> {%- endcomment -%}
 
 {%- comment -%} Customization page JS {%- endcomment -%}
 {%- if request.design_mode -%}

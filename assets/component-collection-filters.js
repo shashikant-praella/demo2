@@ -1,7 +1,6 @@
 class CollectionFilters extends HTMLElement {
   constructor() {
     super();
-    const _this = this;
     this.accordionType = this.dataset.accordiontype;
     this.filterParent = this.closest('#filtersCollapse');
     this.onActiveFilterClick = this.onActiveFilterClick.bind(this);
@@ -23,7 +22,7 @@ class CollectionFilters extends HTMLElement {
     if(this.closeFilterDrawer) this.closeFilterDrawer.addEventListener('click', this.toggleFilterDrawer.bind(this));
 
     if(this.filterType == 'horizontal-filters'){
-      document.body.addEventListener('click', (event)=>{
+      document.body.addEventListener('click', (_event)=>{
         const openFilters = document.querySelectorAll('.filter__container.open');
         openFilters.forEach((target) => {
           target.querySelector('.filter__toggle').click();
@@ -41,6 +40,9 @@ class CollectionFilters extends HTMLElement {
 
     this.sortby_values = document.querySelectorAll('[data-sortby] .sortby_options');
     this.sortby_values.forEach(input => input.addEventListener('change', this.updateSortBy.bind(this)));
+
+    this.pagination_value = document.querySelectorAll('[data-custom-pagination] .pagination_value');
+    this.pagination_value.forEach(input => input.addEventListener('change', this.updatePagination.bind(this)));
 
     this.subCollectionLinks = document.querySelectorAll('[data-subCollections] .collection-entry');
     this.subCollectionLinks.forEach(link => link.addEventListener('click', this._manageSubCollections.bind(this)));
@@ -104,7 +106,7 @@ class CollectionFilters extends HTMLElement {
     if(!closestForm) return;
 
     const searchParams = this._finalQueryString(closestForm)
-    this.renderPage(searchParams, event);
+    this.renderPage(searchParams);
   }
 
   /**
@@ -161,6 +163,7 @@ class CollectionFilters extends HTMLElement {
    */
    onActiveFilterClick(event) {
     event.preventDefault();
+    event.stopPropagation();
     let currentTarget = event.target;
     let URLString = null;
     if(currentTarget.dataset.type == 'tag_based'){
@@ -172,10 +175,10 @@ class CollectionFilters extends HTMLElement {
       if(!closestForm) return;
       URLString = this._finalQueryString(closestForm);
     }else{
-      if(!currentTarget.classList.contains('filter-option-clear')){ 
+      if(event.target.closest('.filter-option-clear').classList.contains('filter-option-clear')){ 
         currentTarget = event.target.closest('.filter-option-clear');
         URLString = new URL(currentTarget.href).searchParams.toString();
-      };
+      }
     }
     if(URLString != null)
       this.renderPage(URLString);
@@ -187,10 +190,15 @@ class CollectionFilters extends HTMLElement {
    */
   onHistoryChange(event) {
     const searchParams = event.state?.searchParams || '';
-    this.renderPage(searchParams, null, false);
+    this.renderPage(searchParams, false);
   }
 
-  renderPage(searchParams, event, updateURLHash = true) {
+  /**
+   * 
+   * @param {String} searchParams Query Parameters
+   * @param {String} updateURLHash true/false
+   */
+  renderPage(searchParams, updateURLHash = true) {
     document.getElementById('collection-product-grid').querySelector('#template-collection').classList.add('loading');
 
     const url = `${window.location.pathname}?${searchParams}`;
@@ -199,6 +207,11 @@ class CollectionFilters extends HTMLElement {
     if (updateURLHash) this.updateURLHash(searchParams);
   }
 
+  /**
+   * 
+   * @param {String} url URL for fetching results
+   * @param {String} type filter / pagination / sub_collection_filter
+   */
   renderGridFromFetch(url, type) {
     if(!url) return;
     fetch(url)
@@ -209,8 +222,15 @@ class CollectionFilters extends HTMLElement {
       });
   }
 
+  /**
+   * 
+   * @param {HTMlResponse} html 
+   * @param {String} type filter / pagination / sub_collection_filter
+   */
   renderProductGrid(html, type) {
     const innerHTML = new DOMParser().parseFromString(html, 'text/html');
+
+    // We have used individuals components replacement code because of load more feature
     let paginationType = 'numbers';
     if(document.querySelector('[data-pagination]')){
       paginationType = document.querySelector('[data-pagination]').dataset.type || 'numbers';
@@ -272,16 +292,27 @@ class CollectionFilters extends HTMLElement {
     if(this.quickshop){this.quickshop.updateEvents();}
   }
 
+  /**
+   * Re-Binding events on active filters after ajax request
+   */
   bindActiveFilterButtonEvents() {
     document.querySelectorAll('.filter-option-clear').forEach((element) => {
       element.addEventListener('click', this.onActiveFilterClick, { once: true });
     });
   }
 
+  /**
+   * Update the url
+   * @param {String} searchParams 
+   */
   updateURLHash(searchParams) {
     history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
   }
 
+  /**
+   * 
+   * @param {event} event 
+   */
   updateSortBy(event){
     let _this = event.currentTarget;
     let currentvalue = document.querySelector('[data-sortby] [name="custom_sort_by_mobile"]:checked').value;
@@ -296,6 +327,26 @@ class CollectionFilters extends HTMLElement {
     }));
   }
 
+  /**
+   * 
+   * @param {event} event 
+   */
+  updatePagination(event){
+    event.preventDefault();
+    let _this = event.currentTarget;
+    let currentvalue = document.querySelector('[data-custom-pagination] [type="radio"]:checked').value;
+
+    this.querySelector('[name="count"]').value = currentvalue;
+    this.querySelector('[name="count"]').dispatchEvent(new Event('input', {
+      bubbles: true,
+      cancelable: true,
+    }));
+
+  }
+  /**
+   * 
+   * @param {event} event 
+   */
   _manageSubCollections(event){
     event.preventDefault();
     const _this =  event.currentTarget;
@@ -310,10 +361,18 @@ class CollectionFilters extends HTMLElement {
     }, 500);
   }
 
+  /**
+   * 
+   * @param {event} event 
+   */
   _managePagination(event){
     event.preventDefault();
     let _this = event.currentTarget;
-    const nextPageLink = _this.href;
+    var nextPageLink = _this.href;
+    var product_count=parseInt(event.target.closest('[data-pagination_bar]')?.getAttribute('data-pagination_bar'))
+    if (nextPageLink && nextPageLink.includes('?') && nextPageLink.includes('=')) {
+      nextPageLink=nextPageLink+`&count=${product_count}`
+    }
     this.renderGridFromFetch(nextPageLink, 'pagination');
 
     setTimeout(() => {
@@ -321,6 +380,10 @@ class CollectionFilters extends HTMLElement {
     }, 500);
   }
 
+  /**
+   * Toggle Filter drawer
+   * @param {event} event 
+   */
   toggleFilterDrawer(event){
     event.preventDefault();
     let button = event.currentTarget;
@@ -341,7 +404,8 @@ class CollectionFilters extends HTMLElement {
       if(this.openFilterDrawer){
         this.openFilterDrawer.setAttribute('aria-expanded', false);
         this.openFilterDrawer.removeAttribute('tabindex');
-      }if(this.openSortbyDrawer){
+      }
+      if(this.openSortbyDrawer){
         this.openSortbyDrawer.setAttribute('aria-expanded', false);
         this.openSortbyDrawer.removeAttribute('tabindex');
       }
@@ -351,6 +415,10 @@ class CollectionFilters extends HTMLElement {
     }
   }
 
+  /**
+   * Toggle Filter drawer
+   * @param {event} event 
+  */
   toggleFilterBlock(event) {
     event.preventDefault();
     const toggleFilterBtn = event.currentTarget;
@@ -359,6 +427,10 @@ class CollectionFilters extends HTMLElement {
     isOpen ? this.closeFilterBlock(toggleFilterBtn) : this.openFilterBlock(toggleFilterBtn);
   }
 
+  /**
+   * Open Filter Block
+   * @param {element} toggleFilterBtn 
+   */
   openFilterBlock(toggleFilterBtn){
     let filterContainer = toggleFilterBtn.parentNode;
     toggleFilterBtn.setAttribute('aria-expanded', true);
@@ -375,6 +447,10 @@ class CollectionFilters extends HTMLElement {
     Utility.trapFocus(filterContainer);
   }
 
+  /**
+   * Close Filter Block
+   * @param {element} toggleFilterBtn 
+   */
   closeFilterBlock(toggleFilterBtn){
     const filterContainer = toggleFilterBtn.parentNode;
     toggleFilterBtn.setAttribute('aria-expanded', false);
@@ -394,6 +470,10 @@ class PriceRange extends HTMLElement {
     this.setMinAndMaxValues();
   }
 
+  /**
+   * 
+   * @param {event} event 
+   */
   onRangeChange(event) {
     this.adjustToValidValues(event.currentTarget);
     this.setMinAndMaxValues();
@@ -418,6 +498,38 @@ class PriceRange extends HTMLElement {
     if (value > max) input.value = max;
   }
 }
-
 customElements.define('price-range', PriceRange);
 
+class PriceRangeSlider extends HTMLElement {
+  constructor() {
+    super();
+
+    let _this = this;
+    let sliderSections = this.getElementsByClassName("range-slider");
+    
+      for(const element of sliderSections){
+        let sliders = element.getElementsByTagName("input");
+        for(const element of sliders){
+          if(element.type ==="range" ){
+            element.oninput = _this.getVals;
+            element.oninput();
+          }
+        }
+      }
+  }
+  
+  // Get Price value from both range slider
+  getVals(){
+    let parent = this.parentNode;
+    let slides = parent.getElementsByTagName("input");
+    let slide1 = parseFloat(slides[0].value);
+    let slide2 = parseFloat(slides[1].value);
+      
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if( slide1 > slide2 ){ let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+    
+    let displayElement = parent.getElementsByClassName("rangeValues")[0];
+    displayElement.innerHTML = Shopify.formatMoney((slide1*100), window.globalVariables.money_format)+ ' - ' + Shopify.formatMoney((slide2*100), window.globalVariables.money_format);
+  }
+}
+customElements.define('range-slider', PriceRangeSlider);

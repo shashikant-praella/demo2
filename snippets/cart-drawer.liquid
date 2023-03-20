@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="{{ 'global-ajax-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript>{{ 'global-ajax-cart-drawer.css' | asset_url | stylesheet_tag }}</noscript>
+{% comment %}<noscript>{{ 'global-ajax-cart-drawer.css' | asset_url | stylesheet_tag }}</noscript>{% endcomment %}
 
 <!-- AJAX CART HTML -->
 <ajax-cart class="cart-drawer" style="visibility: hidden;" id="cart-drawer" updating="false" data-touch-moveable>
-    <div class="d-flex justify-content-center align-items-center section-header mb-md-7 mb-5">
-        <h1 class="page-title cart-title mb-0" tabindex="0">{{ 'templates.cart.title' | t }}</h1>
+    <div class="d-flex justify-content-center align-items-center section-header mb-md-7 mb-5 border-bottom">
+        <h2 class="page-title cart-title mb-0 h1" tabindex="0">{{ 'templates.cart.title' | t }}</h2>
         <a href="#close-cart" class="btn-close float-right close-ajax--cart d-none" role="button" tabindex="0" rel="nofollow" aria-label="Close" title="Close">
-            <i class="icon-close text-gray-900"></i>
+            <span class="icon-close text-gray-900"></span>
         </a>
 </div>
 
@@ -18,10 +18,6 @@
                     {% render 'cart-free-shipping-bar' %}
                 </div>
             {% endif %}
-
-            {%- if settings.is_gwp_enabled == true and settings.is_gwp_auto_add == false -%}
-                <div class="gwp-product" data-freeGift></div>
-            {%- endif -%}
 
             <div class="col-12">
                 <div class="cart-header py-2 px-3 bg-gray-300">
@@ -61,7 +57,7 @@
                                     <div class="cart-img me-3 me-lg-4 {% unless item.image %}bg-gray-300{% endunless %}">
                                     {% if item.image %}
                                             <img class="img-fluid item-img"
-                                            src="{{ item.image | img_url: '150x' }}"
+                                            src="{{ item.image | image_url: width: 150 }}"
                                             alt="{{ item.image.alt | default: item.product_title | escape }}"
                                             loading="lazy"
                                             width="75"
@@ -131,14 +127,14 @@
                                             <div class="input-group input-group-sm">
                                                 <div class="input-group-prepend">
                                                     <a href="#" class="input-group-text py-2 px-3 h-100" rel="nofollow" aria-label="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}" title="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}" data-for="decrease" data-qty-btn>
-                                                        <span class="btn-decrease d-flex h-100 align-items-center"><i class="icon-minus"></i></span>
+                                                        <span class="btn-decrease d-flex h-100 align-items-center"><span class="icon-minus"></span></span>
                                                         <span class="visually-hidden">{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}</span>
                                                     </a>
                                                 </div>
                                                 <input type="number" name="updates[]" id="updates_{{ item.key }}" aria-label="{{ 'templates.cart.quantity.input_label' | t: product: item.title | escape }}" value="{{ item.quantity }}" step="1" min="1" inputmode="numeric" data-qty-input data-index="{{ forloop.index }}" class="quantity form-control text-center px-2 py-1" readonly>
                                                 <div class="input-group-append">
                                                     <a href="#" class="input-group-text py-2 px-3 h-100 {% if varStatus == 'modify' or varStatus == 'locked' %}disabled{% endif %}" rel="nofollow" aria-label="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" title="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" data-for="increase" data-qty-btn>
-                                                        <span class="btn-increase d-flex h-100 align-items-center"><i class="icon-plus"></i></span>
+                                                        <span class="btn-increase d-flex h-100 align-items-center"><span class="icon-plus"></span></span>
                                                         <span class="visually-hidden">{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}</span>
                                                     </a>
                                                 </div>
@@ -147,12 +143,11 @@
                                         <a class="my-0 text-danger ms-3"
                                             href="#"
                                             title="{{ 'templates.cart.remove' | t }}"
-                                            name="{{ 'templates.cart.remove' | t }}"
                                             aria-label="{{ 'templates.cart.remove' | t }}"
                                             data-toggle="tooltip"
                                             data-itemRemove data-index="{{ forloop.index }}"
                                             data-placement="left">
-                                            <i class="icon-close"></i>
+                                            <span class="icon-close"></span>
                                         </a>
                                     {% endif %}
                                 </div>
@@ -178,7 +173,7 @@
             </div>
         {% else %}
             <div class="cart__warnings text-center section-min-height d-flex flex-column justify-content-center">
-                <i class="icon-bag display-1 text-gray-500"></i>
+                <span class="icon-bag display-1 text-gray-500"></span>
                 <h2 class="cart__empty-text">{{ 'templates.cart.empty' | t }}</h2>
                 <a href="{{ routes.all_products_collection_url }}" class="link">
                     {{ 'general.continue_shopping' | t }}
@@ -188,14 +183,6 @@
     </form>
 
     <div class="col-12 mt-5 cart-total px-5 {% unless cart.item_count > 0 %}d-none{% endunless %}" data-checkoutBtns>
-        {% if settings.enable_cart_upsell and settings.upsell_collection != blank %}
-            <div class="row no-gutters">
-                <custom-accordion class="d-block pb-4" data-accordionType="single">
-                    {% render 'cart-upsell', template: 'drawer' %}
-                </custom-accordion>
-            </div>
-        {% endif %}
-
         <div class="row no-gutters">
             <div class="col">
                 <h5 class="text-uppercase my-0">{{ 'templates.cart.total' | t }}:</h5>
@@ -210,7 +197,10 @@
             <div class="row mt-5" data-cartNote>
                 <div class="col-12 mx-auto text-center">
                 <p>{{ 'templates.cart.note' | t }}:</p>
-                    <textarea name="note" class="form-control" rows="4" data-default="{{ cartNote | strip }}">{{ cart.note }}</textarea>
+                    <textarea name="note" class="form-control" rows="4" data-default="{{ cartNote | strip }}"
+                        title="{{ 'templates.cart.note_placeholder' | t }}" aria-label="{{ 'templates.cart.note_placeholder' | t }}">
+                        {% if cart.note != blank %}{{ cart.note }}{% endif %}
+                    </textarea>
                     <button type="submit" class="btn m-auto text-decoration-underline" data-saveNote style="display: none;" data-default="Save" data-adding_txt="saving..">Save</button>
                     <p class="font-size-sm text-center pt-3" data-resultMsg style="display: none;"></p>
                 </div>
@@ -234,4 +224,4 @@
     {{ cart | json }}
 </script>
 </ajax-cart>
-<!-- END of AJAX CART HTML -->
+<!-- END of AJAX CART HTML --> 

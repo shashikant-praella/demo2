@@ -8,11 +8,11 @@
             {% if item.featured_image.size > 0 %}
                   <img
                   srcset="
-                    {%- if item.featured_image.width >= 360 -%}{{ item.featured_image | img_url: '360x' }} 360w,{%- endif -%}
-                    {%- if item.featured_image.width >= 533 -%}{{ item.featured_image | img_url: '533x' }} 533w,{%- endif -%}
-                    {%- if item.featured_image.width >= 720 -%}{{ item.featured_image | img_url: '720x' }} 720w,{%- endif -%}
-                    {{ item.featured_image | img_url: 'master' }} {{ item.featured_image.width }}w"
-                  src="{{ item.featured_image | img_url: '533x' }}"
+                    {%- if item.featured_image.width >= 360 -%}{{ item.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if item.featured_image.width >= 533 -%}{{ item.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                    {%- if item.featured_image.width >= 720 -%}{{ item.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+                    {{ item.featured_image | image_url }} {{ item.featured_image.width }}w"
+                  src="{{ item.featured_image | image_url: width: 533 }}"
   
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                   loading="lazy"
@@ -21,24 +21,20 @@
                   width="{{ item.featured_image.width }}"
                   height="{{ item.featured_image.width | divided_by: item.featured_image.aspect_ratio }}"
                 > 
-  
-
-            {% else if settings.no_image_replacement != blank %}
-
+            {% elsif settings.no_image_replacement != blank %}
                   <img class="img-fluid"
                   srcset="
-                  {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | img_url: '360x' }} 360w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | img_url: '533x' }} 533w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | img_url: '720x' }} 720w,{%- endif -%}
-                  {{ settings.no_image_replacement | img_url: 'master' }} {{ settings.no_image_replacement.width }}w"
-                  src="{{ settings.no_image_replacement | img_url: 'pico' }}"  
+                  {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w,{%- endif -%}
+                  {{ settings.no_image_replacement | image_url }} {{ settings.no_image_replacement.width }}w"
+                  src="{{ settings.no_image_replacement | image_url }}"  
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
 
                   loading="lazy"
                   width="{{ settings.no_image_replacement.width }}"
                   height="{{ settings.no_image_replacement.width | divided_by: settings.no_image_replacement.aspect_ratio }}" 
                   alt="{{ settings.no_image_replacement.alt | default: item.title | escape }}"/>
-
             {% else %}
               {{ 'product-' | append: current | placeholder_svg_tag: 'img-fluid' }}
             {% endif %}
@@ -46,25 +42,25 @@
             {% if item.image.size > 0 %}
               <img class="img-fluid"
                   srcset="
-                    {%- if item.image.width >= 360 -%}{{ item.image | img_url: '360x' }} 360w,{%- endif -%}
-                    {%- if item.image.width >= 533 -%}{{ item.image | img_url: '533x' }} 533w,{%- endif -%}
-                    {%- if item.image.width >= 720 -%}{{ item.image | img_url: '720x' }} 720w,{%- endif -%}
-                    {{ item.image | img_url: 'master' }} {{ item.image.width }}w"
-                  src="{{ item.image | img_url: '533x' }}"  
+                    {%- if item.image.width >= 360 -%}{{ item.image | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if item.image.width >= 533 -%}{{ item.image | image_url: width: 533 }} 533w,{%- endif -%}
+                    {%- if item.image.width >= 720 -%}{{ item.image | image_url: width: 720 }} 720w,{%- endif -%}
+                    {{ item.image | image_url }} {{ item.image.width }}w"
+                  src="{{ item.image | image_url: width: 533 }}"  
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                   loading="lazy"
                   width="{{ item.image.width }}"
                   height="{{ item.image.width | divided_by: item.image.aspect_ratio }}"
                   alt="{{ item.image.alt | default: item.title | escape }}"/>
 
-              {% else if settings.no_image_replacement != blank %}
+              {% elsif settings.no_image_replacement != blank %}
                   <img class="img-fluid"
                       srcset="
-                      {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | img_url: '360x' }} 360w,{%- endif -%}
-                      {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | img_url: '533x' }} 533w,{%- endif -%}
-                      {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | img_url: '720x' }} 720w,{%- endif -%}
-                      {{ settings.no_image_replacement | img_url: 'master' }} {{ settings.no_image_replacement.width }}w"
-                      src="{{ settings.no_image_replacement | img_url: 'pico' }}"  
+                      {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w,{%- endif -%}
+                      {{ settings.no_image_replacement | image_url }} {{ settings.no_image_replacement.width }}w"
+                      src="{{ settings.no_image_replacement | image_url }}"  
                       sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
 
                       loading="lazy"

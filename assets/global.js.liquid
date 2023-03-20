@@ -68,10 +68,8 @@
     return formatString.replace(placeholderRegex, value);
 };
 
-customGWPJS = null;
 let productSlider = null;
 let quickShopSlider = null;
-let productZoomSlider = null;
 
 /**
   * prevent body Touch event in Touch devices when Overlay is visible
@@ -138,16 +136,23 @@ function openModal(modal, opener){
   let dropdownParent = element.parentElement;
   const _this = element;
 
-  ["mouseover", "focusin",  "click", "touchend", "mouseout"].forEach(function(type){
-    if(type == 'click' || type == 'touchend'){
+  ["mouseover", "focusin",  "click", "mouseout"].forEach(function(type){
+    if(type == 'click'){
       dropdownParent.addEventListener(type, (e) => {
         e.stopPropagation();
         let currentTarget = e.currentTarget;
-        if(e.target.classList.contains('nav-link-title')){
+        let liveTarget = e.target;
+        if(liveTarget.classList.contains('nav-link-title')){
           let linkHref = currentTarget.querySelector('.nav-link').getAttribute('data-href');
           if(linkHref) window.location.href = linkHref;
         }else{
-          dropdownToggle(dropdownParent);
+          if (liveTarget && !liveTarget.closest('[data-touch-moveable]') || type == 'click') {
+            if (liveTarget.closest('.submenu-toggle')) {
+              dropdownToggle(dropdownParent);
+            }
+          }else{
+            dropdownToggle(dropdownParent);
+          }
         }
       });
     }else if(type == 'mouseout'){
@@ -225,6 +230,15 @@ function openModal(modal, opener){
       if(eleIndex != currentIndex){ dropdownHide(ele); }
     });
   }
+
+  let closeBtn = dropdownParent.querySelector('.close-submenu');
+  if(closeBtn){
+    closeBtn.addEventListener('click', (event)=>{
+      event.preventDefault();
+      let parentElement = event.currentTarget.closest('.dropdown');
+      dropdownToggle(parentElement);
+    });
+  };
 }
 
 const allDropdowns = document.querySelectorAll('a[is="drop-down"]');
@@ -407,6 +421,10 @@ class ModalDialog extends HTMLElement {
 
   }
 
+  /**
+   * Open the Modal
+   * @param {element} opener 
+   */
   show(opener) {
     this.openedBy = opener;
     this.modal.classList.add('open');
@@ -415,6 +433,9 @@ class ModalDialog extends HTMLElement {
     Utility.forceFocus(this.querySelector('[id^="ModalClose-"]'));
   }
 
+  /**
+   * Close Modal Dialogue
+   */
   hide() {
     document.body.classList.remove('overflow-hidden');
     this.modal.classList.remove('open');
@@ -466,8 +487,9 @@ class siteOverlay extends HTMLElement{
   /**
    * Show Overlay
    */
-  showOverlay(){
+   showOverlay(){
     document.getElementById('site-overlay').classList.add('overlay--body');
+    document.querySelector('body').classList.add('scroll-fixed');
     document.body.style.overflowY = "hidden";
     document.body.addEventListener('touchmove', bodyTouchMove, false);
   }
@@ -477,6 +499,7 @@ class siteOverlay extends HTMLElement{
    */
   hideOverlay(){
     document.getElementById('site-overlay').classList.remove('overlay--body');
+    document.querySelector('body').classList.remove('scroll-fixed');
     document.body.style.overflowY = "auto";
     document.body.removeEventListener('touchmove', bodyTouchMove, false);
   }
@@ -491,6 +514,8 @@ customElements.define("site-overlay", siteOverlay);
   constructor() {
     super();
     let sliderElement = this.querySelector('.swiper-slider');
+    if(!sliderElement) return;
+    
     let sliderOptions = sliderElement.getAttribute('data-slider');
     let thumbSlider;
     sliderOptions = JSON.parse(sliderOptions);
@@ -511,6 +536,7 @@ customElements.define("site-overlay", siteOverlay);
     }
 
     let slider = new Swiper(sliderElement, sliderOptions);
+    // Trigger Event when slide is changed
     slider.on('slideChange', (event) => {
       const currentTarget = event.$el[0];
       if(currentTarget.querySelectorAll('custom-video.show--video').length > 0){
@@ -533,8 +559,6 @@ customElements.define("site-overlay", siteOverlay);
       productSlider = slider;
     }else if(sliderElement.classList.contains('quickshop-slider')){
       quickShopSlider = slider;
-    }else if(sliderElement.classList.contains('zoom--product-images')){
-      productZoomSlider = slider;
     }
     if(sliderElement.hasAttribute('data-nav') && thumbSlider){
       thumbSlider.controller.control = slider;
@@ -730,6 +754,10 @@ class customSelect extends HTMLElement{
     });
   }
 
+  /**
+   * Toggle custom select option
+   * @param event 
+   */
   toggleOptions(event){
     let _this = event.currentTarget;
     this.options.forEach(option => option.classList.remove('selected'));
@@ -738,6 +766,10 @@ class customSelect extends HTMLElement{
     Utility.toggleElement(this.selectContainer, 'close');
   }
 
+  /**
+   * Hide/Show of custom select option
+   * @param event 
+   */
   manageVisibility(event){
     let isOpen = this.selectContainer.classList.contains('open');
     isOpen ? Utility.toggleElement(this.selectContainer, 'close') : Utility.toggleElement(this.selectContainer, 'open');
@@ -773,7 +805,11 @@ class customVideo extends HTMLElement {
     this.bindEvents();
   }
 
+  /**
+   * Binding events on the video button
+   */
   bindEvents(){
+    this.managePosterVideos();
     if(this.triggerVideo) this.triggerVideo.addEventListener('click', this.toggleView.bind(this));
     if(this.placementType == 'grid') this.addEventListener('focusout', this.focusOut.bind(this));
 
@@ -794,6 +830,9 @@ class customVideo extends HTMLElement {
     if(this.placementType == 'popup' && this.classList.contains('show--video')) this.toggleView();
   }
 
+  /**
+   * Toggle of video modal
+   */
   toggleView(){
     let isOpen = this.classList.contains('show--video');
     let _this = this;
@@ -813,12 +852,17 @@ class customVideo extends HTMLElement {
       else if(this.container){ this.container.classList.add('playing--video');}
 
       this.manageOnScroll();
+      this.managePosterVideos();
       if(this.type == 'local'){
         this.playPauseEvent(videoElement);
       }
     }
   }
 
+  /**
+   * 
+   * Create the video html element
+   */
   _buildVideo(){
     let video;
     if(window.screen.width <= 767 && this.dataset.mobilevideo){
@@ -840,11 +884,16 @@ class customVideo extends HTMLElement {
       video = document.createElement( "iframe" );
       video.setAttribute( "allowfullscreen", "" );
       video.setAttribute( "frameborder", "0" );
+      if(this.dataset.autoplay) video.setAttribute("allow", "autoplay");
       video.setAttribute( "src", "https://player.vimeo.com/video/"+ this.videoID + `?rel=0&showinfo=0&autoplay=${this.dataset.autoplay}&mute=${this.dataset.muted}&controls=${this.dataset.controls}&loop=${this.dataset.loop}&playlist=${this.videoID}`);
     }
     return video;
   }
 
+  /**
+   * 
+   * Play / Pause 
+  */
   playPauseEvent(video){
     const _this = this;
     if(this.type == 'youtube'){
@@ -875,6 +924,7 @@ class customVideo extends HTMLElement {
     }
   }
 
+
   manageOnScroll(){
     let video = this.querySelector('video') || this.querySelector('iframe');
     let observer = new IntersectionObserver((entries, observer) => { 
@@ -889,6 +939,31 @@ class customVideo extends HTMLElement {
       });
     });
     observer.observe(video);
+  }
+
+  /**
+   * Poster Video Autoplay
+   *
+  */
+  managePosterVideos(){
+    let posterVideo = this.querySelector('[data-postervideo]');
+    if(posterVideo){
+      let mobileSrc = posterVideo.getAttribute('data-mobileSrc');
+      let windowSize = window.innerWidth || document.documentElement.clientWidth;
+      if(windowSize < 768 && mobileSrc != null && mobileSrc != undefined){
+        posterVideo.querySelector('source').src = mobileSrc;
+      }
+      const onIntersection = (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if(entry.target) entry.target.play();
+            observer.disconnect();
+          }
+        }
+      };
+      const observer = new IntersectionObserver(onIntersection);
+      if(posterVideo != undefined) observer.observe(posterVideo);
+    }
   }
 }
 customElements.define("custom-video", customVideo);
@@ -1050,7 +1125,6 @@ class Notification extends HTMLElement {
 
     this.container.addEventListener('mouseover', (event) =>{
       this.paused = true;
-      console.log(this.paused)
     });
     this.container.addEventListener('mouseout', (event) =>{
       this.paused = false;
@@ -1068,10 +1142,18 @@ class Notification extends HTMLElement {
     }
   }
 
+  /**
+   * Notification Type
+   * @param title 
+   * @param body 
+   * @param options 
+   */
   updateNotification(title, body, options){
+    this.container.className = '';
     this.querySelector('.snotifyToast__title').innerHTML = title;
     this.querySelector('.snotifyToast__body').innerHTML = body;
 
+    this.container.classList.add('snotifyToast');
     if(options.type == 'error'){
       this.container.classList.add('snotify-error');
     }else if(options.type == 'warning'){
@@ -1086,6 +1168,10 @@ class Notification extends HTMLElement {
     this.manageToggle(options.timeout)
   }
 
+  /**
+   * Duration of notification to hide again
+   * @param timeout 
+   */
   manageToggle(timeout){
     this.progressBar = this.querySelector('[data-toast-pr]');
     let unit = parseInt(timeout) / 1000;
@@ -1093,7 +1179,6 @@ class Notification extends HTMLElement {
     let width = 0;
 
     let interval = setInterval(() => {
-      console.log(this.paused)
       if(this.paused == false){
         width += unit;
         this.progressBar.setAttribute('style', `width: ${width}%`);
@@ -1128,6 +1213,10 @@ class Countdown extends HTMLElement {
     }
   }
 
+  /**
+   * 
+   * @param endDate fetching from customization
+   */
   manageCountdown(endDate){
     let countDownTimer = setInterval(() => {
       let day,hour,min,sec,dStr,hStr,mStr,sStr; 
@@ -1170,4 +1259,22 @@ class Countdown extends HTMLElement {
   }
 }
 customElements.define("custom-countdown", Countdown);
+{%- endif -%}
+
+{%- if template == 'product' -%}
+if(document.querySelectorAll('.product-thumb--image').length > 0) {
+  document.querySelectorAll('.product-thumb--image').forEach(function(target) {
+      target.addEventListener('click', (event) => {
+          event.preventDefault();
+          setTimeout(function() {
+              document.querySelectorAll('.product-thumb--image').forEach(function(targetT) {
+                  targetT.classList.remove('swiper-slide-thumb-active');
+              });
+              target.classList.add('swiper-slide-thumb-active');
+          }, 200);
+          var swiper = new Swiper('.product-carousel');
+          swiper.slideTo(event.target.closest('.product-thumb--image').getAttribute('data-index'));
+      });
+  });
+}
 {%- endif -%}

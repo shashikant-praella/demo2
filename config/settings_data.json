@@ -1,11 +1,12 @@
 {
   "current": {
     "button_border-width": "1px",
+    "type_input_font_weight": "300",
     "favicon": "shopify:\/\/shop_images\/logo-fluid_63914a68-c1ae-461f-98f2-f4a84060ac5f.png",
     "main_logo_socials": "shopify:\/\/shop_images\/wp3850825-4k-pc-wallpapers.jpg",
     "enable_cart_drawer": true,
     "enable_search": true,
-    "enable_swatches": false,
+    "enable_swatches": true,
     "enable_quickshop": true,
     "enable_search_article": false,
     "no_image_replacement": "shopify:\/\/shop_images\/mlouye-brick-macaron-s1.jpg",
@@ -19,20 +20,9 @@
     "enable_newletter": false,
     "enable_custom_klaviyo": false,
     "enable_cart_notes": true,
-    "enable_cart_upsell": true,
-    "upsell_block_title": "Pair With This",
-    "upsell_collection": "upsell",
-    "enable_shipping_bar": false,
+    "enable_shipping_bar": true,
     "free_shipping_txt": "Congratulations! You get free shipping.",
     "free_shipping_left": "You are ${addMoreForFreeShip} away from free shipping!",
-    "is_gwp_enabled": true,
-    "is_gwp_auto_add": false,
-    "is_gwp_1_enabled": true,
-    "gwp_qualifier_minimum_cart_amount_1": "100",
-    "gwp_product_thr1_1": "basic-jumper",
-    "is_gwp_2_enabled": true,
-    "gwp_qualifier_minimum_cart_amount_2": "150",
-    "gwp_product_thr2_1": "basic-sweat-joggers",
     "enable_login_helper": false,
     "account_not_found": "Account not found.",
     "account_enable": "Account enabled.",
@@ -83,25 +73,17 @@
           "show_line_separator": false,
           "logo_svg": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/logo-fluid.svg?v=1631096036",
           "logo_width": 130,
-          "logo_position": "middle-left",
-          "menu": "footer",
-          "main_menu_linklist": "footer",
-          "secondary_menu_linklist": "mega-nav",
-          "mobilemenu_style": "slide-submenu",
-          "mobile_nav_show_social_links": true,
-          "social_icon_facebook": true,
-          "social_icon_twitter": true,
-          "social_icon_instagram": true
+          "menu": "footer"
         }
       },
       "footer": {
         "type": "footer",
         "settings": {
           "fluid_footer": false,
-          "footer_top_bg_color": "#faf4f0",
+          "footer_top_bg_color": "#FAF4F0",
           "footer_top_txt_color": "#000000",
           "footer_top_link_color": "#000000",
-          "footer_bottom_bg_color": "#faf4f0",
+          "footer_bottom_bg_color": "#FAF4F0",
           "footer_bottom_txt_color": "#000000",
           "footer_logo_svg": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/logo-fluid.svg?v=1631096036",
           "logo_max_width": 180,
@@ -110,9 +92,9 @@
           "footer_linklist_col_2": "main-menu",
           "col_3_heading": "Info",
           "footer_linklist_col_3": "learn",
-          "col_4_heading": "Footer menu",
-          "footer_linklist_col_4": "footer",
-          "col_5_heading": "STAY IN TOUCH",
+          "col_4_heading": "Discover",
+          "footer_linklist_col_4": "footer-menu",
+          "col_5_heading": "Subscribe",
           "col_5_txt": "Get monthly updates and free resources.",
           "show_newsletter": true,
           "show_social_links": true,
@@ -121,6 +103,7 @@
           "social_icon_twitter": true,
           "social_icon_instagram": true,
           "social_icon_youtube": true,
+          "bottom_footer_linklist": "bottom-footer-nav",
           "show_payment_icons": true,
           "payment_icon_visa": true,
           "payment_icon_mastercard": true,
@@ -154,18 +137,30 @@
           "enable": true,
           "debug_enable": false
         }
+      },
+      "mobile-nav-drawer": {
+        "type": "mobile-nav-drawer",
+        "settings": {
+          "logo_svg": "",
+          "logo": "shopify:\/\/shop_images\/logo-fluid_ac600564-01a4-4f9a-8f2a-47a0f47ff075.png",
+          "logo_width": 100,
+          "main_menu_linklist": "footer",
+          "secondary_menu_linklist": "main-menu",
+          "mobilemenu_style": "slide-submenu",
+          "mobile_nav_show_social_links": true,
+          "social_icon_facebook": true,
+          "social_icon_twitter": true,
+          "social_icon_instagram": true
+        }
+      },
+      "search-layer": {
+        "type": "search-layer",
+        "settings": {
+        }
       }
     },
     "content_for_index": [
 
-    ],
-    "blocks": {
-      "18218067344242134805": {
-        "type": "shopify:\/\/apps\/product-reviews-ugc-with-q-a\/blocks\/app\/34006358-52bd-4ec7-8c78-200fe58b77ba",
-        "disabled": true,
-        "settings": {
-        }
-      }
-    }
+    ]
   }
 }

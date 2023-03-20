@@ -19,6 +19,9 @@ class accountPages {
     }
   }
 
+  /**
+   * Fecth Selector of login form inputs
+   */
   _getElements() {
     const container = document.querySelector(selectors.accountPages);
     return container ? {
@@ -30,11 +33,17 @@ class accountPages {
     } : {};
   }
 
+  /**
+   * Bind Click events on hide/show password field
+   */
   _setupEventListeners() {
       this.elements.showResetPassword.addEventListener('click', this._handleResetPassword.bind(this));
       this.elements.hideResetPass.addEventListener('click', this._handleResetPassword.bind(this));
   }
-
+  /**
+   * Reset Password
+   * @param {event} event 
+   */
   _handleResetPassword(event){
       event.preventDefault();
       const _this = event.currentTarget;

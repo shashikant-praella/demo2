@@ -3,22 +3,22 @@
   <div class="container">
       <div class="row">
           <div class="col-sm-8 col-12 mx-auto text-center">
-              <h6 class="m-0">{{settings.welcome_text}}</h6>
-              <h1 class="mb-5">Hi, {{  customer.first_name  }}</h1>
+              <h6 class="m-0">{{ settings.welcome_text }}</h6>
+              <h1 class="mb-5">{{ 'customer.account.first_name_pretext' | t }}, {{ customer.first_name }}</h1>
               <ul class="d-flex justify-content-center list-unstyled m-0 account_nav">
                 <li class="px-3 lh-1 border-end border-gray-500">
-                    <a class="font-size-md text-capitalize fw-bold active" href="/account" name="{{ 'customer.orders.title' | t }}" title="{{ 'customer.orders.title' | t }}" rel="nofollow" aria-label="{{ 'customer.orders.title' | t }}">
+                    <a class="font-size-md text-capitalize fw-bold active" href="/account" title="{{ 'customer.orders.title' | t }}" rel="nofollow" aria-label="{{ 'customer.orders.title' | t }}">
                        {{ 'customer.orders.title' | t }}
                     </a>
                 </li>
-                <li class="px-3 lh-1 border-end border-gray-500">    
+                <li class="px-3 lh-1 border-end border-gray-500">
                     <a class="font-size-md text-capitalize" href="{{ routes.account_addresses_url }}">
                         {{ 'customer.account.view_addresses' | t }}
                     </a>
                 </li>
-                <li class="px-3 lh-1">    
+                <li class="px-3 lh-1">
                     <a class="font-size-md text-capitalize" href="{{ routes.account_logout_url }}">
-                        {{ 'customer.log_out' | t }}
+                        {{ 'customer.log_out' | t }} 
                     </a>
                 </li>
               </ul>
@@ -31,9 +31,7 @@
 <div data-template="account" class="pt-5 pt-lg-12 pb-12 pb-lg-13 mb-2">
   <div class="container">
     <div class="row mb-4">
-      <div class="col-lg-3 d-flex align-items-end">
-        
-      </div>
+      <div class="col-lg-3 d-flex align-items-end"></div>
       <div class="col-lg-9 text-center">
           <h3>{{ 'customer.order.title' | t: name: order.name }}</h3>
           <p>{{ 'customer.order.date_html' | t: date: order.created_at | date: "%B %d, %Y %I:%M%p" }}</p>
@@ -51,8 +49,8 @@
         </div>
         <div>
           <p class="mb-2">{{ customer.email }}</p>
-          <p class="mb-2">password: **********  (<a href="/account/login#recover" class="text-primary">reset</a>)</p>
-          <p class="mb-2">Total Orders: {{ customer.orders.size }}</p>
+          <p class="mb-2">{{ 'customer.account.password_label' | t }}: **********  (<a href="/account/login#recover" class="text-primary">{{ 'customer.account.reset_label' | t }}</a>)</p>
+          <p class="mb-2">{{ 'customer.account.total_orders' | t }}: {{ customer.orders.size }}</p>
         </div>
       </div>
 
@@ -62,7 +60,7 @@
                   {% if order.cancelled %}
                   <div class="alert alert-warning">
                       {% assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" %}
-                      <h5>{{ 'customer.order.cancelled' | t: date: cancelled_at }}</h5>
+                      <h5>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</h5>
                       <p class="my-0">{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</p>
                   </div>
                   {% endif %}
@@ -71,6 +69,7 @@
 
           <div class="table-responsive">
               <table class="table">
+                  <caption class="d-none">{{ 'customer.order.order_addresses' | t }}</caption>
                   <thead class="group-name">
                       <tr>
                           <th class="h6 font-family-josefin">{{ 'customer.order.billing_address' | t }}</th>
@@ -110,6 +109,7 @@
 
           <div class="table-responsive">
               <table class="table">
+                  <caption class="d-none">{{ 'customer.order.shipping_address' | t }}</caption>
                   <thead class="group-name">
                       <tr>
                           <th class="h6 font-family-josefin">{{ 'customer.order.product' | t }}</th>
@@ -124,21 +124,12 @@
                           <td>
                             <div class="d-flex" style="min-width: 270px">
                               <div class="pe-3">
-                                <img src="{{ line_item.image  | img_url: 'small' }}" alt="{{ line_item.title | escape }}" class="mr-3">
+                                <img src="{{ line_item.image | image_url: width: 75 }}" alt="{{ line_item.title | escape }}" loading="lazy" class="mr-3" width="150" height="150">
                               </div>
                               <div>
                                 {{ line_item.title | link_to: line_item.product.url }}
                                 {% if line_item.sku != '' %}<p class="small">{{ 'customer.order.sku' | t }}: {{ line_item.sku }}</p>{% endif %}
-                                {%- comment -%}
-                                {% if line_item.fulfillment %}
-                                <div class="note">
-                                  {% assign created_at = line_item.fulfillment.created_at | date: format: 'month_day_year' %} {{ 'customer.order.fulfilled_at' | t: date: created_at }} {% if line_item.fulfillment.tracking_number %}
-                                  <a href="{{ line_item.fulfillment.tracking_url }}">{{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number}}</a> {% endif %}
-                                </div>
-                                {% endif %}
-                                {%- endcomment -%}
                               </div>
-
                             </div>
                           </td>
                           <td>{{ line_item.price | money }}</td>

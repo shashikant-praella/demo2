@@ -8,15 +8,6 @@
       capture current
         cycle 1, 2
       endcapture
-
-      for block in section.blocks
-        if block.type == 'addons' 
-          capture addOnsHTML
-            assign addOnProduct = block.settings.addons_value
-            render 'addons-form', addOnProduct: addOnProduct
-          endcapture
-        endif
-      endfor
     -%}
   
     <section class="section-content" data-product-container>
@@ -29,7 +20,7 @@
               <div class="col-lg-8">
                   <div data-type="slider" class="product-images-wrapper pr-lg-4 text-center">
                       {% if featured_image != blank %}
-                          <a class="skip-to-content-link button visually-hidden" href="#ProductInfo-{{ section.id }}">
+                          <a class="skip-to-content-link button visually-hidden-skip" href="#ProductInfo-{{ section.id }}">
                             {{ "accessibility.skip_to_product_info" | t }}
                           </a>
                           <div class="row mx-md-n2 mx-n1" data-productImagesContainer role="tree">
@@ -37,16 +28,15 @@
                                 {% if media.media_type == 'image' %}
                                     {% assign image = media %}
                                     <div class="product--media col-6 my-md-2 my-1 px-md-2 px-1 position-relative" data-mediaID="{{ image.id }}" role="treeitem">
-                                        <div data-productZoom class="product-zoom"><i class="icon-zoom icon-size-18"></i></div>
                                         <img srcset="
-                                          {%- if image.src.width >= 350 -%}{{ image.src | img_url: '350x' }} 350w,{%- endif -%}
-                                          {%- if image.src.width >= 550 -%}{{ image.src | img_url: '550x' }} 550w,{%- endif -%}
-                                          {%- if image.src.width >= 750 -%}{{ image.src | img_url: '750x' }} 750w,{%- endif -%}
-                                          {%- if image.src.width >= 991 -%}{{ image.src | img_url: '991x' }} 991w,{%- endif -%}
-                                          {%- if image.src.width >= 1200 -%}{{ image.src | img_url: '1200x' }} 1200w,{%- endif -%} 
-                                          {%- if image.src.width >= 1500 -%}{{ image.src | img_url: '1500x' }} 1500w,{%- endif -%} 
-                                          {{ image.src | img_url: 'master' }} {{ image.src.width }}w"
-                                          src="{{ image.src | img_url: '1500x' }}" loading="lazy"
+                                          {%- if image.src.width >= 350 -%}{{ image.src | image_url: width: 350 }} 350w,{%- endif -%}
+                                          {%- if image.src.width >= 550 -%}{{ image.src | image_url: width: 550 }} 550w,{%- endif -%}
+                                          {%- if image.src.width >= 750 -%}{{ image.src | image_url: width: 750 }} 750w,{%- endif -%}
+                                          {%- if image.src.width >= 991 -%}{{ image.src | image_url: width: 991 }} 991w,{%- endif -%}
+                                          {%- if image.src.width >= 1200 -%}{{ image.src | image_url: width: 1200 }} 1200w,{%- endif -%} 
+                                          {%- if image.src.width >= 1500 -%}{{ image.src | image_url: width: 1500 }} 1500w,{%- endif -%} 
+                                          {{ image.src | image_url }} {{ image.src.width }}w"
+                                          src="{{ image.src | image_url: width: 1500 }}" loading="lazy"
                                           data-variant-title="{{ image.alt | escape }}"
                                           sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | divided_by: 2 }}px, 100vw"
                                           alt="{{ image.alt | escape }}"
@@ -88,14 +78,10 @@
                               {%- if current_variant.compare_at_price > current_variant.price -%}<s class="h6 text-gray-600 mr-2 money" data-comparePrice>{{ current_variant.compare_at_price | money }}</s>{%- endif -%}
                               <span class="h5 actual-price money" data-currentPrice>{{ current_variant.price | money }}</span>
                           </div>
-                          {%- form 'product', product, id: 'product-form-installment', class: 'installment caption-large mt-4' -%}
-                              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                          {%- form 'product', product, data-productid: product.id, id: 'product-form-installment', class: 'installment caption-large mt-4' -%}
+                              <input type="hidden" name="id" data-productid="{{ product.id }}" value="{{ product.selected_or_first_available_variant.id }}">
                               {{ form | payment_terms }}
                           {%- endform -%}
-                        {%- when 'addons' -%}
-                          {% if block.settings.enable_addons and block.settings.addons_value != blank %}
-                              <!-- {{ addOnsHTML }} -->
-                          {% endif %}
                       {%- when 'product-tabs' -%}
                         {%- liquid 
                           if block.settings.enable_product_tabs and section.settings.product_tabs_placement == 'beside_slider'
@@ -110,7 +96,7 @@
                         -%}
                       {%- when 'share' -%}
                           {% if block.settings.show_social_share %}
-                              <h6 class="mt-5 mb-2">{{ 'products.product.share' | t }}</h6>
+                              <p class="mt-5 mb-2">{{ 'products.product.share' | t }}</p>
                               {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
                           {% endif %}
                       {%- endcase -%}
@@ -137,23 +123,6 @@
       endfor
     -%}
   </div>
-  
-  <modal-dialog id="PopupModal-zoom">
-    <div class="modal" role="dialog">
-        <div class="modal-dialog modal-full modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-head">
-              <button class="btn p-2 close-quickshop" type="button" id="ModalClose-zoom" aria-label="Close Video">
-                <i class="icon-close"></i>
-              </button>
-            </div>
-            <div class="modal-body">
-  
-            </div>
-          </div>
-        </div>
-    </div>
-  </modal-dialog>
   
   <script type="application/json" data-productMedia>
     {{ product.media | json }}
@@ -218,29 +187,6 @@
             "id": "show_social_share",
             "default": true,
             "label": "Show Social Sharing"
-          }
-        ]
-      },
-      {
-        "type": "addons",
-        "name": "Addon",
-        "limit": 1,
-        "settings": [
-          {
-            "type": "checkbox",
-            "id": "enable_addons",
-            "default": true,
-            "label": "Enable Addons?"
-          },
-          {
-            "type": "text",
-            "id": "addons_title",
-            "label": "Pair it with"
-          },
-          {
-            "type": "product",
-            "id": "addons_value",
-            "label": "Addons"
           }
         ]
       },
@@ -420,34 +366,6 @@
     "settings": [
       {
         "type": "header",
-        "content": "Template"
-      },
-      {
-        "type": "select",
-        "id": "slider_type",
-        "label": "Product Slider Type",
-        "options": [
-          {
-            "value": "default",
-            "label": "Default"
-          },
-          {
-            "value": "color-based",
-            "label": "Color Based"
-          }
-        ],
-        "default": "default"
-      },
-      {
-        "type": "paragraph",
-        "content": "Default: Regular Product Slider with all Images listed at once."
-      },
-      {
-        "type": "paragraph",
-        "content": "Color Based: Product Slider with Selected Color's Images. This will change as user changes selection for 'Color' option."
-      },
-      {
-        "type": "header",
         "content": "Layout"
       },
       {
@@ -465,28 +383,6 @@
         "id": "show_vendor",
         "label": "Show Vendor?",
         "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_images_zoom",
-        "label": "Enable Images Zoom?",
-        "default": false
-      },
-      {
-        "type": "select",
-        "id": "zoom_type",
-        "label": "Zoom Type",
-        "options": [
-          {
-            "value": "mouseover",
-            "label": "Mouse Over"
-          },
-          {
-            "value": "click",
-            "label": "Click"
-          }
-        ],
-        "default": "click"
       },
       {
         "type": "checkbox",

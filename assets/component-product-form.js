@@ -21,7 +21,6 @@ class ProductForm extends HTMLElement {
   onSubmitHandler(evt) {
     evt.preventDefault();
     const addItems = [];
-    const addOnItems = [];
     const submitButton = this.querySelector('[type="submit"]');
     const qtyInput = this.querySelector('[data-qty-input]');
     const pdpContainer = this.closest('.product-details-wrapper');
@@ -33,7 +32,7 @@ class ProductForm extends HTMLElement {
     if(pdpContainer){
       let addOnItemsEle = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
       addOnItemsEle.forEach((addOn)=>{
-        if(addOn.disabled == false){
+        if(!addOn.disabled){
           let addOnParent = addOn.closest('addons-form');
           let addOnJSON = {
             id: addOnParent.querySelector('.variant--id').value,
@@ -50,7 +49,7 @@ class ProductForm extends HTMLElement {
     
     fetch(`${routes.cart_add_url}`, { ...fetchConfig(), body })
       .then((response) => response.json())
-      .then((parsedState) => {
+      .then(() => {
         if(document.querySelector('#PopupModal-quickshop')){
           document.querySelector('#PopupModal-quickshop .close-quickshop').dispatchEvent(new Event('click'))
         }
@@ -92,6 +91,9 @@ class ProductForm extends HTMLElement {
 }
 customElements.define('product-form', ProductForm);
 
+/**
+ * Dropdown selection for options
+ */
 class VariantSelects extends HTMLElement {
   constructor() {
     super();
@@ -105,7 +107,11 @@ class VariantSelects extends HTMLElement {
     this.addEventListener('change', this.onVariantChange.bind(this));
   }
 
-  onVariantChange(event) {
+  /**
+   * Trigger this function variant is changed
+   * @param {event} _event 
+   */
+  onVariantChange(_event) {
     this.setCurrentVariant();
     if(this.formType == 'product-page') window.globalVariables.product.currentVariant = this.currentVariant;
 
@@ -126,26 +132,6 @@ class VariantSelects extends HTMLElement {
         this.renderProductInfo(this.currentVariant, productGrid);
         this._updateLinks(productGrid); 
       }else{
-        if(event){
-          if(event == 'load'){
-            templateProductJS.prototype.manageVariantSlider(this.currentVariant);
-          }else if(event){
-            let currentTarget = event.target;
-            let pdpContainer = currentTarget.closest('[data-product-container]');
-            let quickShopModal = currentTarget.closest('#PopupModal-quickshop');
-            let targetName = currentTarget.getAttribute('name') || '';
-            targetName = targetName.toLowerCase();
-
-            if(pdpContainer && (targetName.indexOf('color') > -1 || targetName.indexOf('options[color]') > -1)){
-              if(quickShopModal){
-                quickShop.prototype.manageVariantSlider(this.currentVariant);
-              }else{
-                templateProductJS.prototype.manageVariantSlider(this.currentVariant);
-              }
-            }
-          }
-        }
-
         const productPage = this.closest('[data-product-container]');
         this.renderProductInfo(this.currentVariant, productPage);
       }
@@ -154,6 +140,10 @@ class VariantSelects extends HTMLElement {
     }
   }
 
+  /**
+   * Change product variant url link in product card when variant is being updated
+   * @param {element} productGrid 
+   */
   _updateLinks(productGrid){
     if(!this.currentVariant || !productGrid) return;
     const variantURL = '?variant=' + this.currentVariant.id;
@@ -164,6 +154,9 @@ class VariantSelects extends HTMLElement {
     });
   }
 
+  /**
+   * Fetch selected options from dropdown
+   */
   _getOptionsFromSelect() {
     let options = [];
     this.querySelectorAll('.variant_selector').forEach((selector)=>{
@@ -172,14 +165,19 @@ class VariantSelects extends HTMLElement {
     return options;
   }
 
+  /**
+   * Fetch selected options from radio
+   */
   _getOptionsFromRadio() {
     const fieldsets = Array.from(this.querySelectorAll('fieldset:not(.addon-fieldset)'));
-    const options = fieldsets.map((fieldset) => {
+    return fieldsets.map((fieldset) => {
       return Array.from(fieldset.querySelectorAll('input:not(.addon-swatch)')).find((radio) => radio.checked).value;
     });
-    return options;
   }
 
+  /**
+   * change value of currentVariant when variant being changed 
+   */
   setCurrentVariant() {
     // get all current values from selectors
     this.currentVariant = false;
@@ -196,11 +194,14 @@ class VariantSelects extends HTMLElement {
       // assign variant details to this.currentVariant if all options are present
       if(!mappedValues.includes(false)){
         this.currentVariant = variant;
-        return;
       }
     });
   }
 
+  /**
+   * Update URL on variant change event
+   * @param {JSON} currentVariant 
+   */
   updateURLandID(currentVariant) {
     if (!currentVariant) return;
 
@@ -212,6 +213,11 @@ class VariantSelects extends HTMLElement {
     input.value = currentVariant.id;
   }
 
+  /**
+   * Render Product data based on current variant
+   * @param {event} currentVariant 
+   * @param {element} container 
+   */
   renderProductInfo(currentVariant, container) {
     if(!currentVariant || !container) return;
 
@@ -263,6 +269,10 @@ class VariantSelects extends HTMLElement {
     });
   }
 
+  /**
+   * Toggle the button based on product availability ( add to cart / soldOut )
+   * @param {*} status enable / disable
+   */
   toggleAddButton(status) {
     if (!this.addBtn) return;
 
@@ -281,9 +291,12 @@ class VariantSelects extends HTMLElement {
       }else{
         this.addBtn.querySelector('.add-text').textContent = window.variantStrings.addToCart;
       }
-    };
+    }
   }
 
+  /**
+   * Store the all the variants json
+   */
   _getVariantData() {
     this.variantData = this.variantData || JSON.parse(this.variant_json.textContent);
     return this.variantData;
@@ -292,6 +305,9 @@ class VariantSelects extends HTMLElement {
   
   customElements.define('variant-selects', VariantSelects);
   
+  /**
+   * Radio Button swatch
+   */
   class VariantRadios extends VariantSelects {
     constructor() {
       super();

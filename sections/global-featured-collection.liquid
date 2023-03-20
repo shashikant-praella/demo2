@@ -1,27 +1,24 @@
 <link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" media="print" onload="this.media='all'">
 
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+{% comment %}<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>{% endcomment %}
 
 {% assign collection_grid_type = section.settings.collection_grid_type %}
 {% assign productExcludeTag = settings.product_exclude_tag_text %}
 
 <section class="section-content" data-section-id="{{ section.id }}" data-grid-type="{{ collection_grid_type }}" style="background-color: {{ section.settings.section_bg_color }}; color: {{ section.settings.section_txt_color }}">
-    <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}" {% if collection_grid_type == 'grid' %}data-type="slider"{%endif %}>
-
-      <div class="row">
-          <div class="col-12 col-lg-6 col-md-8 text-center mb-md-5 mb-4 mx-auto">
-              {% if section.settings.heading_txt != blank %}
-                <h3 class="section-title mb-3">{{ section.settings.heading_txt | escape }}</h3>
-              {% endif %}
-
-              {% if section.settings.lead_txt != blank %}
-                <p>
-                    {{ section.settings.lead_txt }}
-                </p>
-              {% endif %}
-
-          </div>
-      </div>
+    <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}" {% if collection_grid_type == 'grid' %}data-type="slider"{% endif %}>
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-8 text-center mb-md-5 mb-4 mx-auto">
+                {% if section.settings.heading_txt != blank %}
+                    <h3 class="section-title mb-3">{{ section.settings.heading_txt | escape }}</h3>
+                {% endif %}
+                {% if section.settings.lead_txt != blank %}
+                    <p>
+                        {{ section.settings.lead_txt }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
 
       {% if section.settings.home_featured_collection == blank or collections[section.settings.home_featured_collection] == empty or collections[section.settings.home_featured_collection].products_count == 0 %}
         {%- liquid 
@@ -46,6 +43,7 @@
             <slider-element class="swiper-container carousel d-block position-relative arrow-outside">
                 <div class="swiper swiper-slider featured-collection-slider card-carousel" data-slider='{
                       "loop": false,
+                      "shortSwipes": false,
                       "slidesPerView": "1",
                       "spaceBetween": 15,
                       "grabCursor": true,

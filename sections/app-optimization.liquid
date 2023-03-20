@@ -199,7 +199,7 @@
 {%- if request.design_mode -%}
 {%- comment -%}
   The code below will be loaded only in the Theme Editor
-{%- endcomment-%}
+{%- endcomment -%}
 {%- assign urls = content_for_header | split: 'var urls =' | last | split: 'for (var i = 0' | first | remove: ';' | split: ',' -%}
 
 <template id="sd-app-list-template">

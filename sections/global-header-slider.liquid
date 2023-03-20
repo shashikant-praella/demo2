@@ -1,5 +1,5 @@
 {% if section.settings.enabled %}
-<section data-section-id="{{ section.id }}" data-type="slider" class="header-slider bg-gray-100 {% if section.settings.is_hidden_on_mobile %}d-none d-sm-block{% endif %}">
+<section data-section-id="{{ section.id }}" data-type="slider" class="header-slider bg-gray-100">
   {% comment %}Carousel for larger screens {% endcomment %}
     <slider-element class="d-block" role="tree">
         <div class="swiper swiper-slider header-slider-desktop {{ section.settings.height }}" data-slider='{
@@ -26,6 +26,10 @@
                             assign mobileImage =  block.settings.image_mobile
                         endif
                     -%}
+                    
+                    {%- if forloop.first -%}
+                        {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                    {%- endif -%}
 
                     {% if block.type == 'image' %}
                         <div class="swiper-slide d-flex align-items-center slide-{{ block.id }}"
@@ -36,36 +40,40 @@
                                 {%- if block.settings.image != blank -%}
                           			{% if block.settings.image_mobile != blank %}
                                     <picture>
-                                        {%- if mobileImage.width >= 375 -%}<source media="(max-width: 375px)" srcset="{{ mobileImage | img_url: '375x' }}">{%- endif -%}
-                                        {%- if mobileImage.width >= 550 -%}<source media="(max-width: 550px)" srcset="{{ mobileImage | img_url: '550x' }}">{%- endif -%}
-                                        {%- if mobileImage.width >= 767 -%}<source media="(max-width: 767px)" srcset="{{ mobileImage | img_url: '767x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 991 -%}<source media="(max-width: 991px)" srcset="{{ block.settings.image | img_url: '991x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 1200 -%}<source media="(max-width: 1200px)" srcset="{{ block.settings.image | img_url: '1200x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 1500 -%}<source media="(max-width: 1500px)" srcset="{{ block.settings.image | img_url: '1500x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 1720 -%}<source media="(max-width: 1720px)" srcset="{{ block.settings.image | img_url: '1720x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 1920 -%}<source media="(max-width: 1920px)" srcset="{{ block.settings.image | img_url: '1920x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 2560 -%}<source media="(max-width: 2560px)" srcset="{{ block.settings.image | img_url: '2560x' }}">{%- endif -%}
-                                        {%- if block.settings.image.width >= 3800 -%}<source media="(max-width: 3800px)" srcset="{{ block.settings.image | img_url: '3800x' }}">{%- endif -%}
-                                        <img src="{{ block.settings.image | img_url: 'pico' }}" {% unless forloop.first %}loading="lazy"{% endunless %}
+                                        {%- if mobileImage.width >= 375 -%}<source media="(max-width: 375px)" srcset="{{ mobileImage | image_url: width: 375 }}">{%- endif -%}
+                                        {%- if mobileImage.width >= 550 -%}<source media="(max-width: 550px)" srcset="{{ mobileImage | image_url: width: 550 }}">{%- endif -%}
+                                        {%- if mobileImage.width >= 767 -%}<source media="(max-width: 767px)" srcset="{{ mobileImage | image_url: width: 767 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 991 -%}<source media="(max-width: 991px)" srcset="{{ block.settings.image | image_url: width: 991 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 1200 -%}<source media="(max-width: 1200px)" srcset="{{ block.settings.image | image_url: width: 1200 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 1500 -%}<source media="(max-width: 1500px)" srcset="{{ block.settings.image | image_url: width: 1500 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 1720 -%}<source media="(max-width: 1720px)" srcset="{{ block.settings.image | image_url: width: 1720 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 1920 -%}<source media="(max-width: 1920px)" srcset="{{ block.settings.image | image_url: width: 1920 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 2560 -%}<source media="(max-width: 2560px)" srcset="{{ block.settings.image | image_url: width: 2560 }}">{%- endif -%}
+                                        {%- if block.settings.image.width >= 3800 -%}<source media="(max-width: 3800px)" srcset="{{ block.settings.image | image_url: width: 3800 }}">{%- endif -%}
+                                        <img src="{{ block.settings.image | image_url }}" 
                                         alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
-                                        width="{{ block.settings.image.width }}" {% unless forloop.first %}loading="lazy"{% endunless %}
+                                        width="{{ block.settings.image.width }}" 
+                                        {% if forloop.index != 1 %} loading="lazy" {% else %} fetchpriority="high" {% endif %}
                                         height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round }}"
                                         >
                                     </picture>
                           			{% else %}
                           			 <img srcset="
-                                        {%- if mobileImage.width >= 375 -%}{{ mobileImage | img_url: '375x' }} 375w,{%- endif -%}
-                                        {%- if mobileImage.width >= 550 -%}{{ mobileImage | img_url: '550x' }} 550w,{%- endif -%}
-                                        {%- if mobileImage.width >= 767 -%}{{ mobileImage | img_url: '767x' }} 767w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 991 -%}{{ block.settings.image | img_url: '991x' }} 991w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | img_url: '1200x' }} 1200w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | img_url: '1780x' }} 1780w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 1920 -%}{{ block.settings.image | img_url: '1920x' }} 1920w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 2560 -%}{{ block.settings.image | img_url: '2560x' }} 2560w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 3800 -%}{{ block.settings.image | img_url: '3800x' }} 3800w,{%- endif -%}
-                                        {{ block.settings.image | img_url: 'master' }} {{ block.settings.image.width }}w"
-                                        src="{{ block.settings.image | img_url: '1500x' }}" {% unless forloop.first %}loading="lazy"{% endunless %}
+                                        {%- if mobileImage.width >= 375 -%}{{ mobileImage | image_url: width: 375 }} 375w,{%- endif -%}
+                                        {%- if mobileImage.width >= 550 -%}{{ mobileImage | image_url: width: 550 }} 550w,{%- endif -%}
+                                        {%- if mobileImage.width >= 767 -%}{{ mobileImage | image_url: width: 767 }} 767w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 991 -%}{{ block.settings.image | image_url: width: 991 }} 991w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | image_url: width: 1200 }} 1200w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 1920 -%}{{ block.settings.image | image_url: width: 1920 }} 1920w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 2560 -%}{{ block.settings.image | image_url: width: 2560 }} 2560w,{%- endif -%}
+                                        {%- if block.settings.image.width >= 3800 -%}{{ block.settings.image | image_url: width: 3800 }} 3800w,{%- endif -%}
+                                        {{ block.settings.image | image_url }} {{ block.settings.image.width }}w"
+                                        src="{{ block.settings.image | image_url: width: 1500 }}" {% if forloop.index != 1 %} loading="lazy" {% else %} fetchpriority="high" {% endif %}
+                                        alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                                        width="{{ block.settings.image.width }}"
+                                        height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round }}"
                                         sizes="(max-width: 375px) 375px, 
                                         (max-width: 550px) 550px, 
                                         (max-width: 767px) 767px, 
@@ -83,11 +91,11 @@
                             {% endif %}
                             {% if block.settings.heading != blank or block.settings.caption != blank %}
                                 <div class="slider-content w-100">
-                                    <div class="container {{block.settings.alignment}}">
-                                        <div class="row {{block.settings.caption_alignment}}">
+                                    <div class="container {{ block.settings.alignment }}">
+                                        <div class="row {{ block.settings.caption_alignment }}">
                                             <div class="col-xl-5 col-lg-6 col-md-7 col-12">
-                                                <h2 class="h1 px-4 px-md-0 heading_txt mb-3" style="color: {{block.settings.heading_txt_color}};">{{ block.settings.heading | escape }}</h2>
-                                                <p class="px-4 px-md-0 caption_txt fw-light mb-4" style="color: {{ block.settings.caption_txt_color }};">{{ block.settings.caption | escape }}</p>
+                                                <h2 class="h1 px-4 px-md-0 heading_txt mb-3" style="color: {{ block.settings.heading_txt_color }};background-color:{{ block.settings.head-bg-color }};">{{ block.settings.heading | escape }}</h2>
+                                                <p class="px-4 px-md-0 caption_txt fw-light mb-4" style="color: {{ block.settings.caption_txt_color }};background-color:{{ block.settings.head-bg-color }};">{{ block.settings.caption | escape }}</p>
                                                 {% if block.settings.btn_txt != blank %}
                                                     <a {% if block.settings.btn_link %} href="{{ block.settings.btn_link }}" {% endif %} class="btn btn{% if block.settings.btn_type == 'outline' %}-{% endif %}{{ block.settings.btn_type }}-{{ block.settings.btn_variant }} {{ block.settings.btn_size }} mt-3">{{ block.settings.btn_txt }}</a>
                                                 {% endif %}
@@ -98,7 +106,7 @@
                             {% endif %}
 
                             {% if block.settings.enable_overlay %}
-                                <div class="overlay" style="background-color: {{ block.settings.overlay_bg_color }}!important; opacity: {{block.settings.overlay_opacity}}!important;"></div>
+                                <div class="overlay" style="background-color: {{ block.settings.overlay_bg_color }}!important; opacity: {{ block.settings.overlay_opacity }}!important;"></div>
                             {% endif %}
                         </div>
                     {% elsif block.type == 'video-slide' %} 
@@ -110,34 +118,61 @@
                                 <div class="content-section">
                                     <div class="cta-btn {% unless block.settings.play_icon %}d-none{% endunless %}">
                                         <button class="play__button btn btn-primary" data-trigger-video aria-label="{{ 'sections.video-with-text.play_video' | t }}">
-                                            <i class="icon-play text-body"></i>
+                                            <span class="icon-play text-body"></span>
                                         </button>
                                         <button class="pause__button btn btn-primary" data-pause-video aria-label="{{ 'sections.video-with-text.paused_video' | t }}">
-                                            <i class="icon-pause"></i>
+                                            <span class="icon-pause"></span>
                                         </button>
                                     </div>
 
                                     <div class="poster-image {{ block.settings.height }}">
-                                        {%- if block.settings.image != blank -%}
-                                            <picture>
-                                                {%- if mobileImage.width >= 375 -%}<source media="(max-width: 375px)" srcset="{{ mobileImage | img_url: '375x' }}">{%- endif -%}
-                                                {%- if mobileImage.width >= 550 -%}<source media="(max-width: 550px)" srcset="{{ mobileImage | img_url: '550x' }}">{%- endif -%}
-                                                {%- if mobileImage.width >= 767 -%}<source media="(max-width: 767px)" srcset="{{ mobileImage | img_url: '767x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 991 -%}<source media="(max-width: 991px)" srcset="{{ block.settings.image | img_url: '991x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 1200 -%}<source media="(max-width: 1200px)" srcset="{{ block.settings.image | img_url: '1200x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 1500 -%}<source media="(max-width: 1500px)" srcset="{{ block.settings.image | img_url: '1500x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 1720 -%}<source media="(max-width: 1720px)" srcset="{{ block.settings.image | img_url: '1720x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 1920 -%}<source media="(max-width: 1920px)" srcset="{{ block.settings.image | img_url: '1920x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 2560 -%}<source media="(max-width: 2560px)" srcset="{{ block.settings.image | img_url: '2560x' }}">{%- endif -%}
-                                                {%- if block.settings.image.width >= 3800 -%}<source media="(max-width: 3800px)" srcset="{{ block.settings.image | img_url: '3800x' }}">{%- endif -%}
-                                                <img src="{{ block.settings.image | img_url: 'master' }}" 
-                                                alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
-                                                width="{{ block.settings.image.width }}" loading="lazy"
-                                                height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round }}"
-                                                >
-                                            </picture>
+                                        {%- if block.settings.poster_type == 'video' and block.settings.bg_video != blank -%}
+                                            <video data-posterVideo preload="yes" playsinline muted loop data-mobileSrc="{{ block.settings.mobile_bg_video }}">
+                                                <source src="{{ block.settings.bg_video }}" type="video/mp4">
+                                            </video>
                                         {%- else -%}
-                                            {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                            {%- if block.settings.image != blank -%}
+                                                {%- if block.settings.image_mobile != blank -%}
+                                                    <picture>
+                                                        {%- if mobileImage.width >= 375 -%}<source media="(max-width: 375px)" srcset="{{ mobileImage | image_url: width: 375 }}">{%- endif -%}
+                                                        {%- if mobileImage.width >= 550 -%}<source media="(max-width: 550px)" srcset="{{ mobileImage | image_url: width: 550 }}">{%- endif -%}
+                                                        {%- if mobileImage.width >= 767 -%}<source media="(max-width: 767px)" srcset="{{ mobileImage | image_url: width: 767 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 991 -%}<source media="(max-width: 991px)" srcset="{{ block.settings.image | image_url: width: 991 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1200 -%}<source media="(max-width: 1200px)" srcset="{{ block.settings.image | image_url: width: 1200 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1500 -%}<source media="(max-width: 1500px)" srcset="{{ block.settings.image | image_url: width: 1500 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1720 -%}<source media="(max-width: 1720px)" srcset="{{ block.settings.image | image_url: width: 1720 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1920 -%}<source media="(max-width: 1920px)" srcset="{{ block.settings.image | image_url: width: 1920 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 2560 -%}<source media="(max-width: 2560px)" srcset="{{ block.settings.image | image_url: width: 2560 }}">{%- endif -%}
+                                                        {%- if block.settings.image.width >= 3800 -%}<source media="(max-width: 3800px)" srcset="{{ block.settings.image | image_url: width: 3800 }}">{%- endif -%}
+                                                        <img src="{{ block.settings.image | image_url }}" {% if forloop.index != 1 %} loading="lazy" {% else %} fetchpriority="high"{% endif %}
+                                                        alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                                                        width="{{ block.settings.image.width }}" 
+                                                        height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round }}" >
+                                                    </picture>
+                                                {%- else -%}
+                                                    <img srcset="
+                                                        {%- if mobileImage.width >= 375 -%}{{ mobileImage | image_url: width: 375 }} 375w,{%- endif -%}
+                                                        {%- if mobileImage.width >= 550 -%}{{ mobileImage | image_url: width: 550 }} 550w,{%- endif -%}
+                                                        {%- if mobileImage.width >= 767 -%}{{ mobileImage | image_url: width: 767 }} 767w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 991 -%}{{ block.settings.image | image_url: width: 991 }} 991w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | image_url: width: 1200 }} 1200w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 1920 -%}{{ block.settings.image | image_url: width: 1920 }} 1920w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 2560 -%}{{ block.settings.image | image_url: width: 2560 }} 2560w,{%- endif -%}
+                                                        {%- if block.settings.image.width >= 3800 -%}{{ block.settings.image | image_url: width: 3800 }} 3800w,{%- endif -%}
+                                                        {{ block.settings.image | image_url }} {{ block.settings.image.width }}w"
+                                                        src="{{ block.settings.image | image_url: width: 1500 }}" 
+                                                        width="{{ block.settings.image.width }}" {% if forloop.index != 1 %} loading="lazy" {% else %} fetchpriority="high" {% endif %}
+                                                        height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round }}"
+                                                        alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                                                        sizes="(max-width: 375px) 375px, (max-width: 550px) 550px, (max-width: 767px) 767px, (max-width: 991px) 991px, 
+                                                        (max-width: 1200px) 1200px, (max-width: 1500px) 1500px, (max-width: 1780px) 1780px, (max-width: 1920px) 1920px, 
+                                                        (max-width: 2560px) 2560px, (max-width: 3800px) 3800px, {{ block.settings.image.width }}px">
+                                                {%- endif -%}
+                                            {%- else -%}
+                                                {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                            {%- endif -%}
                                         {%- endif -%}
                                     </div>
                                 </div>
@@ -160,7 +195,6 @@
                                                     {{ 'sections.video-with-text.play_video' | t }}
                                                 </a>
                                             {% endif %}
-                                            
                                             {% if block.settings.btn_txt != blank %}
                                                 <a {% if block.settings.btn_link %} href="{{ block.settings.btn_link_second }}" {% endif %}class="btn btn{% if block.settings.btn_type == 'outline' %}-{% endif %}{{ block.settings.btn_type }}-{{ block.settings.btn_variant }} {{ block.settings.btn_size }}" title="{{ block.settings.btn_txt }}">{{ block.settings.btn_txt }}</a>
                                             {% endif %}
@@ -170,6 +204,10 @@
                             </div>
                         </div>
                     {% endif %}
+
+                    {%- if forloop.first -%}
+                        {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                    {%- endif -%}
                 {% endfor %}
             </div>
             {% if section.settings.nav_arrows %}
@@ -200,12 +238,6 @@
                 "id": "enabled",
                 "label": "Enabled?",
                 "default": true
-            },
-            {
-                "type": "checkbox",
-                "id": "is_hidden_on_mobile",
-                "label": "Hidden on Mobile?",
-                "default": false
             },
             {
                 "type": "checkbox",
@@ -254,12 +286,14 @@
                     {
                         "type": "image_picker",
                         "id": "image",
-                        "label": "Desktop Image"
+                        "label": "Desktop Image",
+                        "info": "For Better Viewing Use Example dimentions: 2030*960 ( Aspect Ratio: 2.11 )"
                     },
                     {
                         "type": "image_picker",
                         "id": "image_mobile",
-                        "label": "Mobile Image"
+                        "label": "Mobile Image",
+                        "info": "For Better Viewing Use Example dimentions: 768*1110 ( Aspect Ratio: 0.69 )"
                     },
                     {
                         "type": "color",
@@ -359,6 +393,11 @@
                         "type": "color",
                         "id": "caption_txt_color",
                         "label": "Caption Color"
+                    },
+                      {
+                        "type": "color",
+                        "id": "head-bg-color",
+                        "label": "Background Color"
                     },
                     {
                         "type": "header",
@@ -566,17 +605,55 @@
                     },
                     {
                         "type": "header",
-                        "content": "Poster Image"
+                        "content": "Poster"
+                    },
+                    {
+                        "type": "select",
+                        "id": "poster_type",
+                        "label": "Poster Type",
+                        "options": [
+                            {
+                                "value": "",
+                                "label": "Image"
+                            },
+                            {
+                                "value": "video",
+                                "label": "Video"
+                            }
+                        ],
+                        "default": ""
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Video"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "bg_video",
+                        "label": "Poster Video URL",
+                        "info": "Only Mute video can autoplay. Use local video URL."
+                    },
+					{
+                        "type": "textarea",
+                        "id": "mobile_bg_video",
+                        "label": "Mobile Poster Video URL",
+                        "info": "Only Mute video can autoplay. Use local video URL."
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Image"
                     },
                     {
                         "type": "image_picker",
                         "id": "image",
-                        "label": "Desktop"
+                        "label": "Desktop",
+                        "info": "For best results, use an image with a 2.12:1 aspect ratio (Example dimentions: 2880*1358)"
                     },
                     {
                         "type": "image_picker",
                         "id": "image_mobile",
-                        "label": "Mobile"
+                        "label": "Mobile",
+                        "info": "For best results, use an image with a 0.97:1 aspect ratio (Example dimentions: 780*806)"
                     },
                     {
                         "type": "header",

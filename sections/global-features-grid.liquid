@@ -23,16 +23,16 @@
                   <div class="feature d-flex flex-column {% if forloop.last == true %} mb-0 {% else %} mb-sm-0 mb-4{% endif %}">
                       <div class="text-center mb-4">
                         {% if block.settings.icon_img != blank %}
-                        <img src="{{ block.settings.icon_img }}" alt="{{ block.settings.title }}" title="{{ block.settings.title }}"
-                        width="150"
-                        height="150" loading="lazy"/>
+                          <img src="{{ block.settings.icon_img }}" alt="{{ block.settings.title }}"
+                            width="150"
+                            height="150" loading="lazy"/>
                         {% else %}
-                        {{ 'image' | placeholder_svg_tag: 'bg-gray-100' }}
+                          {{ 'image' | placeholder_svg_tag: 'bg-gray-100' }}
                         {% endif %}
                       </div>
                       <div class="text-center px-4">
                             {% if block.settings.title != blank %}
-                                <h5 class="mb-3 font-size-lg text-uppercase fw-normal lh-base">{{ block.settings.title }}</h5>
+                                <h4 class="mb-3 font-size-lg text-uppercase fw-normal lh-base">{{ block.settings.title }}</h4>
                             {% endif %}
                             {% if block.settings.txt != blank %}
                                 <div>{{ block.settings.txt }}</div>
@@ -51,11 +51,9 @@
               </div>
           </div>
         {% endif %}
-
+ 
     </div>
 </section>
-
-
 
 {% schema %}
   {

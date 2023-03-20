@@ -6,8 +6,8 @@
         "e5811002-6f6b-488d-a9a4-803d62a8f03e": {
           "type": "image",
           "settings": {
-            "image": "shopify:\/\/shop_images\/mlouye-sera-tote-macaron-desk1.jpg",
-            "image_mobile": "shopify:\/\/shop_images\/multi-colored-twists-of-yarn.jpg",
+            "image": "shopify://shop_images/mlouye-sera-tote-macaron-desk1.jpg",
+            "image_mobile": "shopify://shop_images/multi-colored-twists-of-yarn.jpg",
             "slide_bg_color": "#ffffff",
             "enable_overlay": false,
             "overlay_bg_color": "#000000",
@@ -28,8 +28,8 @@
         "5f138ef3-db88-4ec2-9c76-525b0af787bf": {
           "type": "image",
           "settings": {
-            "image": "shopify:\/\/shop_images\/mlouye-thelma-louise-homepage-1.jpg",
-            "image_mobile": "shopify:\/\/shop_images\/mlouye-thelma-louise-homepage-2.jpg",
+            "image": "shopify://shop_images/mlouye-thelma-louise-homepage-1.jpg",
+            "image_mobile": "shopify://shop_images/mlouye-thelma-louise-homepage-2.jpg",
             "slide_bg_color": "#ffffff",
             "enable_overlay": true,
             "overlay_bg_color": "#ffffff",
@@ -52,26 +52,29 @@
           "settings": {
             "muted": true,
             "controls": true,
-            "loop": true,
+            "loop": false,
             "title": "Awesome Heading",
-            "subtitle": "<p>Lipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.<\/p>",
+            "subtitle": "<p>Lipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.</p>",
             "play_icon": false,
             "play_btn": true,
             "btn_txt": "",
             "btn_link": "",
             "btn_type": "",
-            "btn_variant": "primary",
+            "btn_variant": "dark",
             "btn_size": "",
-            "image": "shopify:\/\/shop_images\/video_cover.jpg",
-            "image_mobile": "shopify:\/\/shop_images\/video_cover.jpg",
+            "poster_type": "",
+            "bg_video": "https://cdn.shopify.com/videos/c/o/v/aa72308259d0435488922d55c49c5398.mp4",
+            "mobile_bg_video": "",
+            "image": "shopify://shop_images/video_cover.jpg",
+            "image_mobile": "shopify://shop_images/video_cover.jpg",
             "video_type": "local",
             "placement": "grid",
-            "video_id": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Seedsheet_-_Four_Steps_to_Fresh_Food.mp4?v=1629442501",
-            "mobile_video_id": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Seedsheet_-_Four_Steps_to_Fresh_Food.mp4?v=1629442501",
+            "video_id": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Seedsheet_-_Four_Steps_to_Fresh_Food.mp4?v=1629442501",
+            "mobile_video_id": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Seedsheet_-_Four_Steps_to_Fresh_Food.mp4?v=1629442501",
             "section_bg_color": "#fafaf7",
             "section_text_color": "#000000",
-            "alignment": "text-center",
-            "video_alignment": "justify-content-center"
+            "alignment": "text-start",
+            "video_alignment": "justify-content-start"
           }
         }
       },
@@ -82,133 +85,50 @@
       ],
       "settings": {
         "enabled": true,
-        "is_hidden_on_mobile": false,
         "nav_arrows": true,
         "nav_dots": true,
         "height": "tallheight"
       }
     },
-    "16340470257b64c625": {
-      "type": "global-auto-scroll",
+    "2b865f5c-7e70-4f62-8620-e3471df1555f": {
+      "type": "global-auto-slider",
       "blocks": {
-        "dbe162d7-b022-4bda-a08c-393b8e586eb9": {
-          "type": "heading",
+        "466af5de-e9d3-4c53-a471-764098e65fdd": {
+          "type": "content",
           "settings": {
-            "heading": "naturally preserved"
+            "content": "Free Standard Shipping on Orders of $75+"
           }
         },
-        "efb3fd59-e7b3-484b-acd9-7415f14a45bc": {
-          "type": "heading",
+        "79a2355f-7c6d-4578-b5b6-e2322aedb30d": {
+          "type": "content",
           "settings": {
-            "heading": "clean & pure"
+            "content": "30 days money back guarantee"
           }
         },
-        "2832775f-e3a1-4daf-a6fd-37a912db8c3d": {
-          "type": "heading",
+        "aad1ff5e-9173-4a68-9665-c8664d6457a7": {
+          "type": "content",
           "settings": {
-            "heading": "vegan"
+            "content": "Free Shipping on all Orders $100"
           }
         },
-        "b47bbbf3-f6e3-4b54-9deb-89f7fc0f941f": {
-          "type": "heading",
+        "1eb4d067-27d9-449a-9698-ef234bc223f4": {
+          "type": "content",
           "settings": {
-            "heading": "peta cruelty free"
-          }
-        },
-        "6c4e4a96-2820-4a55-9de7-a30ab2260875": {
-          "type": "heading",
-          "settings": {
-            "heading": "organics based"
-          }
-        },
-        "5b557eaa-8f69-4e03-94a6-369b375a127d": {
-          "type": "heading",
-          "settings": {
-            "heading": "trust & love"
-          }
-        },
-        "0d117315-3282-4ca2-9171-a0c7269c88b6": {
-          "type": "heading",
-          "settings": {
-            "heading": "naturally preserved"
-          }
-        },
-        "a107eadc-b7bb-4e62-97a1-ae98642c0d11": {
-          "type": "heading",
-          "settings": {
-            "heading": "clean & pure"
-          }
-        },
-        "201865a3-0169-47a4-b3be-3d4e944f9788": {
-          "type": "heading",
-          "settings": {
-            "heading": "vegan"
-          }
-        },
-        "b2332c0e-a9bc-4591-80a0-923f678f10fc": {
-          "type": "heading",
-          "settings": {
-            "heading": "peta cruelty free"
-          }
-        },
-        "ab4408fe-fea3-4b1d-9dd3-6359dc0de27f": {
-          "type": "heading",
-          "settings": {
-            "heading": "organics based"
-          }
-        },
-        "7b9a4178-cd81-470b-8d3e-14e2217e7e8a": {
-          "type": "heading",
-          "settings": {
-            "heading": "trust & love"
-          }
-        },
-        "e4727773-04c7-42cc-9074-5a1e5ae4209b": {
-          "type": "heading",
-          "settings": {
-            "heading": "naturally preserved"
-          }
-        },
-        "58cbae08-3dbd-4d87-bd1d-7c87a0a66826": {
-          "type": "heading",
-          "settings": {
-            "heading": "clean & pure"
-          }
-        },
-        "46228c62-e222-49f5-9015-d59d03e6c842": {
-          "type": "heading",
-          "settings": {
-            "heading": "vegan"
-          }
-        },
-        "fe47c0ff-26f5-4357-a24d-51f08f2e6cd2": {
-          "type": "heading",
-          "settings": {
-            "heading": "peta cruelty free"
+            "content": "Spooky stickers have arrived!"
           }
         }
       },
       "block_order": [
-        "dbe162d7-b022-4bda-a08c-393b8e586eb9",
-        "efb3fd59-e7b3-484b-acd9-7415f14a45bc",
-        "2832775f-e3a1-4daf-a6fd-37a912db8c3d",
-        "b47bbbf3-f6e3-4b54-9deb-89f7fc0f941f",
-        "6c4e4a96-2820-4a55-9de7-a30ab2260875",
-        "5b557eaa-8f69-4e03-94a6-369b375a127d",
-        "0d117315-3282-4ca2-9171-a0c7269c88b6",
-        "a107eadc-b7bb-4e62-97a1-ae98642c0d11",
-        "201865a3-0169-47a4-b3be-3d4e944f9788",
-        "b2332c0e-a9bc-4591-80a0-923f678f10fc",
-        "ab4408fe-fea3-4b1d-9dd3-6359dc0de27f",
-        "7b9a4178-cd81-470b-8d3e-14e2217e7e8a",
-        "e4727773-04c7-42cc-9074-5a1e5ae4209b",
-        "58cbae08-3dbd-4d87-bd1d-7c87a0a66826",
-        "46228c62-e222-49f5-9015-d59d03e6c842",
-        "fe47c0ff-26f5-4357-a24d-51f08f2e6cd2"
+        "466af5de-e9d3-4c53-a471-764098e65fdd",
+        "79a2355f-7c6d-4578-b5b6-e2322aedb30d",
+        "aad1ff5e-9173-4a68-9665-c8664d6457a7",
+        "1eb4d067-27d9-449a-9698-ef234bc223f4"
       ],
       "settings": {
-        "section_bg_color": "#fafaf7",
-        "section_txt_color": "#222222"
+        "fluid_layout": false,
+        "section_bg_color": "#fdeff1",
+        "section_txt_color": "#000000",
+        "scroll_time": "200s"
       }
     },
     "16270420142c0cafe8": {
@@ -217,7 +137,7 @@
         "16270420142c0cafe8-0": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/naturally_preserved.svg?v=1632919288",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/naturally_preserved.svg?v=1632919288",
             "title": "naturally preserved",
             "txt": ""
           }
@@ -225,7 +145,7 @@
         "beea9bb0-d601-4956-83a1-f2d38787618b": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/organics_based.svg?v=1632919287",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/organics_based.svg?v=1632919287",
             "title": "organics based",
             "txt": ""
           }
@@ -233,7 +153,7 @@
         "798431da-59c8-4c8e-92d3-73e2aac83e38": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/vegan.svg?v=1632919287",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/vegan.svg?v=1632919287",
             "title": "vegan",
             "txt": ""
           }
@@ -241,7 +161,7 @@
         "a9a29ecb-1e86-4c8a-be5e-8a146e4e9a49": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/peta_cruelty_free.svg?v=1632919287",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/peta_cruelty_free.svg?v=1632919287",
             "title": "peta cruelty free",
             "txt": ""
           }
@@ -249,7 +169,7 @@
         "81136cdc-7195-4ea6-abe7-31f4df772124": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/clean_pure.svg?v=1632919287",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/clean_pure.svg?v=1632919287",
             "title": "clean & pure",
             "txt": ""
           }
@@ -257,7 +177,7 @@
         "cf990352-fa89-462e-9b30-ba28b8d1bead": {
           "type": "content",
           "settings": {
-            "icon_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/trust_love.svg?v=1632919287",
+            "icon_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/trust_love.svg?v=1632919287",
             "title": "trust & love",
             "txt": ""
           }
@@ -333,8 +253,8 @@
         "162710985888a5f3c0-2"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/mlouye-puff-desktop-1.jpg",
-        "image_mobile": "shopify:\/\/shop_images\/mlouye-puff-mobile-1.jpg",
+        "image": "shopify://shop_images/mlouye-puff-desktop-1.jpg",
+        "image_mobile": "shopify://shop_images/mlouye-puff-mobile-1.jpg",
         "txt_color": "#ffffff",
         "enable_overlay": true,
         "overlay_bg_color": "#000000",
@@ -409,49 +329,49 @@
         "3985dafd-8fbe-495c-a78d-17788cc28cb2": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Byrdie_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Byrdie_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "2c2f7a1a-e97d-4315-a0d6-2b357320264d": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Glamour_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Glamour_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "5c384d1d-15bc-4d8a-b411-54440fe6475c": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/New_Beauty_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/New_Beauty_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "1cf12a9a-a950-4b88-94d8-d4b64a084978": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/YahooLifestyle_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/YahooLifestyle_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "18b7a918-9ecf-47e3-8da7-6d93a7a330e6": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Hynt_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Hynt_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "2dc4650f-8c4f-439c-adf1-6e23854d3945": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Byrdie_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Byrdie_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         },
         "65899402-a15a-469b-b33b-68f8b34d239b": {
           "type": "content",
           "settings": {
-            "logo_img": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/New_Beauty_Logo.svg?v=1633088478",
+            "logo_img": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/New_Beauty_Logo.svg?v=1633088478",
             "logo_url": ""
           }
         }
@@ -468,7 +388,7 @@
       "settings": {
         "fluid_layout": false,
         "heading": "Awesome Heading",
-        "txt": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.<\/p>",
+        "txt": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.</p>",
         "section_bg_color": "#ffffff",
         "section_txt_color": "#222222",
         "nav_arrows": true,
@@ -480,7 +400,7 @@
       "settings": {
         "fluid_layout": false,
         "heading_txt": "Natural beauty brand you can fully trust & love.",
-        "txt": "<p>We employ cutting-edge, clean ingredient technologies as well as certified organic ingredients that are rich in antioxidants, skin-energizing vitamins and peptides to deliver glowing results while being gentle on even the most sensitive skin types. <br\/><br\/>We are committed to educating you on how to best support a feeling of healthy, naturally balanced skin, so that you can feel confident and comfortable in your everyday beauty and lifestyle choices.<\/p>",
+        "txt": "<p>We employ cutting-edge, clean ingredient technologies as well as certified organic ingredients that are rich in antioxidants, skin-energizing vitamins and peptides to deliver glowing results while being gentle on even the most sensitive skin types. <br/><br/>We are committed to educating you on how to best support a feeling of healthy, naturally balanced skin, so that you can feel confident and comfortable in your everyday beauty and lifestyle choices.</p>",
         "step_heading": "",
         "steps_captions": "",
         "btn_txt": "Learn More",
@@ -488,7 +408,7 @@
         "btn_type": "",
         "btn_variant": "primary",
         "btn_size": "",
-        "image": "shopify:\/\/shop_images\/mlouye-new-small-naomi-mob.jpg",
+        "image": "shopify://shop_images/mlouye-new-small-naomi-mob.jpg",
         "section_bg_color": "#fafaf7",
         "section_text_color": "#000000",
         "alignment": "text-left",
@@ -501,8 +421,8 @@
         "bec19606-fd7b-4892-94c8-895d17e708a7": {
           "type": "logowidthtext",
           "settings": {
-            "quote_logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Glamour_Logo.svg?v=1633088478",
-            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”<\/p>",
+            "quote_logo": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Glamour_Logo.svg?v=1633088478",
+            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”</p>",
             "author_name": "",
             "alignment": "text-center"
           }
@@ -510,8 +430,8 @@
         "ac18a9c2-3ee3-40a7-aa27-5a0b6ea0826a": {
           "type": "logowidthtext",
           "settings": {
-            "quote_logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/Byrdie_Logo.svg?v=1633088478",
-            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”<\/p>",
+            "quote_logo": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/Byrdie_Logo.svg?v=1633088478",
+            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”</p>",
             "author_name": "",
             "alignment": "text-center"
           }
@@ -519,8 +439,8 @@
         "3039a1d6-b656-43e3-b390-988ee1cedac5": {
           "type": "logowidthtext",
           "settings": {
-            "quote_logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/New_Beauty_Logo.svg?v=1633088478",
-            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”<\/p>",
+            "quote_logo": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/New_Beauty_Logo.svg?v=1633088478",
+            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”</p>",
             "author_name": "",
             "alignment": "text-center"
           }
@@ -528,8 +448,8 @@
         "735daa80-06f6-48fb-97ef-0b3ca8569805": {
           "type": "logowidthtext",
           "settings": {
-            "quote_logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0581\/7663\/5061\/files\/YahooLifestyle_Logo.svg?v=1633088478",
-            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”<\/p>",
+            "quote_logo": "https://cdn.shopify.com/s/files/1/0581/7663/5061/files/YahooLifestyle_Logo.svg?v=1633088478",
+            "title": "<p>“People are raving about this botanical-infused concealer for calming their cystic acne.”</p>",
             "author_name": "",
             "alignment": "text-center"
           }
@@ -562,14 +482,17 @@
         "controls": true,
         "loop": true,
         "title": "Awesome Heading",
-        "subtitle": "<p>Lipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.<\/p>",
+        "subtitle": "<p>Lipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.</p>",
         "btn_txt": "",
         "btn_link": "",
         "btn_type": "",
         "btn_variant": "white",
         "btn_size": "",
+        "poster_type": "",
+        "bg_video": "",
+        "mobile_bg_video": "",
+        "poster_image": "shopify://shop_images/mlouye-thelma-louise-homepage-1.jpg",
         "fluid_video_layout": true,
-        "poster_image": "shopify:\/\/shop_images\/mlouye-thelma-louise-homepage-1.jpg",
         "video_type": "youtube",
         "placement": "grid",
         "video_id": "XqZsoesa55w",
@@ -633,10 +556,10 @@
         "163403325190e9c2fd-2"
       ],
       "settings": {
-        "image_small": "shopify:\/\/shop_images\/mlouye-sera-tote-macaron-desk1.jpg",
-        "image_mobile": "shopify:\/\/shop_images\/mlouye-sera-tote-macaron-mob2.jpg",
-        "image_small_2": "shopify:\/\/shop_images\/mlouye-new-small-naomi-desktop.jpg",
-        "image_mobile_2": "shopify:\/\/shop_images\/mlouye-new-small-naomi-mob.jpg",
+        "image_small": "shopify://shop_images/mlouye-sera-tote-macaron-desk1.jpg",
+        "image_mobile": "shopify://shop_images/mlouye-sera-tote-macaron-mob2.jpg",
+        "image_small_2": "shopify://shop_images/mlouye-new-small-naomi-desktop.jpg",
+        "image_mobile_2": "shopify://shop_images/mlouye-new-small-naomi-mob.jpg",
         "image_overlay_opacity": 0,
         "height": "tallheight",
         "show_text_box": true,
@@ -647,52 +570,11 @@
         "stack_images_on_mobile": false,
         "show_text_below": true
       }
-    },
-    "1648548602b2ca3bf9": {
-      "type": "global-video-with-text",
-      "settings": {
-        "fluid_layout": false,
-        "muted": true,
-        "controls": true,
-        "loop": true,
-        "title": "Awesome Heading",
-        "subtitle": "<p>Lipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.<\/p>",
-        "btn_txt": "",
-        "btn_link": "",
-        "btn_type": "",
-        "btn_variant": "primary",
-        "btn_size": "",
-        "fluid_video_layout": true,
-        "poster_image": "shopify:\/\/shop_images\/hair-stylists-tool-case.jpg",
-        "video_type": "local",
-        "placement": "grid",
-        "video_id": "",
-        "mobile_video_id": "",
-        "section_bg_color": "#fafaf7",
-        "section_text_color": "#ffffff",
-        "alignment": "text-center",
-        "video_alignment": "justify-content-center"
-      }
-    },
-    "16506109285a9b5682": {
-      "type": "global-teaser-text",
-      "settings": {
-        "fluid_layout": false,
-        "heading_txt": "Awesome Heading",
-        "lead_txt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.",
-        "btn_txt": "",
-        "btn_url": "",
-        "section_bg_color": "#fafaf7",
-        "section_txt_color": "#222222",
-        "btn_type": "outline",
-        "btn_variant": "primary",
-        "btn_size": ""
-      }
     }
   },
   "order": [
     "16270344513581fee7",
-    "16340470257b64c625",
+    "2b865f5c-7e70-4f62-8620-e3471df1555f",
     "16270420142c0cafe8",
     "162710985888a5f3c0",
     "16273012625e8a6f4e",
@@ -702,8 +584,6 @@
     "1633694875e64c966c",
     "162943776301163939",
     "1627036040e9086143",
-    "163403325190e9c2fd",
-    "1648548602b2ca3bf9",
-    "16506109285a9b5682"
+    "163403325190e9c2fd"
   ]
 }

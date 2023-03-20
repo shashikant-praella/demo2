@@ -291,7 +291,7 @@ class Utilities {
   setCookie(c_name, value, exdays) { // set cookies
     let exdate = new Date();
     exdate.setDate(exdate.getDate() + exdays);
-    let c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+    let c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString() + "; path=/");
     document.cookie = c_name + "=" + c_value;
 
     return document.cookie;
@@ -315,35 +315,77 @@ class Utilities {
     return document.cookie;
   }
 
-  // local storage handling code 
+  /**
+   * Build URL based on following parameters
+   * @param {*} url 
+   * @param {*} paramName 
+   * @param {*} paramValue 
+   */
+  replaceUrlParam(url, paramName, paramValue){
+    let pattern = new RegExp('(\\?|\\&)('+paramName+'=).*?(&|$)');
+    let newUrl = url;
+    if(url.search(pattern)>=0){
+      newUrl = url.replace(pattern,'$1$2' + paramValue + '$3');
+    }else{
+      newUrl = newUrl + (newUrl.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue
+    }
+    return newUrl
+  }
 
+
+  /**
+   * local storage handling code 
+   * @param {*} key 
+   * @param {*} value 
+   * @returns 
+   */
   setLocalStorage(key,value) {
     window.localStorage.setItem(key, value);
 
     return window.localStorage;
   }
 
+  /**
+   * Get Local Storage value based on key
+   * @param {*} key 
+   */
   getLocalStorage(key) {
     return window.localStorage.getItem(key);
   }
 
+  /**
+   * Remove Local Storage value based on key
+   * @param {*} key 
+   */
   removeFromLocalStorage(key) {
     window.localStorage.removeItem(key);
     return window.localStorage;
   }
 
-  // session storage handling code 
-
+  /**
+   * session storage handling code
+   * @param {*} key 
+   * @param {*} value 
+ */
   setSessionStorage(key,value) {
     window.sessionStorage.setItem(key, value);
 
     return window.sessionStorage;
   }
 
+  /**
+   * Get Session Storage value based on key
+   * @param {*} key 
+   */
   getSessionStorage(key) {
     return window.sessionStorage.getItem(key);
   }
 
+  /**
+   * Remove session storage based on key
+   * @param {*} key 
+   * @returns 
+   */
   removeFromSessionStorage(key) {
     window.sessionStorage.removeItem(key);
     return window.sessionStorage;
@@ -388,18 +430,31 @@ class Utilities {
   /**
    * manage history
    */
-  goBack() {
+  goBack() { // Previous page
     return window.history.back()
   }
 
-  goForward() {
+
+  goForward() { // Forward page
     return window.history.forward()
   }
 
+  /**
+   * Push History State
+   * @param {String} state 
+   * @param {String} title 
+   * @param {String} url 
+   */
   pushHistoryState(state,title,url) {
     return window.history.pushState(state, title, url)
   }
 
+  /**
+   * Replace History State
+   * @param {String} state 
+   * @param {String} title 
+   * @param {String} url 
+   */
   replaceHistoryState(state,url) {
     return window.history.replaceState(state, '', url)
   }
@@ -479,7 +534,7 @@ class Utilities {
       contentBlock.style.height = contentBlockHeight + 'px';
       setTimeout(() => {
         contentBlock.style.height = '';
-      }, 500);
+      }, 200);
     }else{
       contentBlock.style.height = contentBlockHeight + 'px';
       setTimeout(function () {
@@ -487,7 +542,7 @@ class Utilities {
       }, 1);
       setTimeout(() => {
         [contentBlock,container].forEach(ele => ele.classList.remove('open'));
-      }, 500);
+      }, 200);
     }
   }
 
@@ -563,6 +618,9 @@ class Utilities {
     })
   }
 
+  /**
+   * Check Device Type
+   */
   deviceType(){
     if(window.innerWidth < 768){
       return 'Mobile';
@@ -573,6 +631,10 @@ class Utilities {
     }
   }
 
+  /**
+   * Email Validation
+   * @param {*} email 
+   */
   validateEmail(email){
     return email.match(
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

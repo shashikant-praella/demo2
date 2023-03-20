@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+{% comment %}<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>{% endcomment %}
 
 {% assign productExcludeTag = settings.product_exclude_tag_text %}
 {% assign itemLimit = section.settings.items_per_collection %}
@@ -20,13 +20,14 @@
               <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-5">
                 <h3 class="">{{ collection.title }}</h3>
                 <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection.title }}">
-                  {{ 'templates.list-collection.view-all' | t }} <i class="icon-arrow-next ms-1 font-size-lg"></i>
+                  {{ 'templates.list-collection.view-all' | t }} <span class="icon-arrow-next ms-1 font-size-lg"></span>
                 </a>
               </div>
 
               <slider-element class="swiper-container carousel">
                   <div class="swiper swiper-slider featured-collection-slider card-carousel" data-slider='{
                           "loop": false,
+                          "shortSwipes": false,
                           "slidesPerView": "1",
                           "spaceBetween": 15,
                           "grabCursor": true,
@@ -47,7 +48,7 @@
                               "spaceBetween": 30
                           },
                           "992": {
-                              "slidesPerView": 4,
+                              "slidesPerView": {{ section.settings.items_per_collection }},
                               "spaceBetween": 30
                           }
                       }

@@ -10,7 +10,7 @@
               <ul class="list-unstyled social-icons list-inline my-0">
                 {% if block.settings.social_icon_facebook %}
                 <li class="list-inline-item mx-2">
-                    <a href="{{ settings.social_facebook_link }}" name="{{ 'general.social.links.facebook' | t }}" title="{{ 'general.social.links.facebook' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.facebook' | t }}"><i class="icon-facebook font-size-lg"></i></a>
+                    <a href="{{ settings.social_facebook_link }}" title="{{ 'general.social.links.facebook' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.facebook' | t }}"><span class="icon-facebook font-size-lg"></span></a>
                     <span class="visually-hidden visually-hidden--inline">{{ 'general.social.links.facebook' | t }}</span>
                     <span class="visually-hidden visually-hidden--inline">{{ 'accessibility.link_messages.new_window' | t }}</span>
                 </li>
@@ -18,7 +18,7 @@
     
                 {% if block.settings.social_icon_twitter %}
                 <li class="list-inline-item mx-2">
-                    <a href="{{ settings.social_twitter_link }}" name="{{ 'general.social.links.twitter' | t }}" title="{{ 'general.social.links.twitter' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.twitter' | t }}"><i class="icon-twitter font-size-lg"></i></a>
+                    <a href="{{ settings.social_twitter_link }}" title="{{ 'general.social.links.twitter' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.twitter' | t }}"><span class="icon-twitter font-size-lg"></span></a>
                     <span class="visually-hidden visually-hidden--inline">{{ 'general.social.links.twitter' | t }}</span>
                     <span class="visually-hidden visually-hidden--inline">{{ 'accessibility.link_messages.new_window' | t }}</span>
                 </li>
@@ -26,7 +26,7 @@
     
                 {% if block.settings.social_icon_instagram %}
                 <li class="list-inline-item mx-2">
-                    <a href="{{ settings.social_instagram_link }}" name="{{ 'general.social.links.instagram' | t }}" title="{{ 'general.social.links.instagram' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.instagram' | t }}"><i class="ion-social-instagram font-size-lg"></i></a>
+                    <a href="{{ settings.social_instagram_link }}" title="{{ 'general.social.links.instagram' | t }}" rel="nofollow" aria-label="{{ 'general.social.links.instagram' | t }}"><span class="ion-social-instagram font-size-lg"></span></a>
                     <span class="visually-hidden visually-hidden--inline">{{ 'general.social.links.instagram' | t }}</span>
                     <span class="visually-hidden visually-hidden--inline">{{ 'accessibility.link_messages.new_window' | t }}</span>
                 </li>
@@ -47,9 +47,9 @@
                     <li class="list-group-item">
                         <div class="d-flex">
                             <div class="flex-shrink-0">
-                            <a href="{{ article.url }}" class="d-block" name="{{ article.title }}" title="{{ article.title }}" aria-label="{{ article.title }}">
+                            <a href="{{ article.url }}" class="d-block" title="{{ article.title }}" aria-label="{{ article.title }}">
                                 {% unless article_image contains 'no-image' %}
-                                <img class="d-flex mr-3" src="{{ article.image | img_url: '60x60', crop: 'center' }}" class="img-fluid" alt="{{ article.title }}" loading="lazy"
+                                <img class="d-flex mr-3" src="{{ article.image | image_url: width: 60, height: 60, crop: 'center' }}" class="img-fluid" alt="{{ article.title }}" loading="lazy"
                                   width="{{ article.image.width }}"
                                   height="{{ article.image.width | divided_by: article.image.aspect_ratio }}">
                                 {% endunless %}

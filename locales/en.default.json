@@ -9,7 +9,7 @@
       "login_form_submit": "Enter",
       "modal": "Password modal",
       "signup_form_success": "We will send you an email right before we open!",
-      "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"link underlined-link\">Log in here<\/a>",
+      "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"link underlined-link\">Log in here</a>",
       "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
     },
     "social": {
@@ -99,7 +99,6 @@
       "add_to_cart": "Add to cart",
       "upsell_add": "Add",
       "description": "Description",
-      "addons_heading": "Pair it With",
       "on_sale": "Sale",
       "price_range": "From {{ min }} to {{ max }}",
       "quantity": {
@@ -134,11 +133,13 @@
       "reset_filters": "Reset Filters",
       "filter_lable": "Filter",
       "sortby_lable": "Sort By",
+      "product_per_page": "Show :",
       "sub_collection": "Collections",
       "apply_btn": "Apply",
       "load-more": "Load More"
     },
     "search": {
+      "no_search_term": "No Search term found",
       "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
       "no_matches_within_filters": "No results found.",
       "results_found": "Results found",
@@ -183,7 +184,8 @@
       "total": "Total",
       "free": "Free",
       "shipping_at_checkout": "Shipping at Checkout",
-      "note": "Note"
+      "note": "Note",
+      "note_placeholder": "Add cart note"
     },
     "contact": {
       "form": {
@@ -266,8 +268,12 @@
   },
   "customer": {
     "account": {
+      "first_name_pretext": "Hi",
       "title": "Account",
       "details": "Account details",
+      "password_label": "password",
+      "reset_label": "Reset",
+      "total_orders": "Total Orders",
       "view_addresses": "View addresses",
       "return": "Return to Account details"
     },
@@ -291,9 +297,9 @@
       "address1": "Address 1",
       "address2": "Address 2",
       "city": "City",
-      "country": "Country\/region",
+      "country": "Country/region",
       "province": "Province",
-      "zip": "Postal\/ZIP code",
+      "zip": "Postal/ZIP code",
       "phone": "Phone",
       "set_default": "Set as default address",
       "add": "Add address",
@@ -339,7 +345,8 @@
       "tracking_url": "Tracking link",
       "tracking_company": "Carrier",
       "tracking_number": "Tracking number",
-      "subtotal": "Subtotal"
+      "subtotal": "Subtotal",
+      "order_addresses": "Order Addresses"
     },
     "orders": {
       "title": "Order history",

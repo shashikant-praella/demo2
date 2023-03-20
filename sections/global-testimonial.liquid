@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ 'global-testimonial.css' | asset_url }}" media="print" onload="this.media='all'">
 
-<noscript>{{ 'global-testimonial.css' | asset_url | stylesheet_tag }}</noscript>
+{% comment %}<noscript>{{ 'global-testimonial.css' | asset_url | stylesheet_tag }}</noscript>{% endcomment %}
 
 <section class="section-content position-relative" data-section-id="{{ section.id }}" style="background: {{ section.settings.section_bg_color }}; color:{{ section.settings.section_text_color }}">
     <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}">

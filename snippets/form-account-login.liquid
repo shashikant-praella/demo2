@@ -9,13 +9,15 @@
             </div>
         {% endif %}
 
-        <div class="form-group input-group">
+        <div class="form-group form-floating">
             <input type="email" name="customer[email]" aria-label="email" id="customerEmail" class="form-control {% if form.errors contains 'email' %} is-invalid{% endif %}" placeholder="{{ 'customer.login_page.email' | t }}" required>
+            <label for="customerEmail">{{ 'customer.login_page.email' | t }}</label>
         </div>
 
         {% if form.password_needed %}
-        <div class="form-group input-group">
+        <div class="form-group form-floating">
             <input type="password" value="" id="customerPassword" name="customer[password]" aria-label="password" class="form-control {% if form.errors contains 'password' %} is-invalid{% endif %}" placeholder="{{ 'customer.login_page.password' | t }}" required>
+            <label for="customerPassword">{{ 'customer.login_page.password' | t }}</label>
         </div>
         {% endif %}
 

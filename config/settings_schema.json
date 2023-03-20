@@ -3,9 +3,9 @@
     "name": "theme_info",
     "theme_name": "Fluid Framework",
     "theme_version": "2.0.0",
-    "theme_author": "Hulkapps",
-    "theme_documentation_url": "https:\/\/shopify.dev\/themes\/tools\/dawn",
-    "theme_support_url": "https:\/\/support.shopify.com\/"
+    "theme_author": "Praella Agency",
+    "theme_documentation_url": "https://praella.com/",
+    "theme_support_url": "https://praella.com/"
   },
   {
     "name": "t:settings_schema.colors.name",
@@ -862,6 +862,16 @@
       },
       {
         "type": "header",
+        "content": "Floating Label"
+      },
+      {
+        "type": "text",
+        "id": "floating_label_size",
+        "default": "11px",
+        "label": "Floating Label Font Size"
+      },
+      {
+        "type": "header",
         "content": "Form SM"
       },
       {
@@ -986,49 +996,49 @@
         "type": "text",
         "id": "social_facebook_link",
         "label": "Facebook",
-        "info": "https:\/\/facebook.com\/shopify"
+        "info": "https://facebook.com/shopify"
       },
       {
         "type": "text",
         "id": "social_twitter_link",
         "label": "Twitter",
-        "info": "https:\/\/twitter.com\/shopify"
+        "info": "https://twitter.com/shopify"
       },
       {
         "type": "text",
         "id": "social_pinterest_link",
         "label": "Pinterest",
-        "info": "https:\/\/pinterest.com\/shopify"
+        "info": "https://pinterest.com/shopify"
       },
       {
         "type": "text",
         "id": "social_instagram_link",
         "label": "Instagram",
-        "info": "http:\/\/instagram.com\/shopify"
+        "info": "http://instagram.com/shopify"
       },
       {
         "type": "text",
         "id": "social_tumblr_link",
         "label": "Tumblr",
-        "info": "http:\/\/shopify.tumblr.com"
+        "info": "http://shopify.tumblr.com"
       },
       {
         "type": "text",
         "id": "social_snapchat_link",
         "label": "Snapchat",
-        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+        "info": "https://www.snapchat.com/add/shopify"
       },
       {
         "type": "text",
         "id": "social_youtube_link",
         "label": "YouTube",
-        "info": "https:\/\/www.youtube.com\/shopify"
+        "info": "https://www.youtube.com/shopify"
       },
       {
         "type": "text",
         "id": "social_vimeo_link",
         "label": "Vimeo",
-        "info": "https:\/\/vimeo.com\/shopify"
+        "info": "https://vimeo.com/shopify"
       }
     ]
   },
@@ -1208,12 +1218,12 @@
     ]
   },
   {
-    "name": "Cart Upsell",
+    "name": "Cart ",
     "settings": [
       {
         "type": "checkbox",
-        "id": "enable_cart_upsell",
-        "label": "Enable Cart Upsell?",
+        "id": "enable_cart_",
+        "label": "Enable Cart ?",
         "default": false
       },
       {
@@ -1222,13 +1232,13 @@
       },
       {
         "type": "text",
-        "id": "upsell_block_title",
+        "id": "_block_title",
         "label": "heading",
         "default": "Pair With"
       },
       {
         "type": "collection",
-        "id": "upsell_collection",
+        "id": "_collection",
         "label": "Collection"
       },
       {
@@ -1274,90 +1284,6 @@
     ]
   },
   {
-    "name": "Gift With Purchase",
-    "settings": [
-      {
-        "type": "header",
-        "content": "General Details"
-      },
-      {
-        "type": "checkbox",
-        "id": "is_gwp_enabled",
-        "label": "Enable?",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "is_gwp_auto_add",
-        "label": "Auto Add?",
-        "default": false
-      },
-      {
-        "type": "header",
-        "content": "Upsell Tier 1"
-      },
-      {
-        "type": "checkbox",
-        "id": "is_gwp_1_enabled",
-        "label": "Enable?",
-        "default": true
-      },
-      {
-        "type": "text",
-        "id": "gwp_qualifier_minimum_cart_amount_1",
-        "label": "Tier 1 - Set Min. Cart Amount",
-        "info": "E.g. 100.00"
-      },
-      {
-        "type": "product",
-        "id": "gwp_product_thr1_1",
-        "label": "Select Gift product"
-      },
-      {
-        "type": "header",
-        "content": "Upsell Tier 2"
-      },
-      {
-        "type": "checkbox",
-        "id": "is_gwp_2_enabled",
-        "label": "Enable?",
-        "default": false
-      },
-      {
-        "type": "text",
-        "id": "gwp_qualifier_minimum_cart_amount_2",
-        "label": "Tier 2 - Set Min. Cart Amount",
-        "info": "E.g. 150.00"
-      },
-      {
-        "type": "product",
-        "id": "gwp_product_thr2_1",
-        "label": "Select Gift product"
-      },
-      {
-        "type": "header",
-        "content": "Upsell Tier 3"
-      },
-      {
-        "type": "checkbox",
-        "id": "is_gwp_3_enabled",
-        "label": "Enable?",
-        "default": false
-      },
-      {
-        "type": "text",
-        "id": "gwp_qualifier_minimum_cart_amount_3",
-        "label": "Tier 3 - Set Min. Cart Amount",
-        "info": "E.g. 250.00"
-      },
-      {
-        "type": "product",
-        "id": "gwp_product_thr3_1",
-        "label": "Select Gift product"
-      }
-    ]
-  },
-  {
     "name": "Login Helper",
     "settings": [
       {
@@ -1393,6 +1319,12 @@
         "type": "textarea",
         "id": "account_declined",
         "label": "Account Declined"
+      },
+      {
+        "type": "text",
+        "id": "sender_email",
+        "label": "Sender Email",
+        "default": "devteam@praella.com"
       }
     ]
   }

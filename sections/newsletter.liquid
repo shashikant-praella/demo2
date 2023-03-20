@@ -8,20 +8,20 @@
       data-popup_delay="{{ section.settings.popup_delay }}"
       data-period_until="{{ section.settings.popup_period_until }}"
       class="newsletter-popup modal" tabindex="-1"
-      style="{% if section.settings.popup_img and template_type == 'image_bg' %}url({{ section.settings.popup_img | img_url: '1024x', crop: 'center', format: 'pjpg' }}){% endif %};"
+      style="{% if section.settings.popup_img and template_type == 'image_bg' %}url({{ section.settings.popup_img | image_url: width: 1024, crop: 'center', format: 'pjpg' }}){% endif %};"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-body p-5">
               {% if template_type == 'image_left' %}
-                <div class="bg-img w-30 d-none d-md-inline-block" style="background-image: url({{ section.settings.popup_img | img_url: '1024x', crop: 'center', format: 'pjpg' }});"></div>
+                <div class="bg-img w-30 d-none d-md-inline-block" style="background-image: url({{ section.settings.popup_img | image_url: width: 1024, crop: 'center', format: 'pjpg' }});"></div>
               {% endif %}
 
               <div class="inner text-center {% if template_type == 'image_bg' %}has-image-bg w-100{% else %}has-image-left w-70{% endif %}"
                 style="background-color: {{ section.settings.bg_color_inner }};">
 
               <button data-newsletter-close-btn class="btn py-2 px-3 btn-link btn-close" aria-label="close newsletter popup">
-                <i class="icon-close"></i>
+                <span class="icon-close"></span>
               </button>
 
               {% if section.settings.heading != blank %}

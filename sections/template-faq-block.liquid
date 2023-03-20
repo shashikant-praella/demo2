@@ -14,7 +14,7 @@
                                         <div class="accordion__container border-bottom border-gray-100 py-5">
                                             <a class="accordion__toggle d-flex align-items-center pe-2 justify-content-between" href="#" title="Open {{ block.settings.title | strip_html }}" rel="nofollow" aria-label="Open {{ block.settings.title | strip_html }}" role="button" aria-expanded="false" aria-controls="faq-{{ section.settings.heading | handleize }}-{{ forloop.index }}">
                                                 <h6 class="font-size-lg lh-base fw-normal font-family-base letter-spacing mb-0">{{ block.settings.title }}</h6>
-                                                <i class="icon-arrow-down d-block"></i>
+                                                <span class="icon-arrow-down d-block"></span>
                                             </a>
                                             <div class="accordion__block toggle-content" id="faq-{{ section.settings.heading | handleize }}-{{ forloop.index }}" data-type="content">
                                                 <div class="fw-light letter-spacing rpt-5 pt-4">{{ block.settings.answer }}</div>

@@ -2,7 +2,7 @@
 {%- assign t = template | split: '.' | first -%}
 
 <nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
-  <ul class="breadcrumbs__list list-unstyled">
+  <ul class="breadcrumbs__list list-unstyled mb-0">
     <li class="breadcrumbs__item d-inline">
       <a class="breadcrumbs__link" href="/">Home</a>
     </li>
@@ -26,7 +26,7 @@
             {{ collection.title | link_to: collection.url }}
           </li>
           <li class="breadcrumbs__item d-inline">
-            {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: "+"}}{%- endcapture -%}
+            {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: "+" }}{%- endcapture -%}
             <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page">{{ current_tags | join: " + " }}</a>
           </li>
         {%- else -%}
@@ -40,7 +40,7 @@
             {{ blog.title | link_to: blog.url }}
           </li>
           <li class="breadcrumbs__item d-inline">
-            {%- capture tag_url -%}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{%- endcapture -%}
+            {%- capture tag_url -%}{{ blog.url }}/tagged/{{ current_tags | join: "+" }}{%- endcapture -%}
             <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page">{{ current_tags | join: " + " }}</a>
           </li>
         {%- else -%}

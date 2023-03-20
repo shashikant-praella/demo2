@@ -6,18 +6,19 @@
                     {%- if section.settings.image != blank -%}
                         <img
                             srcset="
-                            {%- if section.settings.image.width >= 360 -%}{{ section.settings.image | img_url: '360x' }} 360w,{%- endif -%}
-                            {%- if section.settings.image.width >= 535 -%}{{ section.settings.image | img_url: '535x' }} 535w,{%- endif -%}
-                            {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | img_url: '750x' }} 750w,{%- endif -%}
-                            {%- if section.settings.image.width >= 900 -%}{{ section.settings.image | img_url: '900x' }} 900w,{%- endif -%}
-                            {{ section.settings.image | img_url: 'master' }} {{ section.settings.image.width }}w"
-                            src="{{ section.settings.image | img_url: '1500x' }}"
-                            sizes="(min-width: {{ settings.container_width }}px) {{ settings.container_width | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 130px) / 2), 100vw"
+                            {%- if section.settings.image.width >= 360 -%}{{ section.settings.image | image_url: width: 360 }} 360w,{%- endif -%}
+                            {%- if section.settings.image.width >= 520 -%}{{ section.settings.image | image_url: width: 520 }} 520w,{%- endif -%}
+                            {%- if section.settings.image.width >= 650 -%}{{ section.settings.image | image_url: width: 650 }} 650w,{%- endif -%}
+                            {%- if section.settings.image.width >= 780 -%}{{ section.settings.image | image_url: width: 780 }} 780w,{%- endif -%}
+                            {%- if section.settings.image.width >= 900 -%}{{ section.settings.image | image_url: width: 900 }} 900w,{%- endif -%}
+                            {%- if section.settings.image.width >= 1000 -%}{{ section.settings.image | image_url: width: 1000 }} 1000w,{%- endif -%}"
+                            src="{{ section.settings.image | image_url: 'pico' }}"
+                            sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 130px) / 2), 100vw"
                             alt="{{ section.settings.image.alt | escape }}"
                             class="w-100"
                             loading="lazy"
-                            width="{{ section.settings.image.width }}"
-                            height="{{ section.settings.image.height }}"
+                            width="{{ section.settings.image.width | divided_by: 3 }}"
+                            height="{{ section.settings.image.height | divided_by: 3 }}"
                         >
                     {%- else -%}
                         {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -178,7 +179,8 @@
             {
                 "type": "image_picker",
                 "id": "image",
-                "label": "Select Image"
+                "label": "Select Image",
+                "info": "For Better Viewing Use Example dimentions: 775*735 ( Aspect Ratio: 1.05 )"
             },
             {
                 "type":"header",

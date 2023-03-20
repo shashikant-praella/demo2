@@ -1,7 +1,7 @@
 {%- liquid 
   assign sidebar_enabled = section.settings.enable_sidebar
   assign number_of_comments = article.comments_count
-  assign article_image = article.image.src | img_url
+  assign article_image = article.image.src | image_url: width: 100, height: 100
 
   if comment and comment.status != 'published'
     assign number_of_comments = article.comments_count | plus: 1
@@ -45,15 +45,15 @@
           <div class="col-12">
             <div style="overflow: hidden">
               <img
-                  src="{{ article.image.src | img_url: '1500x' }}"
+                  src="{{ article.image.src | image_url: width: 1500 }}"
                   srcset="
-                    {%- if article.image.width >= 375 -%}{{ article.image | img_url: '375x' }} 375w,{%- endif -%}
-                    {%- if article.image.width >= 550 -%}{{ article.image | img_url: '550x' }} 550w,{%- endif -%}
-                    {%- if article.image.width >= 768 -%}{{ article.image | img_url: '768x' }} 767w,{%- endif -%}
-                    {%- if article.image.width >= 991 -%}{{ article.image | img_url: '991x' }} 991w,{%- endif -%}
-                    {%- if article.image.width >= 1200 -%}{{ article.image | img_url: '1200x' }} 1200w,{%- endif -%}
-                    {%- if article.image.width >= 1500 -%}{{ article.image | img_url: '1500x' }} 1500w,{%- endif -%}
-                    {{ article.image | img_url: 'master' }} {{ article.image.width }}w"
+                    {%- if article.image.width >= 375 -%}{{ article.image | image_url: width: 375 }} 375w,{%- endif -%}
+                    {%- if article.image.width >= 550 -%}{{ article.image | image_url: width: 550 }} 550w,{%- endif -%}
+                    {%- if article.image.width >= 768 -%}{{ article.image | image_url: width: 768 }} 767w,{%- endif -%}
+                    {%- if article.image.width >= 991 -%}{{ article.image | image_url: width: 991 }} 991w,{%- endif -%}
+                    {%- if article.image.width >= 1200 -%}{{ article.image | image_url: width: 1200 }} 1200w,{%- endif -%}
+                    {%- if article.image.width >= 1500 -%}{{ article.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                    {{ article.image | image_url }} {{ article.image.width }}w"
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"
                   loading="lazy"
                   alt="{{ article.image.alt | default: article.title }}"
@@ -265,13 +265,13 @@
   {% if section.settings.navigation_type == 'modern' %}
     {% if next_article %}
       <section class="article-navigation section-content">
-        <a href="{{ next_article.url }}" name="{{ next_article.title }}" title="{{ next_article.title }}" aria-label="{{ next_article.title }}">
+        <a href="{{ next_article.url }}" title="{{ next_article.title }}" aria-label="{{ next_article.title }}">
           <link rel="prerender" href="{{ next_article.url }}">
           <div class="inner py-5">
             <div class="container">
               <div class="row">
                 <div class="col-12 text-center">
-                  <h6 class="text-warning">{{ 'templates.blogs.modern_navigation.next' | t }} <i class="icon-arrow-next"></i></h6>
+                  <h6 class="text-warning">{{ 'templates.blogs.modern_navigation.next' | t }} <span class="icon-arrow-next"></span></h6>
                   <h4 class="text-white my-0">{{ next_article.title }}</h4>
                 </div>
               </div>
@@ -279,7 +279,7 @@
           </div>
           <div class="overlay"></div>
           <div
-            style="background-image: url({{ next_article.image.src | img_url: '350x', crop: 'center', format: 'pjpg' }});"
+            style="background-image: url({{ next_article.image.src | image_url: width: 350, crop: 'center', format: 'pjpg' }});"
             class="bg-img"></div>
         </a>
       </section>
@@ -290,30 +290,30 @@
         <div class="row">
           <div class="col-6 col-md-5 d-flex align-items-center">
             {% if prev_article %}
-              <a href="{{ prev_article.url }}" class="d-flex align-items-center" name="{{ prev_article.title }}" title="{{ prev_article.title }}" aria-label="{{ prev_article.title }}">
-                <i class="icon-previous me-3"></i>
-                <img src="{{ prev_article.image.src | img_url: '50x50', crop: 'center' }}" 
+              <a href="{{ prev_article.url }}" class="d-flex align-items-center" title="{{ prev_article.title }}" aria-label="{{ prev_article.title }}">
+                <span class="icon-previous me-3"></span>
+                <img src="{{ prev_article.image.src | image_url: width: 50, height: 50, crop: 'center' }}" 
                 class="d-none d-md-inline-block me-3" 
                 width="{{ prev_article.image.width }}"
                 height="{{ prev_article.image.width | divided_by: prev_article.image.aspect_ratio }}"
-                loading="lazy" />
+                loading="lazy" alt="{{ prev_article.title }}"/>
                 <span class="pe-lg-4">{{ prev_article.title }}</span>
               </a>
             {% endif %}
           </div>
           <div class="col-md-2 d-none d-md-flex align-items-center justify-content-center">
-            <a href="{{ blog.url }}" data-toggle="tooltip" data-placement="top" title="Back to {{ blog.title | downcase }} index"><i class="ion-grid display-4"></i></a>
+            <a href="{{ blog.url }}" data-toggle="tooltip" data-placement="top" title="Back to {{ blog.title | downcase }} index"><span class="ion-grid display-4"></span></a>
           </div>
           <div class="col-6 col-md-5 d-flex align-items-center justify-content-end">
             {% if next_article %}
-              <a href="{{ next_article.url }}" class="d-flex align-items-center" name="{{ next_article.title }}" title="{{ next_article.title }}" aria-label="{{ next_article.title }}">
+              <a href="{{ next_article.url }}" class="d-flex align-items-center" title="{{ next_article.title }}" aria-label="{{ next_article.title }}">
                 <link rel="prerender" href="{{ next_article.url }}">
                 <span class="ps-lg-4">{{ next_article.title }}</span>
-                <img src="{{ next_article.image.src | img_url: '50x50', crop: 'center' }}" class="d-none d-md-inline-block ms-3"
+                <img src="{{ next_article.image.src | image_url: width: 50, height: 50, crop: 'center' }}" class="d-none d-md-inline-block ms-3"
                   width="{{ next_article.image.width }}"
                   height="{{ next_article.image.width | divided_by: next_article.image.aspect_ratio }}"
-                  loading="lazy"/>
-                  <i class="icon-next ms-3"></i>
+                  loading="lazy" alt="{{ next_article.title }}"/>
+                  <span class="icon-next ms-3"></span>
               </a>
             {% endif %}
           </div>

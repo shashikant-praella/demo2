@@ -7,3 +7,14 @@
     color: var(--bs-body-bg);
     border-radius: var(--bs-border-radius-button);
 } 
+
+
+.errors{
+    background: #ffdada;
+    border-radius: 5px;
+    color: var(--bs-color-danger);
+}
+.errors ul{
+    list-style: none;
+    padding: 4px 15px 4px;
+}

@@ -12,7 +12,7 @@
         "f74187b8-c891-42b8-9a6b-2c67a497b018": {
           "type": "subtitle",
           "settings": {
-            "subtitle": "<p>{{ product.metafields.descriptors.subtitle.value }}<\/p>"
+            "subtitle": ""
           }
         },
         "3b316236-d91e-4dd0-953a-173c1f40bfcf": {
@@ -76,11 +76,8 @@
         "related-products"
       ],
       "settings": {
-        "slider_type": "default",
         "fluid_layout": false,
         "show_vendor": true,
-        "enable_images_zoom": false,
-        "zoom_type": "click",
         "enable_dynamic_checkout": true,
         "product_tabs_placement": "below_slider"
       }

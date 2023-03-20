@@ -7,6 +7,7 @@ const selectors = {
         this.readMore();
     }
 
+    // Read More and Read Less
     readMore(){
         if(selectors.readMoreBtn){
             selectors.readMoreBtn.addEventListener('click', (e)=>{

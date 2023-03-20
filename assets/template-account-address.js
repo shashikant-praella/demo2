@@ -11,8 +11,8 @@ Shopify.bind = function(fn, scope) {
 };
 
 Shopify.setSelectorByValue = function(selector, value) {
-  for (var i = 0, count = selector.options.length; i < count; i++) {
-    var option = selector.options[i];
+  for (let i = 0, count = selector.options.length; i < count; i++) {
+    let option = selector.options[i];
     if (value == option.value || value == option.innerHTML) {
       selector.selectedIndex = i;
       return i;
@@ -26,15 +26,15 @@ Shopify.addListener = function(target, eventName, callback) {
 
 Shopify.postLink = function(path, options) {
   options = options || {};
-  var method = options['method'] || 'post';
-  var params = options['parameters'] || {};
+  let method = options['method'] || 'post';
+  let params = options['parameters'] || {};
 
-  var form = document.createElement("form");
+  let form = document.createElement("form");
   form.setAttribute("method", method);
   form.setAttribute("action", path);
 
-  for(var key in params) {
-    var hiddenField = document.createElement("input");
+  for(let key in params) {
+    let hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
     hiddenField.setAttribute("name", key);
     hiddenField.setAttribute("value", params[key]);
@@ -45,6 +45,12 @@ Shopify.postLink = function(path, options) {
   document.body.removeChild(form);
 };
 
+/**
+ * 
+ * @param {target} country_domid 
+ * @param {target} province_domid 
+ * @param {target} options 
+ */
 Shopify.CountryProvinceSelector = function(country_domid, province_domid, options) {
   this.countryEl         = document.getElementById(country_domid);
   this.provinceEl        = document.getElementById(province_domid);
@@ -58,34 +64,33 @@ Shopify.CountryProvinceSelector = function(country_domid, province_domid, option
 
 Shopify.CountryProvinceSelector.prototype = {
   initCountry: function() {
-    var value = this.countryEl.getAttribute('data-default');
+    let value = this.countryEl.getAttribute('data-default');
     Shopify.setSelectorByValue(this.countryEl, value);
     this.countryHandler();
   },
 
   initProvince: function() {
-    var value = this.provinceEl.getAttribute('data-default');
+    let value = this.provinceEl.getAttribute('data-default');
     if (value && this.provinceEl.options.length > 0) {
       Shopify.setSelectorByValue(this.provinceEl, value);
     }
   },
 
-  countryHandler: function(e) {
-    var opt       = this.countryEl.options[this.countryEl.selectedIndex];
-    var raw       = opt.getAttribute('data-provinces');
-    var provinces = JSON.parse(raw);
+  countryHandler: function(_e) {
+    let opt       = this.countryEl.options[this.countryEl.selectedIndex];
+    let raw       = opt.getAttribute('data-provinces');
+    let provinces = JSON.parse(raw);
 
     this.clearOptions(this.provinceEl);
     if (provinces && provinces.length == 0) {
       this.provinceContainer.style.display = 'none';
     } else {
-      for (var i = 0; i < provinces.length; i++) {
-        var opt = document.createElement('option');
-        opt.value = provinces[i][0];
-        opt.innerHTML = provinces[i][1];
-        this.provinceEl.appendChild(opt);
-      }
-
+      provinces.forEach((city)=>{
+        let option = document.createElement('option');
+        option.value = city[0];
+        option.innerHTML = city[1];
+        this.provinceEl.appendChild(option);
+      });
       this.provinceContainer.style.display = "";
     }
   },
@@ -97,12 +102,12 @@ Shopify.CountryProvinceSelector.prototype = {
   },
 
   setOptions: function(selector, values) {
-    for (var i = 0, count = values.length; i < values.length; i++) {
-      var opt = document.createElement('option');
-      opt.value = values[i];
-      opt.innerHTML = values[i];
-      selector.appendChild(opt);
-    }
+    values.forEach((val)=>{
+      let option = document.createElement('option');
+      option.value = val;
+      option.innerHTML = val;
+      selector.appendChild(option);
+    });
   }
 };
 
@@ -124,6 +129,9 @@ class CustomerAddresses {
       this._setupEventListeners();
     }
   
+    /**
+     * Fetch elements of address form
+     */
     _getElements() {
       const container = document.querySelector(selectors.customerAddresses);
       return container ? {
@@ -136,6 +144,9 @@ class CustomerAddresses {
       } : {};
     }
   
+    /**
+     * Hide/Show province input based on country selection
+     */
     _setupCountries() {
       if (Shopify && Shopify.CountryProvinceSelector) {
         // eslint-disable-next-line no-new
@@ -153,6 +164,9 @@ class CustomerAddresses {
       }
     }
   
+    /**
+     * Bind click events on toggle button
+     */
     _setupEventListeners() {
         this.elements.editAddressToggle.forEach((element) => {
             element.addEventListener('click', this._handleToggleForm.bind(this));
@@ -165,6 +179,10 @@ class CustomerAddresses {
         });
     }
 
+    /**
+     * Toggle Address Form
+     * @param {event} event 
+     */
     _handleToggleForm = (event) => {
         event.preventDefault();
         let formToggleContainer = document.querySelector('[data-editAddressContainer]');
@@ -188,10 +206,15 @@ class CustomerAddresses {
                 currentTarget.setAttribute('aria-expanded', true);
                 targetForm.setAttribute('data-type', 'content');
                 Utility.toggleElement(formToggleContainer, 'open');
+                targetForm.scrollIntoView({
+                  behavior: 'smooth'
+                });
             }, 500);
         }
     }
-
+    /**
+     * Close Opened Forms
+     */
     _hideOpenforms(){
         // Close Opened Edit Address Forms
         const container = document.querySelector('[data-editAddressContainer]');
