@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-page",
+      "settings": {
+      }
+    },
+    "1648548705b487f10d": {
+      "type": "global-blog-posts",
+      "settings": {
+        "fluid_layout": false,
+        "blog_handles": "",
+        "heading_txt": "News & Views",
+        "lead_txt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar ac tortor imperdiet commodo.",
+        "btn_txt": "",
+        "btn_url": "",
+        "section_bg_color": "#FAFAF7",
+        "section_txt_color": "",
+        "btn_type": "outline",
+        "btn_variant": "primary",
+        "btn_size": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1648548705b487f10d"
+  ]
+}

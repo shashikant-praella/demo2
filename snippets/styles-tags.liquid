@@ -1,0 +1,70 @@
+
+{%- liquid  render 'theme-style' -%}
+
+{% comment %} Icon css {% endcomment %}
+{{ 'global-icon.css' | asset_url | stylesheet_tag }}
+
+{% comment %} Global css {% endcomment %}
+{{ 'global.css' | asset_url | stylesheet_tag }}
+
+{% comment %} Swipper Slider css {% endcomment %}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+{% comment %} Product Card css {% endcomment %}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+{% comment %}theme-check-disable LiquidTag{% endcomment %}
+{%- if template.name == 'index' -%}
+    {{ 'template-index.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{% comment %}theme-check-enable LiquidTag{% endcomment %}
+
+{%- if template.name == 'list-collections' -%} 
+    {% comment %} Pagination css {% endcomment %}
+    {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+
+{% comment %} Collection Page css {% endcomment %}
+{%- if template.name == 'collection' -%} 
+
+    {% comment %} Collection Page custom css {% endcomment %}
+    {{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Collection Filter css {% endcomment %}
+    {{ 'component-filter.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Pagination css {% endcomment %}
+    {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{% comment %} Product Page css {% endcomment %}
+{%- if template.name == 'product' -%}
+    {{ 'template-product.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{% comment %} Search Page css {% endcomment %}
+{%- if template.name == 'search' -%} 
+
+    {% comment %} Search Filter css {% endcomment %}
+    {{ 'component-filter.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Pagination css {% endcomment %}
+    {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{{ 'component-modal.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} FAQ page css {%- endcomment -%}
+
+{%- if page.handle == 'faq' -%} 
+    {{ 'template-faq.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{%- if page.handle == 'quiz' -%} 
+    {{ 'template-quiz.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{%- if template.directory == 'customers' -%}
+{{ 'template-account.css' | asset_url | stylesheet_tag }}
+{%- endif -%}

@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-search",
+      "settings": {
+        "fluid_layout": false,
+        "items_per_page": 12,
+        "enable_filtering": true,
+        "price_filter_layout": "default",
+        "price_filter_values": "0.00-1,500.00\n1,500.00-2,000.00\n2,000.00-5,000.00\n5,000.00-10,000.00",
+        "open_single_accordians": true,
+        "enable_sorting": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

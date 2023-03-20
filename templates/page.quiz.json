@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-quiz-page",
+      "blocks": {
+        "2dde4f90-01be-468d-82ff-bd4d0c7d06e1": {
+          "type": "get-started",
+          "settings": {
+            "image_large_desktop": "shopify://shop_images/mlouye-brick-macaron-s1.jpg",
+            "image": "shopify://shop_images/mlouye-brick-macaron-s1.jpg",
+            "image_mobile": "shopify://shop_images/mlouye-thelma-louise-homepage-2.jpg",
+            "pretext": "<p>We make things easy</p>",
+            "heading": "<p>Let’s find the perfect style, just for you.</p>",
+            "subheading": "<p>Whether you are just looking for a  recommendation or can’t find a particular style, We can help.</p>",
+            "button_label": "Get Started",
+            "txt_color": "",
+            "btn_type": "",
+            "btn_variant": "primary",
+            "btn_size": ""
+          }
+        },
+        "1aa75011-c6cd-44b6-9209-b5eb61d97aff": {
+          "type": "quiz-step-image",
+          "settings": {
+            "filter_type": "single",
+            "heading": "What is your preferred category?",
+            "subheading": "",
+            "option_1_image": "shopify://shop_images/1_0ae182fa-8c71-468e-850b-23fc81cb3bf4.jpg",
+            "option_1_text": "Men",
+            "option_1_tag": "men",
+            "option_2_image": "shopify://shop_images/1_d8a840f3-d40e-4d28-8191-715f1a7874e4.jpg",
+            "option_2_text": "Women",
+            "option_2_tag": "women",
+            "option_3_image": "shopify://shop_images/sale-sign-flatlay.jpg",
+            "option_3_text": "Sale",
+            "option_3_tag": "sale",
+            "option_4_text": "",
+            "option_4_tag": ""
+          }
+        },
+        "b783cfa4-93b4-4ae8-80bf-c829c2fc4513": {
+          "type": "quiz-step-image",
+          "settings": {
+            "filter_type": "multiple",
+            "heading": "What type of material do you prefer",
+            "subheading": "",
+            "option_1_image": "shopify://shop_images/hair-stylists-tool-case.jpg",
+            "option_1_text": "Leather",
+            "option_1_tag": "leather",
+            "option_2_image": "shopify://shop_images/embroidery-detail-on-blouse.jpg",
+            "option_2_text": "Satin",
+            "option_2_tag": "satin",
+            "option_3_image": "shopify://shop_images/blue-terry-cloth-towel.jpg",
+            "option_3_text": "Cotton",
+            "option_3_tag": "cotton",
+            "option_4_image": "shopify://shop_images/multi-colored-twists-of-yarn.jpg",
+            "option_4_text": "Wool",
+            "option_4_tag": "wool"
+          }
+        },
+        "9217837d-be69-4dd6-91f5-62eaa1f6feee": {
+          "type": "quiz-step-image",
+          "settings": {
+            "filter_type": "single",
+            "heading": "How would you describe your body shape?",
+            "subheading": "",
+            "option_1_image": "shopify://shop_images/60efde82ce0dc256c05142f2_Pear_Body_Shape_Title_Image.png",
+            "option_1_text": "Pear",
+            "option_1_tag": "pear",
+            "option_2_image": "shopify://shop_images/images.png",
+            "option_2_text": "Apple",
+            "option_2_tag": "apple",
+            "option_3_image": "shopify://shop_images/images_1.png",
+            "option_3_text": "Hourglass",
+            "option_3_tag": "hourglass",
+            "option_4_image": "shopify://shop_images/60efe4a9ce19af708fe6e3dc_Inverted_Triangle_Body_Shape_Title_Image.png",
+            "option_4_text": "Inverted Triangle",
+            "option_4_tag": "inverted-triangle"
+          }
+        }
+      },
+      "block_order": [
+        "2dde4f90-01be-468d-82ff-bd4d0c7d06e1",
+        "1aa75011-c6cd-44b6-9209-b5eb61d97aff",
+        "b783cfa4-93b4-4ae8-80bf-c829c2fc4513",
+        "9217837d-be69-4dd6-91f5-62eaa1f6feee"
+      ],
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

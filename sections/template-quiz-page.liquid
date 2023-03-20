@@ -1,0 +1,493 @@
+<div id="recommendation-quiz">
+{% assign blockSize = section.blocks.size | plus: 0 %}
+
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'get-started' -%}
+    
+    {%- liquid 
+      assign mobileImage = block.settings.image
+      if block.settings.image_mobile != blank
+          assign mobileImage =  block.settings.image_mobile
+      endif
+    -%}
+
+    <section class="quiz-step" data-step-container data-block-id="{{ block.id }}" {{ block.shopify_attributes }} data-stepIndex="{{ forloop.index }}">
+        <div id="Banner-{{ block.id }}" class="banner-section position-relative quiz-banner-section" {% if block.settings.txt_color != blank %}style="color: {{ block.settings.txt_color }}"{% endif %}>
+            {%- if block.settings.image != blank -%}
+                <div class="banner__media">
+                  <img srcset="
+                        {%- if mobileImage.width >= 350 -%}{{ mobileImage | img_url: '350x' }} 350w,{%- endif -%}
+                        {%- if mobileImage.width >= 550 -%}{{ mobileImage | img_url: '550x' }} 550w,{%- endif -%}
+                        {%- if mobileImage.width >= 750 -%}{{ mobileImage | img_url: '750x' }} 750w,{%- endif -%}
+                        {%- if block.settings.image.width >= 991 -%}{{ block.settings.image | img_url: '991x' }} 991w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | img_url: '1200x' }} 1200w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | img_url: '1780x' }} 1780w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '1920x' }} 1920w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '2560x' }} 2560w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1200 -%}{{ block.settings.image | img_url: '3800x' }} 3800w,{%- endif -%}
+                        {{ block.settings.image | img_url: 'master' }} {{ block.settings.image.width }}w"
+                        src="{{ block.settings.image | img_url: '1500x' }}" loading="lazy"
+                        sizes="(max-width: 375px) 375px, (max-width: 550px) 550px, (max-width: 750px) 750px,
+                           (max-width: 991px) 991px, (max-width: 1200px) 1200px, (max-width: 1500px) 1500px, (max-width: 1780px) 1780px, (max-width: 1920px) 1920px,
+                           (max-width: 2560px) 2560px, (max-width: 3800px) 3800px, {{ section.settings.image.width }}px"
+                        alt="{{ block.settings.image.alt | default: page.title | escape }}"
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio }}" "
+                    >
+                </div>
+            {%- endif -%}
+            <div class="banner__content align-items-center">
+              <div class="container text-center">
+                <div class="row">
+                  <div class="col-lg-6 col-md-9 mx-auto">
+                    {%- if block.settings.pretext != blank -%}
+                      <h5 class="mb-3 font-italic">{{ block.settings.pretext }}</h5>
+                    {%- endif -%}
+                    {%- if block.settings.heading != blank -%}
+                      <h1 class="mb-4">{{ block.settings.heading }}</h1>
+                    {%- endif -%}
+                    {%- if block.settings.subheading != blank -%}
+                      <div class="mb-5">{{ block.settings.subheading }}</div>
+                    {%- endif -%}
+
+                    {%- if block.settings.button_label != blank -%}
+                      <a href="#" data-next class="btn btn{% if block.settings.btn_type == 'outline' %}-{% endif %}{{ block.settings.btn_type }}-{{ block.settings.btn_variant }} {{ block.settings.btn_size }}m-2">{{ block.settings.button_label | escape }}</a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </section>
+  {%- when 'quiz-step-image' or 'quiz-step-text' -%}
+    {% assign stepNo = forloop.index | minus: 1.00 %}
+    {% assign ProgressCount = stepNo | divided_by: blockSize | times: 100 %}
+
+    <section class="pb-10 mb-3 d-none quiz-step" data-step-container data-block-id="{{ block.id }}" {{ block.shopify_attributes }} data-stepIndex="{{ forloop.index }}">
+      <div class="progress mb-5">
+        <div class="progress-bar bg-yellow" role="progressbar" style="width:{{ ProgressCount }}%;height: 6px;" aria-valuenow="{{ ProgressCount }}" aria-valuemin="0" aria-valuemax="100">
+          <span></span>
+        </div>
+      </div>
+      <div class="container">
+        <div class="mb-6 col-1">
+          <a href="#" data-back class="font-weight-bold"><i class="icon-arrow-left icon-size-12 me-2"></i>Back</a>
+        </div>
+          <div class="text-center">
+            {%- if block.settings.heading != blank -%}
+              <h2 class="mb-4 mb-md-5">{{ block.settings.heading }}</h2>
+            {%- endif -%}
+            <!-- <p class="text-secondary">Select up to 3.</p> -->
+              <div class="row justify-content-center">
+                {% assign stepIndex = forloop.index %}
+                {%- for i in (1..4) -%}
+                  {%- liquid 
+                    assign optionImage = 'option_' | append: forloop.index | append: '_image'
+                    assign optionTitle = 'option_' | append: forloop.index | append: '_text'
+                    assign optionTag = 'option_' | append: forloop.index | append: '_tag'
+                  -%}
+                  {% if block.settings[optionTitle] != blank %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 my-3">
+                      <div class="finder-custom-checkbox">
+                        <input class="quiz-option-selection" type="{% if block.settings.filter_type == 'multiple' %}checkbox{% else %}radio{% endif %}" id="{{ block.settings[optionTitle] | handleize }}" name="step-{{ stepIndex }}-options" value="{{ block.settings[optionTag] | handleize }}" {% if forloop.first %}checked{% endif %}>
+                        <label for="{{ block.settings[optionTitle] | handleize }}" class="w-100 mb-0">
+                          <div class="card quiz-card">
+                            {% if block.settings[optionImage] %}
+                              <div class="quiz-card-img">
+                                  <img class="full-img"
+                                  srcset="
+                                    {%- if block.settings[optionImage].width >= 360 -%}{{ block.settings[optionImage] | img_url: '360x' }} 360w,{%- endif -%}
+                                    {%- if block.settings[optionImage].width >= 533 -%}{{ block.settings[optionImage] | img_url: '533x' }} 533w,{%- endif -%}
+                                    {%- if block.settings[optionImage].width >= 720 -%}{{ block.settings[optionImage] | img_url: '720x' }} 720w,{%- endif -%}
+                                    {{ block.settings[optionImage] | img_url: 'master' }} {{ block.settings[optionImage].width }}w"
+                                  src="{{ block.settings[optionImage] | img_url: '533x' }}"
+                                  sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
+                                  loading="lazy"
+                                  width="{{ block.settings[optionImage].width }}"
+                                  height="{{ block.settings[optionImage].width | divided_by: block.settings[optionImage].aspect_ratio }}"
+                                  alt="{{ block.settings[optionTitle] | default: page.title }}">
+                              </div>
+                            {% endif %}
+                            {% if block.settings[optionTitle] != blank %}
+                              <div class="sleeper-title p-3">
+                                <p class="fw-medium m-0">{{ block.settings[optionTitle] }}</p>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  {% endif %}
+                {%- endfor -%}
+              </div>
+            <button type="button" {% if forloop.last %}data-showResults{% else %}data-next{% endif %} class="btn btn-primary mt-5">{% if forloop.last %}Show Results{% else %}Next{% endif %}</button>
+          </div>
+      </div>
+    </section>
+  {%- endcase -%}
+{%- endfor -%}
+
+<section class="container text-center d-none" data-resultContainer>
+  <div class="d-none section-content" data-listProducts>
+      <div class="text-center mb-md-5 mb-4">
+        <h6 class="text-uppercase mb-3">the pillows of your dreams</h6>
+        <h2 class="text-capitalize">here's what we recommend for you:</h2>
+      </div>
+      <div class="row result-products">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-3 d-flex align-items-stretch justify-content-around">
+            
+        </div>
+      </div>
+  </div>
+
+  <div class="section-content text-center d-none" data-no-product>
+    <h3 class="mb-4">No product available, please re-take quiz with other options</h3>
+    <a href="#" class="btn btn-primary m-2" data-retake-quiz>Restart</a>
+  </div>
+</section>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Product Recommendations",
+    "settings": [
+    ],
+    "blocks": [
+    {
+      "type": "get-started",
+      "name": "Get Started",
+      "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_large_desktop",
+            "label": "Larger Desktop Image"
+          },
+          {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Desktop Image"
+          },
+          {
+              "type": "image_picker",
+              "id": "image_mobile",
+              "label": "Mobile Image"
+          },
+          {
+            "type": "richtext",
+            "id": "pretext",
+            "label": "Pretext"
+          },
+          {
+            "type": "richtext",
+            "id": "heading",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "Subheading"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button Text",
+            "default": "Get Started"
+          },
+          {
+            "type":"color",
+            "id":"txt_color",
+            "label":"Color"
+          },
+          {
+            "type": "select",
+            "id": "btn_type",
+            "label": "Button Type",
+            "options": [
+                {
+                    "value": "outline",
+                    "label": "Outline"
+                },
+                {
+                    "value": "",
+                    "label": "Solid"
+                }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "btn_variant",
+            "label": "Button Variant",
+            "options": [
+              {
+                  "value": "primary",
+                  "label": "Primary"
+              },
+              {
+                  "value": "secondary",
+                  "label": "Secondary"
+              },
+              {
+                  "value": "white",
+                  "label": "White"
+              },
+              {
+                  "value": "dark",
+                  "label": "Dark"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "select",
+            "id": "btn_size",
+            "label": "Button Size",
+            "options": [
+              {
+                  "value": "",
+                  "label": "Default"
+              },
+              {
+                  "value": "btn-sm",
+                  "label": "Small"
+              },
+              {
+                  "value": "btn-lg",
+                  "label": "Large"
+              }
+            ],
+            "default": ""
+          }
+        ]
+      },
+      {
+        "type": "quiz-step-text",
+        "name": "Quiz Step(Only Text)",
+        "settings": [
+          {
+            "type": "header",
+            "content": "General"
+          },
+          {
+            "type": "select",
+            "id": "filter_type",
+            "label": "Filter Type",
+            "options": [
+              {
+                "value": "multiple",
+                "label": "Multiple"
+              },
+              {
+                "value": "single",
+                "label": "Single"
+              }
+            ],
+            "default": "single"
+          },
+          {
+            "type": "textarea",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Quiz Heading"
+          },
+          {
+            "type": "textarea",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Quiz Subheading"
+          },
+          {
+            "type": "header",
+            "content": "Options"
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 1"
+          },
+          {
+            "type": "text",
+            "id": "option_1_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_1_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 2"
+          },
+          {
+            "type": "text",
+            "id": "option_2_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_2_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 3"
+          },
+          {
+            "type": "text",
+            "id": "option_3_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_3_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 4"
+          },
+          {
+            "type": "text",
+            "id": "option_4_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_4_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          }
+        ]
+      },
+      {
+        "type": "quiz-step-image",
+        "name": "Quiz Step(Image)",
+        "settings": [
+          {
+            "type": "header",
+            "content": "General"
+          },
+          {
+            "type": "select",
+            "id": "filter_type",
+            "label": "Filter Type",
+            "options": [
+              {
+                "value": "multiple",
+                "label": "Multiple"
+              },
+              {
+                "value": "single",
+                "label": "Single"
+              }
+            ],
+            "default": "single"
+          },
+          {
+            "type": "textarea",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Quiz Heading"
+          },
+          {
+            "type": "textarea",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Quiz Subheading"
+          },
+          {
+            "type": "header",
+            "content": "Options"
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "option_1_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "option_1_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_1_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "option_2_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "option_2_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_2_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "option_3_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "option_3_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_3_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          },
+          {
+            "type": "paragraph",
+            "content": "Option 4"
+          },
+          {
+            "type": "image_picker",
+            "id": "option_4_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "option_4_text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "option_4_tag",
+            "label": "Tag",
+            "info": "Define Tag value used to filter product based on selection."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
