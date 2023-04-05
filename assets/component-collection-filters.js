@@ -320,8 +320,8 @@ class CollectionFilters extends HTMLElement {
       currentvalue = document.querySelector('[data-sortby] [name="custom_sort_by_desktop"]:checked').value;
     }
 
-    this.querySelector('[name="sort_by"]').value = currentvalue;
-    this.querySelector('[name="sort_by"]').dispatchEvent(new Event('input', {
+    document.querySelector('[name="sort_by"]').value = currentvalue;
+    document.querySelector('[name="sort_by"]').dispatchEvent(new Event('input', {
       bubbles: true,
       cancelable: true,
     }));

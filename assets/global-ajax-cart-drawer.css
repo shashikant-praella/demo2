@@ -24,6 +24,13 @@
     overflow: auto;
 }
 
+.cart-drawer > .row.empty_cart{
+    flex: 1 1 auto;
+}
+.cart-drawer > .row.empty_cart form{
+    justify-content: center;
+}
+
 .cart-drawer form{
     display: flex;
     flex-direction: column;

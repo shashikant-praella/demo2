@@ -173,8 +173,10 @@ class AjaxCart extends HTMLElement {
       }
 
       let cartElement = cartHTML.querySelector('ajax-cart form');
-      this.querySelector('form').innerHTML = cartElement.innerHTML;
-      this.querySelector('[data-carttotal] span.money').innerHTML = Shopify.formatMoney(window.globalVariables.cart.total_price, window.globalVariables.money_format);
+      if(this.querySelector('form')){ this.querySelector('form').innerHTML = cartElement.innerHTML; }
+      if(this.querySelector('[data-carttotal] span.money')){ 
+        this.querySelector('[data-carttotal] span.money').innerHTML = Shopify.formatMoney(window.globalVariables.cart.total_price, window.globalVariables.money_format);
+      }
 
       let elements = this.querySelectorAll('[data-checkoutBtns], [data-cartnote], [data-cartupsell]');
       if(window.globalVariables.cart.item_count <= 0){

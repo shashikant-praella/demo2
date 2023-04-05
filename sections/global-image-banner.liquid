@@ -23,7 +23,7 @@
                     {%- if section.settings.image.width >= 1920 -%}<source media="(max-width: 1920px)" srcset="{{ section.settings.image | image_url: width: 1920 }}">{%- endif -%}
                     {%- if section.settings.image.width >= 2560 -%}<source media="(max-width: 2560px)" srcset="{{ section.settings.image | image_url: width: 2560 }}">{%- endif -%}
                     {%- if section.settings.image.width >= 3800 -%}<source media="(max-width: 3800px)" srcset="{{ section.settings.image | image_url: width: 3800 }}">{%- endif -%}
-                    <img src="{{ section.settings.image | image_url }}" loading="lazy"
+                    <img src="{{ section.settings.image | image_url: width: 50 }}" loading="lazy"
                     alt="{{ section.settings.image.alt | default: block.settings.heading | escape }}"
                     width="{{ section.settings.image.width }}"
                     height="{{ section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round }}"
@@ -42,7 +42,7 @@
                     {%- if section.settings.image.width >= 2560 -%}{{ section.settings.image | image_url: width: 2560 }} 2560w,{%- endif -%}
                     {%- if section.settings.image.width >= 3800 -%}{{ section.settings.image | image_url: width: 3800 }} 3800w,{%- endif -%}
                     {{ section.settings.image | image_url }} {{ section.settings.image.width }}w"
-                    src="{{ section.settings.image | image_url: width: 1500 }}" loading="lazy"
+                    src="{{ section.settings.image | image_url: width: 50 }}" loading="lazy"
                     alt="{{ section.settings.image.alt | default: block.settings.heading | escape }}"
                     width="{{ section.settings.image.width }}"
                     height="{{ section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round }}"
@@ -83,22 +83,22 @@
                                     <div class="d-flex align-items-start">
                                         <div class="time-box-wrapper d-flex align-items-center flex-wrap">
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_day_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_day_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_day_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_day_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="fw-normal font-size-lg font-family-base text-uppercase text-center my-2 w-100" style="color: {{ block.settings.caption_txt_color }};">days</div>
                                         </div>
                                         <div>
-                                            <h2 class="px-2 mb-0 d-flex align-items-center" style="color: {{ block.settings.caption_txt_color }};height:60px;">:</h2>
+                                            <p class="px-2 mb-0 h2 d-flex align-items-center" style="color: {{ block.settings.caption_txt_color }};height:60px;">:</p>
                                         </div>
                                         <div class="time-box-wrapper d-flex align-items-center flex-wrap">
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_hour_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_hour_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_hour_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_hour_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="fw-normal font-size-lg font-family-base text-uppercase text-center my-2 w-100" style="color: {{ block.settings.caption_txt_color }};">Hours</div>
                                         </div>
@@ -107,10 +107,10 @@
                                         </div>
                                         <div class="time-box-wrapper d-flex align-items-center flex-wrap">
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_min_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_min_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_min_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_min_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="fw-normal font-size-lg font-family-base text-uppercase text-center my-2 w-100" style="color: {{ block.settings.caption_txt_color }};">Mins</div>
                                         </div>
@@ -119,10 +119,10 @@
                                         </div>
                                         <div class="time-box-wrapper d-flex align-items-center flex-wrap">
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_sec_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_sec_1 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="time-box" {% if block.settings.countdown_bg_color != blank %}style="background: {{block.settings.countdown_bg_color}}"{% endif %}>
-                                                <h2 class="fw-normal mb-0" data-countdown_sec_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></h2>
+                                                <p class="fw-normal h2 mb-0" data-countdown_sec_2 {% if block.settings.countdown_text_color != blank %}style="color: {{block.settings.countdown_text_color}}"{% endif %}></p>
                                             </div>
                                             <div class="fw-normal font-size-lg font-family-base text-uppercase text-center my-2 w-100" style="color: {{ block.settings.caption_txt_color }};">sec</div>
                                         </div>

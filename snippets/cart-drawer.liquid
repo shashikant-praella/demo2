@@ -10,7 +10,7 @@
         </a>
 </div>
 
-<div class="row">
+<div class="row {% if cart.item_count <= 0 %} empty_cart {% endif %}">
     <form data-cart-form action="{{ routes.cart_url }}" method="post">
         {% if cart.item_count > 0 %}
             {% if settings.enable_shipping_bar %}

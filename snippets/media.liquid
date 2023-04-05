@@ -44,7 +44,7 @@
                             {%- if poster_image.width >= 1200 -%}{{ poster_image | image_url: width: 1200 }} 1200w,{%- endif -%}
                             {%- if poster_image.width >= 1500 -%}{{ poster_image | image_url: width: 1500 }} 1500w,{%- endif -%}
                             {{ poster_image | image_url }} {{ poster_image.width }}w"
-                            src="{{ poster_image | image_url: width: 1500 }}" 
+                            src="{{ poster_image | image_url: width: 50 }}" 
                             loading="lazy"
                             sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"
                             alt="{{ media.alt | default: product.title | escape }}"

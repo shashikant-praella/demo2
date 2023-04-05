@@ -10,13 +10,12 @@
                         <div class="card card-product card-product-promo border-0">
                             <div class="card-img">
                                 <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="d-block">
-                                    <img src="{{ block.settings.image | image_url }}"
+                                    <img src="{{ block.settings.image | image_url: width: 50 }}"
                                         srcset="
                                         {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,{%- endif -%}
                                         {%- if block.settings.image.width >= 533 -%}{{ block.settings.image | image_url: width: 533 }} 533w,{%- endif -%}
-                                        {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,{%- endif -%}
                                         {{ block.settings.image | image_url }} {{ block.settings.image.width }}w"
-                                        sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
+                                        sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                                         loading="lazy"
                                         class="w-100"
                                         alt="{{ block.settings.image.alt | default: collection.title | escape }}"

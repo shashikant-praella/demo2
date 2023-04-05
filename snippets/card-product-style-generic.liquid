@@ -48,8 +48,7 @@
             <img
             srcset="
               {%- if current_variant.image.width >= 360 -%}{{ current_variant.image | image_url: width: 360 }} 360w,{%- endif -%}
-              {%- if current_variant.image.width >= 533 -%}{{ current_variant.image | image_url: width: 533 }} 533w,{%- endif -%}
-              {%- if current_variant.image.width >= 720 -%}{{ current_variant.image | image_url: width: 720 }} 720w{%- endif -%}"
+              {%- if current_variant.image.width >= 533 -%}{{ current_variant.image | image_url: width: 533 }} 533w,{%- endif -%}"
             src="{{ current_variant.image | image_url: width: 50 }}"
 
             sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
@@ -63,8 +62,7 @@
         <img 
             srcset="
               {%- if secondaryImage.width >= 360 -%}{{ secondaryImage | image_url: width: 360 }} 360w,{%- endif -%}
-              {%- if secondaryImage.width >= 533 -%}{{ secondaryImage | image_url: width: 533 }} 533w,{%- endif -%}
-              {%- if secondaryImage.width >= 720 -%}{{ secondaryImage | image_url: width: 720 }} 720w{%- endif -%}"
+              {%- if secondaryImage.width >= 533 -%}{{ secondaryImage | image_url: width: 533 }} 533w,{%- endif -%}"
             src="{{ secondaryImage | image_url: width: 50 }}"
 
             sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
@@ -82,8 +80,7 @@
                 <img
                 srcset="
                   {%- if product.featured_image.width >= 360 -%}{{ product.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
-                  {%- if product.featured_image.width >= 533 -%}{{ product.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
-                  {%- if product.featured_image.width >= 720 -%}{{ product.featured_image | image_url: width: 720 }} 720w{%- endif -%}"
+                  {%- if product.featured_image.width >= 533 -%}{{ product.featured_image | image_url: width: 533 }} 533w,{%- endif -%}"
                 src="{{ product.featured_image | image_url: width: 50 }}"
 
                 sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"                
@@ -98,8 +95,7 @@
             {%- if settings.show_secondary_image and product.images[1] -%}
             <img srcset="
                   {%- if product.images[1].width >= 360 -%}{{ product.images[1] | image_url: width: 360 }} 360w,{%- endif -%}
-                  {%- if product.images[1].width >= 533 -%}{{ product.images[1] | image_url: width: 533 }} 533w,{%- endif -%}
-                  {%- if product.images[1].width >= 720 -%}{{ product.images[1] | image_url: width: 720 }} 720w{%- endif -%}"
+                  {%- if product.images[1].width >= 533 -%}{{ product.images[1] | image_url: width: 533 }} 533w,{%- endif -%}"
                 src="{{ product.images[1] | image_url: width: 50 }}"
                 sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                 loading="lazy"
@@ -115,8 +111,7 @@
         <img src="{{ settings.no_image_replacement | image_url }}"
             srcset="
                   {%- if settings.no_image_replacement.width >= 360 -%}{{ settings.no_image_replacement | image_url: width: 360 }} 360w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
-                  {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w{%- endif -%}"
+                  {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}"
             sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 150 | divided_by: 4 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
             loading="lazy"
             class="w-100"

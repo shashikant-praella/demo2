@@ -60,7 +60,7 @@
         align-items: center;
         justify-content: center;
     }
-    .navbar-mobile .navbar-nav .nav-item .nav-link > span{
+    .navbar-mobile .navbar-nav .nav-item .nav-link > span.nav-link-title{
         flex: 1 1 auto; 
     }
     .navbar-mobile .navbar-nav .nav-item .nav-link i{

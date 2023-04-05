@@ -77,13 +77,17 @@ class ProductForm extends HTMLElement {
     let $qtyInput = currentTarget.closest('[data-qty-container]').querySelector('[data-qty-input]');
     let currentQty = parseInt($qtyInput.value) || 1;
     let finalQty = 1;
+    let decreaseQtyBtn = currentTarget.closest('[data-qty-container]').querySelector('[data-for="decrease"]');
 
     if(action == 'decrease' && currentQty <= 1){
-        return false;
+      if(decreaseQtyBtn) decreaseQtyBtn.classList.add('disabled');
+      return false;
     }else if(action == 'decrease'){
-        finalQty = currentQty - 1;
+      finalQty = currentQty - 1;
+      finalQty == 1 ? decreaseQtyBtn.classList.add('disabled') : decreaseQtyBtn.classList.remove('disabled');
     }else{
-        finalQty = currentQty + 1;
+      if(decreaseQtyBtn) decreaseQtyBtn.classList.remove('disabled');
+      finalQty = currentQty + 1;
     }
 
     $qtyInput.value = finalQty;

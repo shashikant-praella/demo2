@@ -36,7 +36,8 @@
     {%- render 'styles-tags' -%}
 
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
-</head>
+
+  </head>
 
   <body class="template-{{ template.name }}">
     
@@ -46,6 +47,8 @@
 
     <site-overlay class="d-block" id="site-overlay"></site-overlay>
   
+    {% section 'top-header' %}
+
     {% section 'header' %}
 
     {% section 'mobile-nav-drawer' %}

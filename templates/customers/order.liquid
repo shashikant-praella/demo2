@@ -40,10 +40,10 @@
     
     <div class="row">
 
-      <div class="col-lg-3 mb-md-0 mb-6 border-end border-secondary">
+      <div class="col-lg-3 mb-lg-0 mb-6 border-end border-secondary">
         <div class="d-flex align-items-center mb-4">
           <div class="profile position-relative me-3">
-              <p class="m-0 font-family-heading text-uppercase text-white position-absolute fw-bold">{{ customer.first_name | slice: 0 }}{{ customer.last_name | slice: 0 }}</p>
+              <p class="profile-name m-0 font-family-heading text-uppercase bg-primary text-white">{{ customer.first_name | slice: 0 }}{{ customer.last_name | slice: 0 }}</p>
           </div>
           <h5 class="text-uppercase profile-text font-family-heading m-0">{{ customer.name }}</h5>
         </div>
@@ -67,111 +67,139 @@
               </div>
           </div>
 
-          <div class="table-responsive">
-              <table class="table">
-                  <caption class="d-none">{{ 'customer.order.order_addresses' | t }}</caption>
-                  <thead class="group-name">
-                      <tr>
-                          <th class="h6 font-family-josefin">{{ 'customer.order.billing_address' | t }}</th>
-                          <th class="h6 font-family-josefin">{{ 'customer.order.shipping_address' | t }}</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>
-                              <h5>{{ order.billing_address.name }}</h5>
-                              <p>
-                                  {% if order.billing_address.company != '' %} {{ order.billing_address.company }}
-                                  <br> {% endif %} {{ order.billing_address.street }}
-                                  <br> {{ order.billing_address.city }}
-                                  <br> {% if order.billing_address.province != '' %} {{ order.billing_address.province }}
-                                  <br> {% endif %} {{ order.billing_address.zip | upcase }}
-                                  <br> {{ order.billing_address.country }}
-                                  <br> {{ order.billing_address.phone }}
-                              </p>
-                          </td>
-                          <td>
-                              <h5>{{ order.shipping_address.name }}</h5>
-                              <p>
-                                  {% if order.shipping_address.company != '' %} {{ order.shipping_address.company }}
-                                  <br> {% endif %} {{ order.shipping_address.street }}
-                                  <br> {{ order.shipping_address.city }}
-                                  <br> {% if order.shipping_address.province != '' %} {{ order.shipping_address.province }}
-                                  <br> {% endif %} {{ order.shipping_address.zip | upcase }}
-                                  <br> {{ order.shipping_address.country }}
-                                  <br> {{ order.shipping_address.phone }}
-                              </p>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
+          <div class="table-address mb-8">
+                <div class="border-bottom border-top py-3 h6 mb-0 text-uppercase fw-bold d-md-block d-none">
+                    <div class="row">
+                        <div class="col-6">{{ 'customer.order.billing_address' | t }}</div>
+                        <div class="col-6">{{ 'customer.order.shipping_address' | t }}</div>
+                    </div>
+                </div>   
+
+                <div class="border-bottom">
+                    <div class="row">
+                        <div class="col-md-6 border-end billing_address">
+                            <div class="d-md-none h4 text-uppercase mb-0">{{ 'customer.order.billing_address' | t }}</div>
+                            <div class="py-4">
+                            <h5>{{ order.billing_address.name }}</h5>
+                                <p>
+                                    {% if order.billing_address.company != '' %} {{ order.billing_address.company }}
+                                    <br> {% endif %} {{ order.billing_address.street }}
+                                    <br> {{ order.billing_address.city }}
+                                    <br> {% if order.billing_address.province != '' %} {{ order.billing_address.province }}
+                                    <br> {% endif %} {{ order.billing_address.zip | upcase }}
+                                    <br> {{ order.billing_address.country }}
+                                    <br> {{ order.billing_address.phone }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 shipping_address">
+                            <div class="d-md-none h4 text-uppercase mb-0">{{ 'customer.order.shipping_address' | t }}</div>
+                            <div class="py-4">
+                                <h5>{{ order.shipping_address.name }}</h5>
+                                <p>
+                                    {% if order.shipping_address.company != '' %} {{ order.shipping_address.company }}
+                                    <br> {% endif %} {{ order.shipping_address.street }}
+                                    <br> {{ order.shipping_address.city }}
+                                    <br> {% if order.shipping_address.province != '' %} {{ order.shipping_address.province }}
+                                    <br> {% endif %} {{ order.shipping_address.zip | upcase }}
+                                    <br> {{ order.shipping_address.country }}
+                                    <br> {{ order.shipping_address.phone }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
           </div>
 
-          <div class="table-responsive">
-              <table class="table">
-                  <caption class="d-none">{{ 'customer.order.shipping_address' | t }}</caption>
-                  <thead class="group-name">
-                      <tr>
-                          <th class="h6 font-family-josefin">{{ 'customer.order.product' | t }}</th>
-                          <th class="h6 font-family-josefin">{{ 'customer.order.price' | t }}</th>
-                          <th class="h6 font-family-josefin text-center">{{ 'customer.order.quantity' | t }}</th>
-                          <th class="h6 font-family-josefin text-end">{{ 'customer.order.total' | t }}</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {% for line_item in order.line_items %}
-                      <tr id="{{ line_item.id }}">
-                          <td>
+          <div class="order-table">
+            
+                <div class="border-bottom border-top py-3 h6 mb-0 text-uppercase fw-bold">
+                    <div class="row">
+                        <div class="col-md-6 col-4">{{ 'customer.order.product' | t }}</div>
+                        <div class="col-2 d-md-block d-none">{{ 'customer.order.price' | t }}</div>
+                        <div class="col-md-2 col-4 d-md-block text-center">{{ 'customer.order.quantity' | t }}</div>
+                        <div class="col-md-2 col-4 text-end">{{ 'customer.order.total' | t }}</div>
+                    </div>
+                </div>   
+            
+                {% for line_item in order.line_items %}
+                <div class="py-3 border-bottom">
+                    <div class="row" id="{{ line_item.id }}">
+                        <div class="col-md-6 col-12 mb-md-0 mb-4">
                             <div class="d-flex" style="min-width: 270px">
-                              <div class="pe-3">
-                                <img src="{{ line_item.image | image_url: width: 75 }}" alt="{{ line_item.title | escape }}" loading="lazy" class="mr-3" width="150" height="150">
-                              </div>
-                              <div>
-                                {{ line_item.title | link_to: line_item.product.url }}
-                                {% if line_item.sku != '' %}<p class="small">{{ 'customer.order.sku' | t }}: {{ line_item.sku }}</p>{% endif %}
-                              </div>
+                                <div class="pe-3">
+                                    <img src="{{ line_item.image | image_url: width: 75 }}" alt="{{ line_item.title | escape }}" loading="lazy" class="mr-3" width="150" height="150">
+                                </div>
+                                <div>
+                                    {{ line_item.title | link_to: line_item.product.url }}
+                                    {% if line_item.sku != '' %}<p class="small">{{ 'customer.order.sku' | t }}: {{ line_item.sku }}</p>{% endif %}
+                                </div>
                             </div>
-                          </td>
-                          <td>{{ line_item.price | money }}</td>
-                          <td class="text-center">{{ line_item.quantity }}</td>
-                          <td class="text-end">{{ line_item.quantity | times: line_item.price | money }}</td>
-                      </tr>
-                      {% endfor %}
-                  </tbody>
+                        </div>
+                        <div class="col-md-2 col-4">{{ line_item.price | money }}</div>
+                        <div class="col-md-2 col-4 text-center">{{ line_item.quantity }}</div>
+                        <div class="col-md-2 col-4 text-end">{{ line_item.quantity | times: line_item.price | money }}</div>
+                    </div>
+                </div>    
+                {% endfor %}
+            
+                <div class="pt-4">
 
-                  <tfoot class="bg-white">
-                      <tr>
-                        <td colspan="3" class="text-uppercase small">{{ 'customer.order.subtotal' | t }}</td>
-                        <td class="text-end">{{ order.subtotal_price | money }}</td>
-                      </tr>
+                    <div class="row">
+                        <div class="col-xl-6 xol-lg-7 col-md-8 ms-auto">
+                            <div class="row border-bottom no-gutters py-2">
+                                <div class="col-8 text-start">
+                                    {{ 'customer.order.subtotal' | t }}
+                                </div>
+                                <div class="col-4 text-end">
+                                    {{ order.subtotal_price | money }}
+                                </div>
+                            </div>
+                            {% for discount in order.discounts %}
+                                <div class="row border-bottom no-gutters py-2 order_summary discount">    
+                                    <div class="col-8 text-start small">
+                                        {{ discount.code }} {{ 'customer.order.discount' | t }}
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        {{ discount.savings | money }}
+                                    </div>
+                                </div>
+                            {% endfor %}    
+                            {% for shipping_method in order.shipping_methods %}
+                                <div class="row border-bottom no-gutters py-2">
+                                    <div class="col-8 text-start small">
+                                        {{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        {{ shipping_method.price | money }}                                            
+                                    </div>
+                                </div>    
+                            {% endfor %}   
+                            {% for tax_line in order.tax_lines %} 
+                                <div class="row border-bottom no-gutters py-2">
+                                    <div class="col-8 text-start small">
+                                        {{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        {{ tax_line.price | money }}
+                                    </div>
+                                </div>
+                            {% endfor %}
 
-                      {% for discount in order.discounts %}
-                      <tr class="order_summary discount">
-                        <td colspan="3" class="text-uppercase small">{{ discount.code }} {{ 'customer.order.discount' | t }}</td>
-                        <td class="text-end">{{ discount.savings | money }}</td>
-                      </tr>
-                      {% endfor %}
+                            <div class="row border-bottom no-gutters py-2">
+                                <div class="col-8 text-uppercase small text-start fw-bold">
+                                    {{ 'customer.order.total' | t }}
+                                </div>
+                                <div class="col-4 text-end small mb-0 fw-bold">
+                                    {{ order.total_price | money }} {{ order.currency }}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-                      {% for shipping_method in order.shipping_methods %}
-                      <tr>
-                        <td colspan="3" class="text-uppercase small">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</td>
-                        <td class="text-end">{{ shipping_method.price | money }}</td>
-                      </tr>
-                      {% endfor %}
-
-                      {% for tax_line in order.tax_lines %}
-                      <tr>
-                        <td colspan="3" class="text-uppercase small">{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
-                        <td class="text-end">{{ tax_line.price | money }}</td>
-                      </tr>
-                      {% endfor %}
-
-                      <tr>
-                        <td colspan="3" class="text-uppercase small"><h6>{{ 'customer.order.total' | t }}</h6></td>
-                        <td class="text-end"><h6>{{ order.total_price | money }} {{ order.currency }}</h6></td>
-                      </tr>
-                  </tfoot>
-              </table>
+                </div>  
           </div>
 
       </div>

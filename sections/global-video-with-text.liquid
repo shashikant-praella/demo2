@@ -31,7 +31,7 @@
                                     {%- if section.settings.poster_image.width >= 991 -%}{{ section.settings.poster_image | image_url: width: 991 }} 991w,{%- endif -%}
                                     {%- if section.settings.poster_image.width >= 1200 -%}{{ section.settings.poster_image | image_url: width: 1200 }} 1200w,{%- endif -%}
                                     {%- if section.settings.poster_image.width >= 1500 -%}{{ section.settings.poster_image | image_url: width: 1500 }} 1500w{%- endif -%}"
-                                    src="{{ section.settings.poster_image | image_url: width: 100 }}" loading="lazy"
+                                    src="{{ section.settings.poster_image | image_url: width: 50 }}" loading="lazy"
                                     sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"
                                     alt="{{ section.settings.poster_image.alt | default: section.settings.title | escape }}"
                                     width="{{ section.settings.poster_image.width }}"

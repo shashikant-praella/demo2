@@ -33,7 +33,7 @@
                 {%- if collection.image.width >= 2560 -%}{{ collection.image | image_url: width: 2560, crop: 'center', format: 'pjpg' }} 2560w{%- endif -%}
                 {%- if collection.image.width >= 3800 -%}{{ collection.image | image_url: width: 3800, crop: 'center', format: 'pjpg' }} 3800w{%- endif -%}
                 {{ collection.image | image_url }} {{ collection.image.width }}w"
-                    src="{{ collection.image | image_url: width: 1500 }}" fetchpriority="high"
+                    src="{{ collection.image | image_url: width: 50 }}" fetchpriority="high"
                     sizes="(max-width: 375px) 375px, (max-width: 550px) 550px, (max-width: 750px) 750px,
                            (max-width: 991px) 991px, (max-width: 1200px) 1200px, (max-width: 1500px) 1500px, (max-width: 1780px) 1780px, (max-width: 1920px) 1920px,
                            (max-width: 2560px) 2560px, (max-width: 3800px) 3800px, {{ collection.image.width }}px"

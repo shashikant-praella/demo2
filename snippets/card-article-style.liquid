@@ -10,7 +10,7 @@
             {%- if article.image.src.width >= 533 -%}{{ article.image.src | image_url: width: 533 }} 533w,{%- endif -%}
             {%- if article.image.src.width >= 720 -%}{{ article.image.src | image_url: width: 720 }} 720w,{%- endif -%}
             {{ article.image.src | image_url }} {{ article.image.src.width }}w"
-          src="{{ article.image.src | image_url: width: 533 }}"
+          src="{{ article.image.src | image_url: width: 50 }}"
           sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
           alt="{{ article.image.src.alt | escape }}"
           class="motion-reduce w-100" loading="lazy"

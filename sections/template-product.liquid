@@ -51,7 +51,7 @@
                                                   {%- if image.src.width >= 1200 -%}{{ image.src | image_url: width: 1200 }} 1200w,{%- endif -%} 
                                                   {%- if image.src.width >= 1500 -%}{{ image.src | image_url: width: 1500 }} 1500w,{%- endif -%} 
                                                   {{ image.src | image_url }} {{ image.src.width }}w"
-                                                  src="{{ image.src | image_url: width: 1500 }}" 
+                                                  src="{{ image.src | image_url: width: 50 }}" 
                                                   {% if forloop.index != 1 %} loading="lazy" {% else %} fetchpriority="high" {% endif %}
                                                   data-variant-title="{{ image.alt | escape }}"
                                                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width }}, 100vw"

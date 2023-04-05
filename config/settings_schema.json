@@ -28,6 +28,12 @@
       },
       {
         "type": "color",
+        "id": "heading_color",
+        "default": "#000000",
+        "label": "Heading Text Color"
+      },
+      {
+        "type": "color",
         "id": "link_color",
         "default": "#000000",
         "label": "Link Color"

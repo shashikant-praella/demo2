@@ -52,7 +52,7 @@
                                                 {%- if image.src.width >= 1200 -%}{{ image.src | image_url: width: 1200 }} 1200w,{%- endif -%} 
                                                 {%- if image.src.width >= 1500 -%}{{ image.src | image_url: width: 1500 }} 1500w,{%- endif -%} 
                                                 {{ image.src | image_url }} {{ image.src.width }}w"
-                                                src="{{ image.src | image_url: width: 1500 }}" loading="lazy"
+                                                src="{{ image.src | image_url: width: 50 }}" loading="lazy"
                                                 data-variant-title="{{ image.alt | escape }}"
                                                 sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | divided_by: 2 }}px, 100vw"
                                                 alt="{{ image.alt | default: product.title | escape | append: '-Image' | append: forloop.index }}"

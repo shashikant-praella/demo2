@@ -24,7 +24,7 @@
                             {%- if block.settings.collection.image.width >= 535 -%}{{ block.settings.collection.image | image_url: width: 535 }} 535w,{%- endif -%}
                             {%- if block.settings.collection.image.width >= 750 -%}{{ block.settings.collection.image | image_url: width: 750 }} 750w,{%- endif -%}
                             {{ block.settings.collection.image | image_url }} {{ block.settings.collection.image.width }}w"
-                            src="{{ block.settings.collection.image | image_url: 'pico' }}"
+                            src="{{ block.settings.collection.image | image_url: width: 50 }}"
                             sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                             
                             alt="{{ block.settings.collection.image.alt | default: block.settings.collection.title | escape }}"

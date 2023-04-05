@@ -12,7 +12,7 @@
                     {%- if item.featured_image.width >= 533 -%}{{ item.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
                     {%- if item.featured_image.width >= 720 -%}{{ item.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
                     {{ item.featured_image | image_url }} {{ item.featured_image.width }}w"
-                  src="{{ item.featured_image | image_url: width: 533 }}"
+                  src="{{ item.featured_image | image_url: width: 50 }}"
   
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                   loading="lazy"
@@ -28,7 +28,7 @@
                   {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
                   {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w,{%- endif -%}
                   {{ settings.no_image_replacement | image_url }} {{ settings.no_image_replacement.width }}w"
-                  src="{{ settings.no_image_replacement | image_url }}"  
+                  src="{{ settings.no_image_replacement | image_url: width: 50 }}"  
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
 
                   loading="lazy"
@@ -46,7 +46,7 @@
                     {%- if item.image.width >= 533 -%}{{ item.image | image_url: width: 533 }} 533w,{%- endif -%}
                     {%- if item.image.width >= 720 -%}{{ item.image | image_url: width: 720 }} 720w,{%- endif -%}
                     {{ item.image | image_url }} {{ item.image.width }}w"
-                  src="{{ item.image | image_url: width: 533 }}"  
+                  src="{{ item.image | image_url: width: 50 }}"  
                   sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
                   loading="lazy"
                   width="{{ item.image.width }}"
@@ -60,7 +60,7 @@
                       {%- if settings.no_image_replacement.width >= 533 -%}{{ settings.no_image_replacement | image_url: width: 533 }} 533w,{%- endif -%}
                       {%- if settings.no_image_replacement.width >= 720 -%}{{ settings.no_image_replacement | image_url: width: 720 }} 720w,{%- endif -%}
                       {{ settings.no_image_replacement | image_url }} {{ settings.no_image_replacement.width }}w"
-                      src="{{ settings.no_image_replacement | image_url }}"  
+                      src="{{ settings.no_image_replacement | image_url: width: 50 }}"  
                       sizes="(min-width: {{ settings.container_width }}) {{ settings.container_width | minus: 100 | divided_by: 3 }}px, (min-width: 768px) calc((100vw - 130px) / 2), 50vw"
 
                       loading="lazy"

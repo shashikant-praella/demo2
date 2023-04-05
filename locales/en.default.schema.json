@@ -507,8 +507,8 @@
         }
       }
     },
-    "header": {
-      "name": "Header",
+    "top-header": {
+      "name": "Top Header",
       "settings": {
         "header_topbar": {
           "label": "Top Bar"
@@ -530,7 +530,12 @@
         },
         "header_topbar_font_size": {
           "label": "Font Size"
-        },
+        }
+      }
+    },
+    "header": {
+      "name": "Header",
+      "settings": {
         "header_layout": {
           "label": "Layout"
         },
