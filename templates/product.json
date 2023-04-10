@@ -83,9 +83,15 @@
         "enable_dynamic_checkout": false,
         "product_tabs_placement": "below_slider"
       }
+    },
+    "servv_product": {
+      "type": "servv_product",
+      "settings": {
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "servv_product"
   ]
 }
