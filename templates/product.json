@@ -3,27 +3,15 @@
     "main": {
       "type": "template-product",
       "blocks": {
-        "76185562-4eb8-429b-a627-624a152e3944": {
-          "type": "vendor",
-          "settings": {
-            "show_vendor": true
-          }
-        },
-        "f74187b8-c891-42b8-9a6b-2c67a497b018": {
-          "type": "subtitle",
-          "settings": {
-            "subtitle": ""
-          }
-        },
         "3b316236-d91e-4dd0-953a-173c1f40bfcf": {
           "type": "price",
           "settings": {
           }
         },
-        "fcbf423b-3c83-4097-901c-ca70b8b80e5c": {
-          "type": "description",
-          "disabled": true,
+        "76185562-4eb8-429b-a627-624a152e3944": {
+          "type": "vendor",
           "settings": {
+            "show_vendor": true
           }
         },
         "b253ffff-d04d-43a0-9d68-fabdd77b595a": {
@@ -35,6 +23,18 @@
           "type": "share",
           "settings": {
             "show_social_share": true
+          }
+        },
+        "f74187b8-c891-42b8-9a6b-2c67a497b018": {
+          "type": "subtitle",
+          "settings": {
+            "subtitle": ""
+          }
+        },
+        "fcbf423b-3c83-4097-901c-ca70b8b80e5c": {
+          "type": "description",
+          "disabled": true,
+          "settings": {
           }
         },
         "product-tabs": {
