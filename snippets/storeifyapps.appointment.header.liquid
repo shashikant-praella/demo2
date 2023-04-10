@@ -1,0 +1,258 @@
+<script type="text/javascript">
+    var storeifyAppointment = storeifyAppointment || {};
+    storeifyAppointment.locale = {{shop.locale | json }};
+    {% if product %}
+      storeifyAppointment.product = {{ product | json }};
+      storeifyAppointment.product.options = {{ product.options_with_values | json }};
+      {% for variant in product.variants %}
+        storeifyAppointment.product.variants[{{forloop.index0}}].inventory_management = "{{variant.inventory_management }}";
+        storeifyAppointment.product.variants[{{forloop.index0}}].inventory_quantity = {{variant.inventory_quantity }};
+        storeifyAppointment.product.variants[{{forloop.index0}}].inventory_policy = "{{variant.inventory_policy }}";
+      {% endfor %}
+    {% endif %}
+
+    {% if customer %}
+      storeifyAppointment.customer = {
+        id : {{ customer.id }},
+        first_name : "{{ customer.first_name }}",
+        last_name : "{{ customer.last_name }}",
+        email : "{{ customer.email }}",
+        phone : "{{ customer.phone }}"
+      };
+    {% endif %}
+
+  storeifyAppointment.page = {
+    type : '{{ request.page_type }}'
+  };
+  storeifyAppointment.money_format = "{{shop.money_format}}";
+  storeifyAppointment.configUrl = "{{ 'storeifyapps-appointment-data.js' | asset_url }}";
+  storeifyAppointment.lang_code = "en";
+  storeifyAppointment.add_to_card_show = 1;
+  storeifyAppointment.buy_it_show = 1;
+  storeifyAppointment.redirect = 1;
+  storeifyAppointment.locations_show = 1;
+  storeifyAppointment.dateFormat = "YYYY-MM-DD";
+  storeifyAppointment.timeFormat = "HH:mm";
+  storeifyAppointment.time_slot = 0;
+  storeifyAppointment.show_question = 1;
+  storeifyAppointment.lang_default = {"continue":"Continue","back":"Back","price":"Price","sold_out":"Sold out","confirm":"Confirm","choose_employee":"Choose employee","choose_location":"Choose location","datetime":"Date time","duration":"Duration","minutes":"minutes","hours":"hours","employee":"Employee","location":"Location","total_price":"Total Price","quantity":"Quantity","loading":"loading","bringing_quest":"Bringing anyone with you?","bringing_label":"Number of Additional People (maximum {number})","input_first_name":"First name","input_last_name":"Last name","input_email":"Email","input_phone":"Phone number","input_address":"Address","field_required":"This field is required.","field_email":"Please enter a valid email address.","booking_success":"Thank for your booking. We will get back to you shortly.","apm_exist":"The appointment does not exist or has an error. Please try again or contact the store owner.","apm_cannot_delete_completed":"Cannot be deleted once the order has been completed. Please contact the shop owner.","apm_cannot_delete":"Appointment cannot be deleted. Please contact the shop owner","apm_delete_quest":"Please enter a reason below for why you want to cancel this appointment.","apm_delete":"Delete","apm_back":"Back to the store","apm_delete_success":"Delete successfully.","apm_delete_error":"Something goes wrong. Please try again or contact the store owner.","slots_remaining":"slots remaining","exceed_limit":"Exceed the limit","service":"Service","pl_choose_service":"Please choose service","choose_service":"Choose service","sv_available":"Sorry, this service is not available","select_an_emp":"Select an employee","emp_req":"Employee field is required."} ;
+    storeifyAppointment.langs = {"default":{"continue":"Continue","back":"Back","price":"Price","sold_out":"Sold out","confirm":"Confirm","choose_employee":"Choose employee","choose_location":"Choose location","datetime":"Date time","duration":"Duration","minutes":"minutes","hours":"hours","employee":"Employee","location":"Location","total_price":"Total Price","quantity":"Quantity","loading":"loading","bringing_quest":"Bringing anyone with you?","bringing_label":"Number of Additional People (maximum {number})","input_first_name":"First name","input_last_name":"Last name","input_email":"Email","input_phone":"Phone number","input_address":"Address","field_required":"This field is required.","field_email":"Please enter a valid email address.","booking_success":"Thank for your booking. We will get back to you shortly.","apm_exist":"The appointment does not exist or has an error. Please try again or contact the store owner.","apm_cannot_delete_completed":"Cannot be deleted once the order has been completed. Please contact the shop owner.","apm_cannot_delete":"Appointment cannot be deleted. Please contact the shop owner","apm_delete_quest":"Please enter a reason below for why you want to cancel this appointment.","apm_delete":"Delete","apm_back":"Back to the store","apm_delete_success":"Delete successfully.","apm_delete_error":"Something goes wrong. Please try again or contact the store owner.","slots_remaining":"slots remaining","exceed_limit":"Exceed the limit","service":"Service","pl_choose_service":"Please choose service","choose_service":"Choose service","sv_available":"Sorry, this service is not available","select_an_emp":"Select an employee","emp_req":"Employee field is required."}} ;
+    storeifyAppointment.formFree = {"first_name":{"show":1,"rq":1},"last_name":{"show":1,"rq":1},"email":{"show":1,"rq":1},"phone":{"show":1,"rq":0}} ;
+</script>
+
+
+<link rel="stylesheet" href="{{ 'storeifyapps-appointment-styles.css' | asset_url }}" type="text/css" ><script src="https://code.jquery.com/jquery-2.2.4.js" ></script>
+        <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data-10-year-range.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" ></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" type="text/css"  media="all">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js" ></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/en.min.js"></script>
+
+<script src="{{ 'storeifyapps-appointment-script.js' | asset_url }}" defer ></script>
+<style type="text/css">
+  .ify-apppintment-group{
+        font-family: inherit;
+        color: #333333;
+      }
+        .ify-apppintment-group .ify-select{
+    background-color: #f8f9fd;
+    color: #333333;
+  }
+  .ify-apppintment-group .ify-bnt-continue,
+  .ify-apppintment-group .fc-prev-button,
+  .ify-apppintment-group .fc-next-button,
+  .ify-apppintment-group .ify-bnt-confirm{
+    background: #333333;
+    color: #FFFFFF;
+    border:0;
+  }
+  .ify-apppintment-group .ify-bnt-back{
+    border:0;
+    background: #FFFFFF;
+    color: #333333;
+  }
+
+  .ify-apppintment-group .fc-scrollgrid  .fc-daygrid-day-number{
+    color:#333333;
+  }
+  .ify-apppintment-group .fc-scrollgrid  .fc-daygrid-day-number,
+  .ify-apppintment-group table a.fc-col-header-cell-cushion{
+    color:#333333;
+  }
+  .ify-apppintment-group .ify-date-disable .fc-daygrid-day-number,
+  .ify-apppintment-group .ify-event-disable .fc-daygrid-day-number{
+    color: #A3A3A3;
+  }
+  .ify-apppintment-group table > tbody > tr > td.ify-selected{
+    background: 008060;
+  }
+  .ify-apppintment-group .item-radio-time label{
+    background: 008060;
+  }
+  .ify-apppintment-group .item-radio-time label:hover{
+    background: #00cc99;
+  }
+
+  .ify-apppintment-group .item-radio-time label{
+    color: #FFFFFF;
+  }
+  .ify-apppintment-group .item-radio-time label:hover{
+    color: #FFF;
+  }
+  .ify-apppintment-group .item-radio-time input[type=radio]:checked+label{
+    background: #5d5d5d;
+  }
+  .ify-apppintment-group .fc-scrollgrid{
+    background: #fbfbfb;
+  }
+  .ify-apppintment-group .price-group .ify-price{
+    color: #FF0000;
+  }
+.ify-switch .ify-round{
+  background: #333333;
+}
+.ify-switch .ify-round:before{
+  background-color:#FFFFFF;
+}
+  ///////////////////////
+  .ify-apppintment-group .ify-btn{
+    border: 0;
+  }
+  .ify-form-control{
+    margin-bottom: 20px;
+  }
+  .ify-apppintment-group .fc .fc-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  .ify-apppintment-group .fc-button-primary.fc-today-button{
+    border: 0;
+    padding: 7px 10px;
+    line-height: 1;
+    border: 0;
+    font-size: 12px;
+  }
+  .ify-apppintment-group .fc-prev-button,
+  .ify-apppintment-group .fc-next-button{
+    display: inline-block;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    position: relative;
+  }
+  .ify-apppintment-group .fc-prev-button:before,
+  .ify-apppintment-group .fc-next-button:before{
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    line-height: 30px;
+  }
+  .ify-apppintment-group .fc-prev-button:before{
+    display: block;
+    content: "❮";
+  }
+  .ify-apppintment-group .fc-next-button:before{
+    display: block;
+    content: "❯";
+  }
+  .fc-toolbar-title{
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .ify-apppintment-group .ify-confirm .confirm-booking label,
+  .ify-apppintment-group .ify-confirm .confirm-duration label,
+  .ify-apppintment-group .ify-confirm .total-price label,
+  .ify-apppintment-group .ify-confirm .total-quantity label{
+    display: inline-block;
+    margin-right: 2px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .ify-apppintment-group .ify-confirm .confirm-booking span,
+  .ify-apppintment-group .ify-confirm .confirm-duration span,
+  .ify-apppintment-group .ify-confirm .total-price span,
+  .ify-apppintment-group .ify-confirm .total-quantity span{
+    display: inline-block;
+    font-size: 13px;
+  }
+  .ify-apppintment-group .prd-title{
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .ify-apppintment-group .ify-confirm{
+    margin-bottom: 20px;
+  }
+.ify-apppintment-group .ify-switch{
+     position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+}
+.ify-apppintment-group .ify-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.ify-apppintment-group .ify-switch .ify-round{
+  border-radius: 22px;
+   position: absolute !important;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 0 23px 0 !important;
+    -webkit-transition: .4s !important;
+    transition: .4s;
+}
+.ify-apppintment-group .ify-switch .ify-round:before{
+   border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 3px;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.ify-apppintment-group .ify-switch input:checked+.ify-round:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+.ify-apppintment-group .label-switch{
+     display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+.ify-apppintment-group .ify-input{
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 15px;
+  border: 1px solid #ccc;
+  color: #333;
+}
+</style>
