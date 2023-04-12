@@ -9,7 +9,7 @@
         left: 0;
         bottom: 0;
         z-index: 9999;
-        background-color: #fff;
+        background-color: #fff; 
         border-top: 1px solid #ccc;
         right: 0;
         padding: 15px;
@@ -21,6 +21,11 @@
   <div class="section-content">
     <div class="{% if section.settings.fluid_layout %}container-fluid{% else %}container{% endif %}">
         <ajax-cart class="cart-page d-flex flex-column" style="visibility: hidden;" updating="false">
+            
+            {%- if settings.is_gwp_enabled == true -%}
+                <p class="free-giftText"></p>
+                <div class="gwp-product d-none" data-freeGift></div>
+            {%- endif -%}
 
             <div class="d-flex justify-content-center align-items-center section-header mb-md-7 mb-5">
                 <h1 class="page-title cart-title mb-0" tabindex="0">{{ 'templates.cart.title' | t }}</h1>

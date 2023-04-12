@@ -198,6 +198,9 @@ class AjaxCart extends HTMLElement {
       if(window.globalVariables.cart_drawer && action == 'open_drawer' && window.globalVariables.template != 'cart'){
           this.openCartDrawer();
       }
+      //  this.cartGWP();
+       this.calculateFreeGift()
+      // this.cartGWPSingleTier();
     }
 
     /**
@@ -400,6 +403,574 @@ class AjaxCart extends HTMLElement {
       setTimeout(() => {
           Utility.fadeEffect(element, 'fadeOut');
       }, 3000);
+    }
+    // 1) Cart actions: add/remove
+    async cartAction(type, items) {
+      console.log(type, items)
+      if(type == 'add'){
+        const response = await fetch(`/cart/add.js`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
+          body :  JSON.stringify({ items: items })
+        });
+
+        if (response.ok) {
+          console.log('Update cart UI');
+          this.getCartData(); // If you are using fluid framework 2 then use this function for avoiding page reload
+          
+          /*
+            window.location.href = '/cart'; // Redirect to cart page for non fluid theme
+          */
+        }else{
+          console.log('Error - ajax update quantity',response);
+        }
+      }else if(type == 'update'){
+        const response = await fetch(`/cart/update.js`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
+          body :  JSON.stringify({ updates: items })
+        });
+        
+        if (response.ok) {
+          this.getCartData(); // If you are using fluid framework 2 then use this function for avoiding page reload
+          /*
+            window.location.href = '/cart'; // Redirect to cart page for non fluid theme
+          */
+        }else{
+          console.log('Error - ajax update quantity');
+        }
+      }else if(type == 'change'){
+        const response = await fetch(`/cart/change.js`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
+          body :  JSON.stringify(items)
+        });
+        
+        if (response.ok) {
+          this.getCartData(); // If you are using fluid framework 2 then use this function for avoiding page reload
+          /*
+            window.location.href = '/cart'; // Redirect to cart page for non fluid theme
+          */
+        }else{
+          console.log('Error - ajax update quantity');
+        }
+      }
+    }
+    // 2) Get Cart JSON from alternate cart template
+    async cartJSON() {
+      let finalResponse;
+      const response = await fetch(`/cart.json`,
+      {
+        method: 'GET'
+      });
+      var data = await response.json();
+      
+      // Added onetime addon
+      if (response.ok) {
+        finalResponse = data;
+      }else{
+        console.log('search.json Request Failed: ');
+      }
+      return finalResponse;
+    }
+    // 3) Main Function which has GWP code
+    // You can remove the unwanted code if found any. Also call this function on page load and Cart update action
+    async cartGWPSingleTier() {
+      let cartJSON = await this.cartJSON();
+      if(cartJSON == undefined){
+        cartJSON = {};
+      }
+      
+      const cartItems = cartJSON.items;
+      let addProductsArray = [];
+      let finalQtyArray = [];
+      let updateGiftFound = false;
+      
+      // GWP Data
+      let cartGWPEle = document.querySelector('[data-GWP-schema_single]'); //GWP settings Object from DOM
+      let GWPCartItems = {}; // to gather all GWP cart Items
+      let cartGWPEleJSON = {};
+      if(cartGWPEle != null){
+        cartGWPEleJSON = cartGWPEle.innerHTML;
+        if(cartGWPEleJSON != undefined && cartGWPEleJSON != null){
+          cartGWPEleJSON = JSON.parse(cartGWPEleJSON);
+        }
+      }
+      let originalThreshouldAmount = cartGWPEleJSON.amount;
+      let GWPaddPropertie = {
+        "product_type": "GWP Gift",
+        spend_over: originalThreshouldAmount
+      }
+      
+      /*** Starting of Get GWP Object from DOM and Store JSON data in var ***/
+      if(cartGWPEle != null){
+        cartGWPEleJSON = cartGWPEle.innerHTML;
+        if(cartGWPEleJSON != undefined && cartGWPEleJSON != null){
+          cartGWPEleJSON = JSON.parse(cartGWPEleJSON);
+        }
+      }
+      if(cartGWPEleJSON.gwp_pro1 != null && cartGWPEleJSON.gwp_pro1 != undefined){
+        GWPCartItems[cartGWPEleJSON.gwp_pro1] = false;
+      }
+      /*** End of Get GWP Object from DOM and Store JSON data in var ***/
+      
+      cartItems.forEach((item) => {
+        if(item.properties && item.properties['product_type'] == 'GWP Gift'){
+          if(GWPCartItems[item.id] != undefined){
+            GWPCartItems[item.id] = true;
+          }
+          if(GWPCartItems[item.id] == undefined || cartGWPEle.length == 0 || cartJSON.total_price < cartGWPEleJSON.amount){
+            updateGiftFound = true;
+            finalQtyArray.push(0);
+          } else if(item.quantity > 1){
+            updateGiftFound = true;
+            finalQtyArray.push(1);
+          } else {
+            finalQtyArray.push(item.quantity);
+          }
+        }else{
+          finalQtyArray.push(item.quantity);
+        }
+      })
+      // Create GWP Final Add Product Array
+      if(cartGWPEle != null && cartJSON.total_price >= cartGWPEleJSON.amount){
+        Object.keys(GWPCartItems).forEach( function(key) {
+          let keyValue = GWPCartItems[key];
+          if(keyValue == false){
+            let addProObject = {
+              quantity: 1,
+              id: key,
+              properties: GWPaddPropertie
+            }
+            addProductsArray.push(addProObject);
+          }
+        })
+      }
+
+      // Update Cart 
+      if(finalQtyArray.length > 0 && updateGiftFound == true){
+          this.cartAction('update', finalQtyArray);
+      }
+      // add Products for GWP
+      if(addProductsArray.length > 0){
+        this.cartAction('add', addProductsArray);
+      }
+    }
+
+    async cartGWPmultitier() {
+      let  GWP = {};
+      let cartGWPEle = document.querySelector('[data-GWP-schema]'); 
+      if(cartGWPEle){
+        GWP = JSON.parse(cartGWPEle.innerHTML);
+      }
+      let cartJSON = await this.cartJSON();
+      var GWPGift = false;
+      var threashouldValue = null;
+      var existedFreeProduct = null;  
+      var existedFreeProductLine = null;
+    
+      let originalThreshouldAmount = null;
+      let updateQty = false;
+    
+      var eligibleThreshould = null;
+      var eligibleFreeProduct = null;
+      let eligibleFreeProductJSON = null;
+      let finalThreshouldAmount = false;
+      let cartTotal = 0;
+      let addProObjectArray = [];
+      let updateProObjectArray = [];
+      //Check for Free Gift in Cart Items
+      const cartItems = cartJSON.items;
+      if(cartJSON.total_price > 0) {
+        cartItems.forEach((product, index) => {    
+          existedFreeProductLine = index + 1;
+          if(product.properties['product_type'] == 'GWP Gift'){
+
+            GWPGift = true;
+          
+            existedFreeProduct = product.variant_id;
+          
+            if(product.quantity > 1){
+              updateQty = true;
+            }
+          
+            if(product.variant_id == GWP.threashould_1['gwp_pro']){
+              threashouldValue = 1;              
+            }else if(product.variant_id == GWP.threashould_2['gwp_pro']){
+              threashouldValue = 2;
+            }else if(product.variant_id == GWP.threashould_3['gwp_pro']){             
+              threashouldValue = 3;
+            }
+          }else{
+            if(product.product_type != 'Gift Card'){
+              cartTotal = cartTotal + product.final_line_price;
+            }
+          }
+        }); 
+
+        //Check for Eligible offer for Cart
+      if(GWP.enable == 'true'){
+        if(GWP.threashould_3['enable'] == true && cartTotal >= GWP.threashould_3['amount']){
+          eligibleThreshould = 3;
+          eligibleFreeProduct = GWP.threashould_3['gwp_pro'];
+          finalThreshouldAmount = GWP.threashould_3['amount'];            
+          eligibleFreeProductJSON = GWP.threashould_3['gwp_pro_JSON']; 
+          originalThreshouldAmount = GWP.threashould_3['original_amount'];
+        }else if(GWP.threashould_2['enable'] == true && cartTotal >= GWP.threashould_2['amount']){
+          eligibleThreshould = 2;
+          eligibleFreeProduct = GWP.threashould_2['gwp_pro'];
+          finalThreshouldAmount = GWP.threashould_2['amount'];            
+          eligibleFreeProductJSON = GWP.threashould_2['gwp_pro_JSON'];    
+          originalThreshouldAmount = GWP.threashould_2['original_amount'];
+        }else if(GWP.threashould_1['enable'] == true && cartTotal >= GWP.threashould_1['amount']){
+          eligibleThreshould = 1;
+          eligibleFreeProduct = GWP.threashould_1['gwp_pro'];
+          finalThreshouldAmount = GWP.threashould_1['amount'];            
+          eligibleFreeProductJSON = GWP.threashould_1['gwp_pro_JSON'];      
+          originalThreshouldAmount = GWP.threashould_1['original_amount'];
+        }
+      }
+      
+      let removeProduct = {
+        quantity: 0,
+        line: existedFreeProductLine
+      }  
+
+      let updateProduct = {
+        quantity: 1,
+        line: existedFreeProductLine
+      }     
+
+      let properties = {
+        product_type: 'GWP Gift',
+        spend_over: originalThreshouldAmount
+      }
+      let addProObject ={}
+      if(eligibleFreeProductJSON ){
+        addProObject = {
+          id: eligibleFreeProductJSON.variants[0].id,
+          quantity: 1,
+          properties: properties
+        }
+    }
+      
+      addProObjectArray.push(addProObject)
+      updateProObjectArray.push(updateProduct)
+
+      if((GWP == undefined || eligibleThreshould == null) && GWPGift == true || cartJSON.total_price <= 0) {
+        await this.cartAction('change', removeProduct);
+      }else if(threashouldValue != null && threashouldValue != eligibleThreshould && eligibleFreeProduct != null){
+        await this.cartAction('change', removeProduct);
+        await this.cartAction('add', addProObjectArray);         
+      }else if(existedFreeProduct != null && existedFreeProduct != eligibleFreeProduct){
+        this.cartAction('change', removeProduct);
+        this.cartAction('add', addProObjectArray); 
+      }else if(updateQty == true){
+        await this.cartAction('update', updateProObjectArray);
+      }else if(eligibleThreshould != null && eligibleFreeProduct != null && GWPGift == false){
+        await this.cartAction('add', addProObjectArray); 
+      }
+      }else {
+        cartItems.forEach((product, index) => {     
+            let removeProduct = {
+              quantity: 0,
+              line: index + 1
+            } 
+            if(cartItems.length === 1) this.cartAction('change', removeProduct); return false;
+          
+        })
+      } 
+    }
+
+    async ManageFreeProInCart (originalAmount, finalAmount, totalFreeGiftsQty, freeGiftQty, eligibleFreeProducts, giftType) {
+      if(eligibleFreeProducts == null && finalAmount > 0 && freeGiftQty > 0){
+          return;
+      }
+      document.querySelector(".free-giftText").innerHTML = `You are eligible for ${freeGiftQty} Free ${((freeGiftQty > 1) ? `Gifts` : `Gift`)} . ${((giftType == 'multiple') ? `One Gift for each` : `Gift for`)} spent over ${Shopify.formatMoney(finalAmount, window.globalVariables.money_format)}`;
+      let freeProductHTML = '';
+      eligibleFreeProducts.map((eligibleFreeProductJSON, index) => {
+      freeProductHTML += `<div class="product--item"><div class="gift_prod_heading">'
+      + '<div class="general-text gwp-product" style="display: none !important">You are eligible for ${freeGiftQty} Free ${((freeGiftQty > 1) ? `Gifts` : `Gift`)} . One Gift for each spent over ${Shopify.formatMoney(finalAmount, window.globalVariables.money_format)}</div>
+         </div>
+          <div class="gift_prod_details grid"><div class="gift_prod_img grid__item one-third"><a href="javascript:void(0)" class="gift_prod_imgwrapper ajaxcart__product-image">
+          <img class="gift_img" src="${eligibleFreeProductJSON.featured_image}" /></a> </div>
+         <div class="gift_prod_content grid__item two-thirds"><a href="javascript:void(0)" class="ajaxcart__product-name">${eligibleFreeProductJSON.title}</a>
+          <p class="gift_prod_price"><span class="orgi_price ajaxcart__price">$0 | <del>${Shopify.formatMoney(eligibleFreeProductJSON.price, window.globalVariables.money_format)}</del></span>`;
+      let freeProductHTMLButtom = ``;
+      if(eligibleFreeProductJSON.variants[0].available == true){
+          freeProductHTMLButtom = `<button type="button" name="add" class="btn add-to-cart" data-addid="${eligibleFreeProductJSON.variants[0].id}" data-addFreeItem>Add to cart</button>`;
+          }else{
+          freeProductHTMLButtom = `<button type="button" name="add" class="btn add-to-cart disabled" disabled><span>Sold Out</span></button>`;
+          }
+          freeProductHTML += `</p></div></div>${freeProductHTMLButtom}</div>`;
+      });
+      document.querySelector("[data-freeGift]").innerHTML = freeProductHTML
+      document.querySelector("[data-freeGift]").classList.remove('d-none');
+      
+      // $('.cart--page.gift_products').slick({
+      //     dots: true,
+      //     arrows: true,
+      //     slidesToShow: 3,
+      //     infite: false,
+      //     responsive: [
+      //         {
+      //             breakpoint: 1200,
+      //             settings: {
+      //                 slidesToShow: 2,
+      //                 slidesToScroll: 1
+      //             }
+      //         },
+      //         {
+      //             breakpoint: 480,
+      //             settings: {
+      //                 slidesToShow: 1,
+      //                 slidesToScroll: 1
+      //             }
+      //         }
+      //     ]
+      // }); 
+      // $('.ajax--cart.gift_products').slick({
+      //     dots: true,
+      //     arrows: true,
+      //     slidesToShow: 1,
+      //     infite: false,
+      //     responsive: [
+      //         {
+      //         breakpoint: 480,
+      //         settings: {
+      //             slidesToShow: 1,
+      //             slidesToScroll: 1
+      //         }
+      //         }
+      //     ]
+      // }); 
+      
+      let SpendOver = ((totalFreeGiftsQty-freeGiftQty) + 1) * parseInt(originalAmount);
+      
+      document.querySelector("[data-freeGift]").addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      let varID = event.target.getAttribute('data-addid');
+       let productArray = []
+            let properties = {
+                product_type: 'GWP Gift',
+                spend_over: SpendOver,
+                baseThreshold: originalAmount,
+            }
+            let data={
+                id: varID,
+                quantity: 1,
+                properties: properties
+            }
+            productArray.push(data)
+            await this.cartAction('add', productArray);
+            document.querySelector('[data-addFreeItem]').classList.add('disabled');
+            document.querySelector('[data-addFreeItem]').setAttribute('disabled','disabled');
+            if(giftType == 'single'){
+              let isGift = false;
+              let cartJSON = await this.cartJSON();
+              const cartItems = cartJSON.items;
+      
+              cartItems.forEach((item, i) => {
+                  if(item.properties['product_type'] == 'GWP Gift'){
+                      isGift = true;
+                  }
+              });
+              if(isGift) location.href = '/cart';
+            }
+
+      });
+    }
+
+    async removeFreeProductFromCart(type, GiftThreashouldAmount, cartTotal, cartElements, freeProducts, giftType) {
+        cartTotal = cartTotal / 100;
+        cartTotal = Math.floor(cartTotal);
+        GiftThreashouldAmount = GiftThreashouldAmount / 100;
+        
+        let cartQty = [];
+        let cartJSON = await this.cartJSON();
+        const cartItems = cartJSON.items;
+
+        cartItems.forEach((item, i) => {
+            if(item.type == 'Gift' || item.properties['product_type'] == 'GWP Gift'){
+                let spendAmount = parseInt(item.spendOver);
+                let baseThreshold = parseInt(item.baseThreshold);
+                
+                if(type == 'removeExpired' && freeProducts.includes(item.id) != true){
+                  cartQty.push(0);
+                }else if(giftType == 'single' && spendAmount > baseThreshold){
+                  cartQty.push(0);
+                }else if(spendAmount > cartTotal || baseThreshold != GiftThreashouldAmount){
+                  cartQty.push(0);
+                }else if(item.quantity > 1){
+                  cartQty.push(1);
+                }else if(cartItems.length == 1){
+                  cartQty.push(0);
+                }else if(cartItems.length == 1){
+                  cartQty.push(item.quantity);
+                }
+            }else{
+                cartQty.push(item.quantity);
+            }
+        });
+        
+        await this.cartAction('update', cartQty);
+    }
+
+   async cartGWP() {
+
+      let  GWP = {};
+      let cartGWPEle = document.querySelector('[data-GWP-schema]'); 
+      if(cartGWPEle){
+        GWP = JSON.parse(cartGWPEle.innerHTML);
+      }
+      let freeProducts = [];
+      if(GWP && GWP.threashould_1){
+      freeProducts.push(GWP.threashould_1.gwp_pro);
+      freeProducts.push(GWP.threashould_1.gwp_pro2);
+      freeProducts.push(GWP.threashould_1.gwp_pro3);
+      }
+
+      let cartJSON = await this.cartJSON();
+      const cartItems = cartJSON.items;
+      let finalGWPAddedCount = 0;
+      let finalQty;
+      let cartTotal = 0;
+      let cartElements = [];
+      let removeExpiredGifts = false;
+      let updateGifts = false;
+
+
+      cartItems.forEach((product, index) => {  
+        if(product.properties['product_type'] == 'GWP Gift'){
+          finalGWPAddedCount += product.quantity; 
+          let itemData = {
+              type: 'Gift',
+              spendOver: product.properties['spend_over'],
+              baseThreshold: product.properties['baseThreshold'],
+              quantity: product.quantity,
+              id: product.id
+          }
+          cartElements.push(itemData);
+          let proThreshould = parseInt(product.properties['baseThreshold']);
+          let GWPThreshould = parseInt(GWP.threashould_1.original_amount);
+          if(proThreshould != GWPThreshould){
+              updateGifts = true;
+          }
+
+          let itemID = product.id;
+          if(freeProducts.includes(itemID) != true){
+              removeExpiredGifts = true;
+          }
+        }else{
+          let itemData = {
+              type: 'Regular',
+              quantity: product.quantity,
+              id: product.id
+          }
+          cartElements.push(itemData);
+          if(product.product_type != 'Gift Card'){
+              cartTotal = cartTotal + product.final_line_price;
+          }
+        }
+      });
+
+      // Calculate Final Qty for Free Product
+      let GiftThreashouldAmount = 0;
+        if(GWP && GWP.enable == true && GWP.threashould_1 && GWP.threashould_1.amount && parseInt(GWP.threashould_1.amount) != NaN && cartTotal > GWP.threashould_1.amount){
+            if(GWP.type == 'single' && cartTotal > GWP.threashould_1.amount){
+            finalQty = 1;
+            }else{
+            finalQty = cartTotal / parseInt(GWP.threashould_1.amount);
+            }
+            GiftThreashouldAmount = GWP.threashould_1.amount;
+        }else{
+            finalQty = 0;
+        }
+        finalQty = Math.floor(finalQty);
+        if((GWP == undefined || GWP['enable'] != true || finalQty <= 0) && finalGWPAddedCount > 0){
+           await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+        }else if(removeExpiredGifts == true){
+          await this.removeFreeProductFromCart('removeExpired', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+        }else if(GWP.enable == true && (updateGifts == true || finalGWPAddedCount > finalQty)){
+          await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+        }else if(GWP.enable == true && finalQty > 0 && finalGWPAddedCount < finalQty){
+            let freeGiftQty = finalQty - finalGWPAddedCount;
+            let freeProducts = [];
+            if(GWP && GWP.threashould_1){
+            if(GWP.threashould_1.gwp_pro_JSON){
+                freeProducts.push(GWP.threashould_1.gwp_pro_JSON);
+            }if(GWP.threashould_1.gwp_pro2_JSON){
+                freeProducts.push(GWP.threashould_1.gwp_pro2_JSON);
+            }if(GWP.threashould_1.gwp_pro3_JSON){
+                freeProducts.push(GWP.threashould_1.gwp_pro3_JSON);
+            }
+            this.ManageFreeProInCart(GWP.threashould_1.original_amount, GWP.threashould_1.amount, finalQty, freeGiftQty, freeProducts, GWP.type);
+            }
+        }else if(cartItems.length == 1){
+          await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+        }
+    }
+
+    // 3) Final Calculative Function
+    // Run this function on page load and Cart Update
+    async calculateFreeGift() {
+      let cartJSON = {};
+      let  GWP = {};
+      let cartGWPEle = document.querySelector('[data-GWP-schema]'); 
+      if(cartGWPEle){
+        GWP = JSON.parse(cartGWPEle.innerHTML);
+      }
+
+      cartJSON = await this.cartJSON();
+      const cartItems = cartJSON.items;
+
+      let addProductsArray = [];
+      let updateGiftFound = false;
+      let GWPaddPropertie = {
+          "product_type": "GWP Gift"
+      }
+      if(cartItems.length == 1 && cartItems[0].properties['product_type'] == 'GWP Gift'){
+        let removeData = {
+            line: 1,
+            quantity: 0
+        }
+        await this.cartAction('change', removeData);
+        return false;
+      }
+      if((GWP.enable_gwp == false || GWP.freeGiftEligibleQty <= 0 || cartJSON.total_price <= 0) && GWP.freeGiftFound != null){
+      let removeData = {
+          line: GWP.freeGiftFound,
+          quantity: 0
+      }
+      await this.cartAction('change', removeData);
+      // }else if(GWP.enable_gwp == true && GWP.updateFreeItem == true){
+      // let updateData = {
+      //     line: GWP.freeGiftFound,
+      //     quantity: GWP.freeGiftEligibleQty
+      // }
+      // await this.cartAction('update', updateData);
+      // location.href = '/cart';
+      }else if(GWP.enable_gwp == true && GWP.freeGift && GWP.freeGiftFound == null && GWP.freeGiftEligibleQty > 0 && GWP.freeGift.available == true){
+        let checkGwtAdded = false;
+        cartItems.forEach((product, index) => {  
+          if(product.properties['product_type'] == 'GWP Gift'){
+            checkGwtAdded = true; 
+          }
+        });
+      if(checkGwtAdded == false) {
+        let addProObject = {
+          quantity: GWP.freeGiftEligibleQty,
+          id: GWP.freeGift.variants[0].id,
+          properties: GWPaddPropertie
+        }
+        addProductsArray.push(addProObject);
+        await this.cartAction('add', addProductsArray);
+      }
+      } 
     }
 }
 customElements.define("ajax-cart", AjaxCart);

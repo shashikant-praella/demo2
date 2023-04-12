@@ -22,7 +22,7 @@
     height: 1.5rem;
     border-radius: 50%;
     background-color: var(--bs-color-gray-200);
-    color: var(--bs-color-dark);
+    color: var( --bs-color-black);
     margin-left: 0.7rem;
     font-weight: 400;
 }

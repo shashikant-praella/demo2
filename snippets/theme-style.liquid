@@ -1,26 +1,26 @@
 {% style %}
     @font-face {
-    font-family: 'Futura';
-    src: url('{{ "Futura-Book.woff2" | asset_url }}') format('woff2'),
-        url('{{ "Futura-Book.woff" | asset_url }}') format('woff');
+    font-family: 'DM Sans';
+    src: url('{{ "DMSans-Regular.woff2" | asset_url }}') format('woff2'),
+        url('{{ "DMSans-Regular.woff" | asset_url }}') format('woff');
         font-weight: normal;
         font-style: normal;
         font-display: swap;
     }
 
     @font-face {
-    font-family: 'Futura';
-    src: url('{{ "FuturaBT-Medium.woff2" | asset_url }}') format('woff2'),
-        url('{{ "FuturaBT-Medium.woff" | asset_url }}') format('woff');
+    font-family: 'DM Sans';
+    src: url('{{ "DMSans-Medium.woff2" | asset_url }}') format('woff2'),
+        url('{{ "DMSans-Medium.woff" | asset_url }}') format('woff');
         font-weight: 500;
         font-style: normal;
         font-display: swap;
     }
 
     @font-face {
-    font-family: 'Futura';
-    src: url('{{ "FuturaBT-MediumItalic.woff2" | asset_url }}') format('woff2'),
-        url('{{ "FuturaBT-MediumItalic.woff" | asset_url }}') format('woff');
+    font-family: 'DM Sans';
+    src: url('{{ "DMSans-Italic.woff2" | asset_url }}') format('woff2'),
+        url('{{ "DMSans-Italic.woff" | asset_url }}') format('woff');
         font-weight: 500;
         font-style: italic;
         font-display: swap;
@@ -28,114 +28,26 @@
 
 
     @font-face {
-    font-family: 'Futura';
-    src: url('{{ "Futura-Bold.woff2" | asset_url }}') format('woff2'),
-        url('{{ "Futura-Bold.woff" | asset_url }}') format('woff');
+    font-family: 'DM Sans';
+    src: url('{{ "DMSans-Bold.woff2" | asset_url }}') format('woff2'),
+        url('{{ "DMSans-Bold.woff" | asset_url }}') format('woff');
         font-weight: bold;
         font-style: normal;
         font-display: swap;
     }
 
-    @font-face {
-    font-family: 'Futura';
-    src: url('{{ "FuturaBT-BoldItalic.woff2" | asset_url }}') format('woff2'),
-        url('{{ "FuturaBT-BoldItalic.woff" | asset_url }}') format('woff');
-        font-weight: bold;
-        font-style: italic;
-        font-display: swap;
-    }
+   
 
     @font-face {
-    font-family: 'Futura';
-    src: url('{{ "FuturaBT-Light.woff2" | asset_url }}') format('woff2'),
-        url('{{ "FuturaBT-Light.woff" | asset_url }}') format('woff');
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-    }
-
-    @font-face {
-    font-family: 'Futura';
-    src: url('{{ "FuturaBT-LightItalic.woff2" | asset_url }}') format('woff2'),
-        url('{{ "FuturaBT-LightItalic.woff" | asset_url }}') format('woff');
-        font-weight: 300;
-        font-style: italic;
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-Bold.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-Bold.woff" | asset_url }}') format('woff');
-        font-weight: 700;
+        font-family: 'Playfair Display';
+        src: url('{{ "PlayfairDisplay-Regular.woff2" | asset_url }}') format('woff2'),
+            url('{{ "PlayfairDisplay-Regular.woff" | asset_url }}') format('woff');
+        font-weight: normal;
         font-style: normal;
         font-display: swap;
     }
     
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-Italic.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-Italic.woff" | asset_url }}') format('woff');
-        font-weight: 400;
-        font-style: italic;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-BoldItalic.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-BoldItalic.woff" | asset_url }}') format('woff');
-        font-weight: 700;
-        font-style: italic;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-LightItalic.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-LightItalic.woff" | asset_url }}') format('woff');
-        font-weight: 300;
-        font-style: italic;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-Light.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-Light.woff" | asset_url }}') format('woff');
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-Regular.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-Regular.woff" | asset_url }}') format('woff');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-MediumItalic.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-MediumItalic.woff" | asset_url }}') format('woff');
-        font-weight: 500;
-        font-style: italic;
-        font-display: swap;
-    }
-    
-    @font-face {
-        font-family: 'Karla';
-        src: url('{{ "Karla-Medium.woff2" | asset_url }}') format('woff2'),
-            url('{{ "Karla-Medium.woff" | asset_url }}') format('woff');
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-    }
-
-
+   
     @font-face {
     font-family: 'icon-fluid';
     src: url('{{ "icon-fluid.eot" | asset_url }}?rivzg6');
@@ -239,18 +151,17 @@
         --bs-txt-color-btn-primary: {{ settings.txt_color_btn_primary }};
         --bs-bg-color-btn-primary: {{ settings.bg_color_btn_primary }};
         --bs-bg-hover-color-btn-primary: {{ settings.bg_hover_color_btn_primary }};
+        --bs-txt-hover-color-btn-primary: {{ settings.text_hover_color_btn_primary }};
 
         --bs-txt-color-btn-secondary: {{ settings.txt_color_btn_secondary }};
         --bs-bg-color-btn-secondary: {{ settings.bg_color_btn_secondary }};
         --bs-bg-hover-color-btn-secondary: {{ settings.bg_hover_color_btn_secondary }};
+        --bs-txt-hover-color-btn-secondary: {{ settings.text_hover_color_btn_secondary }};
 
-        --bs-txt-color-btn-white: {{ settings.txt_color_btn_white }};
-        --bs-bg-color-btn-white: {{ settings.bg_color_btn_white }};
-        --bs-bg-hover-color-btn-white: {{ settings.bg_hover_color_btn_white }};
-
-        --bs-txt-color-btn-dark: {{ settings.txt_color_btn_dark }};
-        --bs-bg-color-btn-dark: {{ settings.bg_color_btn_dark }};
-        --bs-bg-hover-color-btn-dark: {{ settings.bg_hover_color_btn_dark }};
+        --bs-txt-color-btn-indigo-dye: {{ settings.txt_color_btn_indigo_dye }};
+        --bs-bg-color-btn-indigo-dye: {{ settings.bg_color_btn_indigo_dye }};
+        --bs-bg-hover-color-btn-indigo-dye: {{ settings.bg_hover_color_btn_indigo_dye }};
+        --bs-txt-hover-color-btn-indigo-dye: {{ settings.text_hover_color_btn_indigo_dye }};
 
         --bs-shadow: {{ settings.shadow }};
         --bs-shadow-sm: {{ settings.shadow-sm }};
@@ -270,9 +181,8 @@
 
         --bs-color-primary: {{ settings.color_primary }};
         --bs-color-secondary: {{ settings.color_secondary }};
-        --bs-color-dark: {{ settings.color_dark }};
-        --bs-color-alabaster: {{ settings.color_alabaster }};
-        --bs-color-almond: {{ settings.color_almond }};
+        --bs-color-indigo-dye: {{ settings.color_indigo_dye }};
+        --bs-color-white-smoke: {{ settings.color_white_smoke }};
         
 
         --bs-color-primary-100: {{ settings.color_primary_100 }};
@@ -286,6 +196,12 @@
         --bs-color-secondary-300: {{ settings.color_secondary_300 }};
         --bs-color-secondary-400: {{ settings.color_secondary_400 }};
         --bs-color-secondary-500: {{ settings.color_secondary_500 }};
+
+        --bs-color-indigo-dye-100: {{ settings.color_indigo_dye_100 }};
+        --bs-color-indigo-dye-200: {{ settings.color_indigo_dye_200 }};
+        --bs-color-indigo-dye-300: {{ settings.color_indigo_dye_300 }};
+        --bs-color-indigo-dye-400: {{ settings.color_indigo_dye_400 }};
+        --bs-color-indigo-dye-500: {{ settings.color_indigo_dye_500 }};
 
         --bs-color-white: {{ settings.color_white }};
         --bs-color-gray-100: {{ settings.color_gray_100 }};

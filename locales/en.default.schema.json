@@ -513,11 +513,35 @@
         "header_topbar": {
           "label": "Top Bar"
         },
+        "header_topbar_left": {
+          "label": "Top Bar Left"
+        },
+        "header_topbar_right": {
+          "label": "Top Bar Right"
+        },
         "header_topbar_enabled": {
           "label": "Enabled?"
         },
         "header_topbar_text": {
           "label": "Message"
+        },
+        "header_topbar_phone": {
+          "label": "Phone"
+        },
+        "header_topbar_phone_link": {
+          "label": "Phone Link"
+        },
+        "header_topbar_location": {
+          "label": "Location"
+        },
+        "header_topbar_location_link": {
+          "label": "Location Link"
+        },
+        "header_topbar_personal_shoper": {
+          "label": "Personal Shoper"
+        },
+        "header_topbar_personal_shoper_link": {
+          "label": "Personal Shoper Link"
         },
         "header_topbar_bg_color": {
           "label": "Background Color"

@@ -39,7 +39,7 @@
 
   </head>
 
-  <body class="template-{{ template.name }}">
+  <body class="template-{{ template.name }}" data-template={{template}}>
     
     <a class="skip-to-content-link button visually-hidden-skip" href="#MainContent" title="{{ "accessibility.skip_to_text" | t }}">
       {{ "accessibility.skip_to_text" | t }}
@@ -201,5 +201,159 @@
         })();
     </script>
     {% endif %}
+    {% comment %}
+    {% if settings.is_gwps_enabled %}
+      {%- liquid
+        assign gwp_prod1 = all_products[settings.gwp_product_thrs1_1]
+      -%}
+      <script type="application/json" data-GWP-schema_single>
+          {
+              "amount": {{ settings.gwp_qualifier_minimum_cart_amount | plus: 0 | times : 100 | json }},
+              "gwp_pro1": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %}
+          }
+      </script>
+    {% endif %}
+
+    {% if settings.is_gwp_enabled %}
+      {% assign gwp_prod1 = all_products[settings.gwp_product_thr1_1] %}
+      {% assign gwp_prod2 = all_products[settings.gwp_product_thr2_1] %}
+      {% assign gwp_prod3 = all_products[settings.gwp_product_thr3_1] %}
+      <script type="application/json" data-GWP-schema>
+        {
+            "enable": "{{ settings.is_gwp_enabled | json }}",           
+            "threashould_1": {
+                "enable": {{ settings.is_gwp_1_enabled | json }},
+                "amount": {{ settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | times: 100 }},
+                "original_amount": {{  settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | json }},
+                "gwp_pro": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                "gwp_pro_JSON": {% if gwp_prod1 %}{{ gwp_prod1 | json }}{% else %}''{% endif %}
+            },
+            "threashould_2": {
+                "enable": {{ settings.is_gwp_2_enabled | json }},
+                "amount": {{ settings.gwp_qualifier_minimum_cart_amount_2 | plus: 0 | times: 100 }},
+                "original_amount": {{  settings.gwp_qualifier_minimum_cart_amount_2 | plus: 0 | json }},
+                "gwp_pro": {% if gwp_prod2 %}{{ gwp_prod2.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                "gwp_pro_JSON": {% if gwp_prod2 %}{{ gwp_prod2 | json }}{% else %}''{% endif %}
+            },
+            "threashould_3": {
+                "enable": {{ settings.is_gwp_3_enabled | json }},
+                "amount": {{ settings.gwp_qualifier_minimum_cart_amount_3 | plus: 0 | times: 100 }},
+                "original_amount": {{  settings.gwp_qualifier_minimum_cart_amount_3 | plus: 0 | json }},
+                "gwp_pro": {% if gwp_prod3 %}{{ gwp_prod3.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                "gwp_pro_JSON": {% if gwp_prod3 %}{{ gwp_prod3 | json }}{% else %}''{% endif %}
+            }
+        }
+      </script>
+    {% endif %}
+
+  // For regular functionality refer below code
+  {% assign gwp_prod1 = all_products[settings.gwp_product_thr1_1] %}
+  {% assign gwp_prod2 = all_products[settings.gwp_product_thr2_1] %}
+  {% assign gwp_prod3 = all_products[settings.gwp_product_thr3_1] %}
+  <script type="application/json" data-GWP-schema data-forNormal>
+      {
+          "enable": {{ settings.is_gwp_enabled | json }},
+          "type": {{ settings.gift_type | json }},
+          "threashould_1": {
+              "enable": {{ settings.is_gwp_1_enabled | json }},
+              "amount": {{ settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | times: 100 }},
+              "original_amount": {{  settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | json }},
+              "gwp_pro": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+              "gwp_pro_JSON": {% if gwp_prod1 != blank %}{{ gwp_prod1 | json }}{% else %}null{% endif %},
+              "gwp_pro2": {% if gwp_prod2 %}{{ gwp_prod2.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+              "gwp_pro2_JSON": {% if gwp_prod2 != blank %}{{ gwp_prod2 | json }}{% else %}null{% endif %},
+              "gwp_pro3": {% if gwp_prod3 %}{{ gwp_prod3.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+              "gwp_pro3_JSON": {% if gwp_prod3 != blank %}{{ gwp_prod3 | json }}{% else %}null{% endif %}
+          }
+      }
+  </script>
+​
+  {% assign CustomerTags = customer.tags | downcase %}
+  {% if customer and  CustomerTags contains 'VIP Member' and settings.is_vip_gwp_enabled %}
+      {% assign gwp_prod1 = all_products[settings.vip_gwp_product_thr1_1] %}
+      {% assign gwp_prod2 = all_products[settings.vip_gwp_product_thr2_1] %}
+      {% assign gwp_prod3 = all_products[settings.vip_gwp_product_thr3_1] %}
+      <script type="application/json" data-GWP-schema data-forVIP>
+          {
+          "enable": {{ settings.is_vip_gwp_enabled | json }},
+          "type": {{ settings.vip_gift_type | json }},
+              "threashould_1": {
+                  "amount": {{ settings.vip_gwp_qualifier_minimum_cart_amount_1 | plus: 0 | times: 100 }},
+                  "original_amount": {{ settings.vip_gwp_qualifier_minimum_cart_amount_1 | plus: 0 | json }},
+                  "gwp_pro": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro_JSON": {% if gwp_prod1 != blank %}{{ gwp_prod1 | json }}{% else %}null{% endif %},
+                  "gwp_pro2": {% if gwp_prod2 %}{{ gwp_prod2.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro2_JSON": {% if gwp_prod2 != blank %}{{ gwp_prod2 | json }}{% else %}null{% endif %},
+                  "gwp_pro3": {% if gwp_prod3 %}{{ gwp_prod3.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro3_JSON": {% if gwp_prod3 != blank %}{{ gwp_prod3 | json }}{% else %}null{% endif %}
+              }
+          }
+      </script>
+  {% else %}
+      {% assign gwp_prod1 = all_products[settings.gwp_product_thr1_1] %}
+      {% assign gwp_prod2 = all_products[settings.gwp_product_thr2_1] %}
+      {% assign gwp_prod3 = all_products[settings.gwp_product_thr3_1] %}
+      <script type="application/json" data-GWP-schema data-forNormal>
+          {
+              "enable": {{ settings.is_gwp_enabled | json }},
+              "type": {{ settings.gift_type | json }},
+              "threashould_1": {
+                  "enable": {{ settings.is_gwp_1_enabled | json }},
+                  "amount": {{ settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | times: 100 }},
+                  "original_amount": {{  settings.gwp_qualifier_minimum_cart_amount_1 | plus: 0 | json }},
+                  "gwp_pro": {% if gwp_prod1 %}{{ gwp_prod1.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro_JSON": {% if gwp_prod1 != blank %}{{ gwp_prod1 | json }}{% else %}null{% endif %},
+                  "gwp_pro2": {% if gwp_prod2 %}{{ gwp_prod2.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro2_JSON": {% if gwp_prod2 != blank %}{{ gwp_prod2 | json }}{% else %}null{% endif %},
+                  "gwp_pro3": {% if gwp_prod3 %}{{ gwp_prod3.selected_or_first_available_variant.id | json }}{% else %}''{% endif %},
+                  "gwp_pro3_JSON": {% if gwp_prod3 != blank %}{{ gwp_prod3 | json }}{% else %}null{% endif %}
+              }
+          }
+      </script>
+  {% endif %}
+  {% endcomment %}
+  {%- assign cartEligibleQty = 0 -%}
+  {%- assign freeGift = all_products[settings.gwp_gift] -%}
+  {%- assign freeGiftFound = null -%}
+  {%- assign existedFreeGift = null -%}
+  {%- assign updateFreeItem = false -%}
+  {%- assign freeGiftEligibleQty = 0 -%}
+  {%- assign collection1 = collections[settings.gwp_collection1].id -%}
+  {%- assign collection2 = collections[settings.gwp_collection2].id -%}
+  {%- assign collection3 = collections[settings.gwp_collection3].id -%}
+  
+  {%- for item in cart.items -%}
+      {% assign foundMactch = false %}
+      {%- if item.properties and item.properties['product_type'] == 'GWP Gift' -%}
+          {%- assign freeGiftFound = forloop.index -%}
+          {%- assign existedFreeGift = item -%}
+      {% endif %}
+      {%- for collection in item.product.collections -%}
+          {% unless item.properties['product_type'] == 'GWP Gift' %}
+          {%- if foundMactch == false and collection.id == collection1 or collection.id == collection2 or collection.id == collection3 %}
+              {%- assign cartEligibleQty  = cartEligibleQty | plus: item.quantity -%}
+              {%- assign freeGiftEligibleQty = 1 -%}
+              {% assign foundMactch = true %}
+          {%- endif -%}
+          {% endunless %}
+      {%- endfor -%}
+  {% endfor %}
+
+  {%- if freeGiftFound != null  and freeGiftEligibleQty > 0 -%}
+      {%- assign updateFreeItem = true -%}
+  {%- endif -%}
+  <script type="application/json" data-GWP-schema>
+    { 
+        "enable_gwp": {{ settings.is_gwp_enabled | json }},
+        "original_total_price": {{ cart.original_total_price | json }},
+        "total_price": {{ cart.total_price | json }},
+        "items_subtotal_price": {{ cart.items_subtotal_price | json }},
+        "cartEligibleQty": {{ cartEligibleQty | json }},
+        "freeGift": {{ freeGift | json }},
+        "freeGiftFound": {{ freeGiftFound | json }},
+        "freeGiftEligibleQty": {{ freeGiftEligibleQty | json }},
+        "updateFreeItem" : {{ updateFreeItem | json }}
+    } 
+  </script>
 </body>
 </html>

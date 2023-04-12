@@ -2,8 +2,39 @@
 {% if section.settings.topbar_enabled %}
     <div class="topbar d-flex align-items-center" data-top-bar style="background-color: {{ section.settings.topbar_bg_color }}; min-height: {{ section.settings.topbar_height }}px;">
         <div class="container">
-            <div class="d-block text-center ls-1 py-1" style="color: {{ section.settings.topbar_text_color }};font-size: {{ section.settings.topbar_font_size }}">
-                {{ section.settings.topbar_text }}
+            <div class="d-flex justify-content-center justify-content-md-between">
+                <div class="topbar-left d-block text-center ls-1 py-1" style="color: {{ section.settings.topbar_text_color }};font-size: {{ section.settings.topbar_font_size }}">
+                    {{ section.settings.topbar_text }}
+                </div>
+                <div class="topbar-right d-none d-md-flex ls-1 py-1 justify-content-between" style="color: {{ section.settings.topbar_text_color }};font-size: {{ section.settings.topbar_font_size }}">
+                   {% if section.settings.phone %} 
+                    <div class="px-3 d-flex">
+                       <span class="icon-phone icon-size-20 pe-1"></span> 
+                       <a herf="{% if section.settings.phone_href %}{{ section.settings.phone_href }}{% else %}#{% endif %}" class="">
+                         {{ section.settings.phone }}
+                       </a> 
+                   </div>
+                   {% endif %}
+
+                   {% if section.settings.location %}
+                    <div class="px-3 d-flex">
+                        <span class="icon-email icon-size-20 pe-1"></span>
+                        <a herf="{% if section.settings.location_href %}{{ section.settings.location_href }}{% else %}#{% endif %}" class="">
+                            {{ section.settings.location }}
+                        </a> 
+                    </div>
+                    {% endif %}
+
+                    {% if section.settings.personal_shoper %}
+                    <div class="px-3 d-flex">
+                        <span class="icon-user icon-size-20 pe-1"></span>
+                        <a herf="{% if section.settings.personal_shoper_href %}{{ section.settings.personal_shoper_href }}{% else %}#{% endif %}" class="">
+                            {{ section.settings.personal_shoper }}
+                        </a> 
+                    </div>
+                   {% endif %}
+
+                </div>
             </div>
         </div>
     </div>
@@ -16,17 +47,6 @@
         {
             "type": "header",
             "content": "t:sections.top-header.settings.header_topbar.label"
-        },
-        {
-            "type": "checkbox",
-            "id": "topbar_enabled",
-            "label": "t:sections.top-header.settings.header_topbar_enabled.label",
-            "default": false
-        },
-        {
-            "type": "html",
-            "id": "topbar_text",
-            "label": "t:sections.top-header.settings.header_topbar_text.label"
         },
         {
             "type": "color",
@@ -55,7 +75,57 @@
             "id": "topbar_font_size",
             "label": "t:sections.top-header.settings.header_topbar_font_size.label",
             "default": "15px"
+        },
+        {
+            "type": "checkbox",
+            "id": "topbar_enabled",
+            "label": "t:sections.top-header.settings.header_topbar_enabled.label",
+            "default": false
+        },
+        {
+            "type": "header",
+            "content": "t:sections.top-header.settings.header_topbar_left.label"
+        },
+        {
+            "type": "richtext",
+            "id": "topbar_text",
+            "label": "t:sections.top-header.settings.header_topbar_text.label"
+        },
+        {
+            "type": "header",
+            "content": "t:sections.top-header.settings.header_topbar_right.label"
+        },
+        {
+            "type": "text",
+            "id": "phone",
+            "label": "t:sections.top-header.settings.header_topbar_phone.label"
+        },
+        {
+            "type": "url",
+            "id": "phone_link",
+            "label": "t:sections.top-header.settings.header_topbar_phone_link.label"
+        },
+        {
+            "type": "text",
+            "id": "location",
+            "label": "t:sections.top-header.settings.header_topbar_location.label"
+        },
+        {
+            "type": "url",
+            "id": "location_link",
+            "label": "t:sections.top-header.settings.header_topbar_location_link.label"
+        },
+        {
+            "type": "text",
+            "id": "personal_shoper",
+            "label": "t:sections.top-header.settings.header_topbar_personal_shoper.label"
+        },
+        {
+            "type": "url",
+            "id": "personal_shoper_link",
+            "label": "t:sections.top-header.settings.header_topbar_personal_shoper_link.label"
         }
+        
     ]
 }
 {% endschema %}

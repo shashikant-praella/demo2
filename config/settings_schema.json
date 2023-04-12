@@ -57,32 +57,26 @@
       {
         "type": "color",
         "id": "color_primary",
-        "default": "#9B6A45",
+        "default": "#29425C",
         "label": "Color Primary"
       },
       {
         "type": "color",
         "id": "color_secondary",
-        "default": "#F2DBCF",
+        "default": "#3A5A50",
         "label": "Color Secondary"
       },
       {
         "type": "color",
-        "id": "color_dark",
-        "default": "#212529",
-        "label": "Color Dark"
+        "id": "color_indigo_dye",
+        "default": "#29425C",
+        "label": "Color Indigo dye"
       },
       {
         "type": "color",
-        "id": "color_alabaster",
-        "default": "#fafaf7",
-        "label": "Color Alabaster"
-      },
-      {
-        "type": "color",
-        "id": "color_almond",
-        "default": "#FAE2CC",
-        "label": "Color Almond"
+        "id": "color_white_smoke",
+        "default": "#F6F5F5",
+        "label": "Color White Smoke"
       },
       {
         "type": "header",
@@ -91,31 +85,31 @@
       {
         "type": "color",
         "id": "color_primary_100",
-        "default": "#F8F0EC",
+        "default": "#F7EEEE",
         "label": "Primary 100"
       },
       {
         "type": "color",
         "id": "color_primary_200",
-        "default": "#F3E6DE",
+        "default": "#E9CCCC",
         "label": "Primary 200"
       },
       {
         "type": "color",
         "id": "color_primary_300",
-        "default": "#E8CDBE",
+        "default": "#DAAAAA",
         "label": "Primary 300"
       },
       {
         "type": "color",
         "id": "color_primary_400",
-        "default": "#DDB49D",
+        "default": "#CC8888",
         "label": "Primary 400"
       },
       {
         "type": "color",
         "id": "color_primary_500",
-        "default": "#D29C7D",
+        "default": "#BE6667",
         "label": "Primary 500"
       },
       {
@@ -125,32 +119,66 @@
       {
         "type": "color",
         "id": "color_secondary_100",
-        "default": "#FDFBF9",
+        "default": "#E9ECEB",
         "label": "Secondary 100"
       },
       {
         "type": "color",
         "id": "color_secondary_200",
-        "default": "#F8EDE7",
+        "default": "#BDC8C4",
         "label": "Secondary 200"
       },
       {
         "type": "color",
         "id": "color_secondary_300",
-        "default": "#F8EDE7",
+        "default": "#91A39D",
         "label": "Secondary 300"
       },
       {
         "type": "color",
         "id": "color_secondary_400",
-        "default": "#F5E4DB",
+        "default": "#657E76",
         "label": "Secondary 400"
       },
       {
         "type": "color",
         "id": "color_secondary_500",
-        "default": "#F2DBCF",
+        "default": "#3A5A50",
         "label": "Secondary 500"
+      },
+      {
+        "type": "header",
+        "content": "Indian Red Color Tints"
+      },
+      {
+        "type": "color",
+        "id": "color_indigo_dye_100",
+        "default": "#E7EAEC",
+        "label": "Indian Red 100"
+      },
+      {
+        "type": "color",
+        "id": "color_indigo_dye_200",
+        "default": "#B7C0C8",
+        "label": "Indian Red 200"
+      },
+      {
+        "type": "color",
+        "id": "color_indigo_dye_300",
+        "default": "#8896A4",
+        "label": "Indian Red 300"
+      },
+      {
+        "type": "color",
+        "id": "color_indigo_dye_400",
+        "default": "#586C80",
+        "label": "Indian Red 400"
+      },
+      {
+        "type": "color",
+        "id": "color_indigo_dye_500",
+        "default": "#29425C",
+        "label": "Indian Red 500"
       },
       {
         "type": "header",
@@ -386,37 +414,37 @@
       {
         "type": "text",
         "id": "type_body_letter_spacing",
-        "default": "0.05em",
+        "default": "0",
         "label": "Body Letter Spacing"
       },
       {
         "type": "text",
         "id": "xs_font_size",
-        "default": "12px",
+        "default": "13px",
         "label": "XS Font Size"
       },
       {
         "type": "text",
         "id": "sm_font_size",
-        "default": "13px",
+        "default": "16px",
         "label": "SM Font Size"
       },
       {
         "type": "text",
         "id": "md_font_size",
-        "default": "14px",
+        "default": "17px",
         "label": "MD Font Size"
       },
       {
         "type": "text",
         "id": "lg_font_size",
-        "default": "15px",
+        "default": "18px",
         "label": "LG Font Size"
       },
       {
         "type": "text",
         "id": "xl_font_size",
-        "default": "17px",
+        "default": "18px",
         "label": "XL Font Size"
       }
     ]
@@ -471,13 +499,13 @@
       {
         "type": "text",
         "id": "h1_font_size_md",
-        "default": "36px",
+        "default": "45px",
         "label": "H1 Font Size"
       },
       {
         "type": "text",
         "id": "h2_font_size_md",
-        "default": "34px",
+        "default": "35px",
         "label": "H2 Font Size"
       },
       {
@@ -495,13 +523,13 @@
       {
         "type": "text",
         "id": "h5_font_size_md",
-        "default": "21px",
+        "default": "20px",
         "label": "H5 Font Size"
       },
       {
         "type": "text",
         "id": "h6_font_size_md",
-        "default": "15px",
+        "default": "18px",
         "label": "H6 Font Size"
       },
       {
@@ -693,8 +721,14 @@
       {
         "type": "color",
         "id": "bg_hover_color_btn_primary",
-        "default": "#9B6A45",
-        "label": "Primary Button Hover Color"
+        "default": "#ffffff",
+        "label": "Primary Button Hover BG Color"
+      },
+      {
+        "type": "color",
+        "id": "text_hover_color_btn_primary",
+        "default": "#29425C",
+        "label": "Primary Button Hover Text Color"
       },
       {
         "type": "header",
@@ -715,52 +749,42 @@
       {
         "type": "color",
         "id": "bg_hover_color_btn_secondary",
-        "default": "#D29C7D",
-        "label": "Secondary Button Hover Color"
+        "default": "#ffffff",
+        "label": "Secondary Button Hover BG Color"
+      },
+      {
+        "type": "color",
+        "id": "text_hover_color_btn_secondary",
+        "default": "#29425C",
+        "label": "Secondary Button Hover Text Color"
       },
       {
         "type": "header",
-        "content": "Button White"
+        "content": "Button Indigo dye"
       },
       {
         "type": "color",
-        "id": "txt_color_btn_white",
-        "default": "#000000",
-        "label": "White Button Text Color"
+        "id": "txt_color_btn_indigo_dye",
+        "default": "#29425C",
+        "label": "Secondary Button Text Color"
       },
       {
         "type": "color",
-        "id": "bg_color_btn_white",
+        "id": "bg_color_btn_indigo_dye",
         "default": "#ffffff",
-        "label": "White Button BG Color"
+        "label": "Secondary Button BG Color"
       },
       {
         "type": "color",
-        "id": "bg_hover_color_btn_white",
-        "default": "#221F20",
-        "label": "White Button Hover Color"
-      },
-      {
-        "type": "header",
-        "content": "Button Dark"
+        "id": "bg_hover_color_btn_indigo_dye",
+        "default": "#29425C",
+        "label": "Secondary Button Hover BG Color"
       },
       {
         "type": "color",
-        "id": "txt_color_btn_dark",
+        "id": "text_hover_color_btn_indigo_dye",
         "default": "#ffffff",
-        "label": "Dark Button Text Color"
-      },
-      {
-        "type": "color",
-        "id": "bg_color_btn_dark",
-        "default": "#000000",
-        "label": "Dark Button BG Color"
-      },
-      {
-        "type": "color",
-        "id": "bg_hover_color_btn_dark",
-        "default": "#222222",
-        "label": "Dark Button Hover Color"
+        "label": "Secondary Button Hover Text Color"
       }
     ]
   },
@@ -1333,5 +1357,74 @@
         "default": "devteam@praella.com"
       }
     ]
-  }
+  },
+  {
+    "name": "Gift With Purchase Single",
+    "settings": [
+        {
+            "type": "header",
+            "content": "General Details"
+        },
+        {
+            "type": "checkbox",
+            "id": "is_gwps_enabled",
+            "label": "Enable?",
+            "default": false
+        },
+        {
+            "type": "paragraph",
+            "content": "Qualifier Settings"
+        },
+        {
+            "type": "text",
+            "id": "gwp_qualifier_minimum_cart_amount",
+            "label": "Set Min. Cart Amount",
+            "info": "E.g. 100.00"
+        },
+        {
+            "type": "product",
+            "id": "gwp_product_thrs1_1",
+            "label": "Select Gift product"
+        }
+    ]
+  },
+  {
+    "name": "Gift With Purchase",
+    "settings": [
+        {
+            "type": "header",
+            "content": "General Details"
+        },
+        {
+            "type": "checkbox",
+            "id": "is_gwp_enabled",
+            "label": "Enable?",
+            "default": false
+        },
+        {
+            "type": "paragraph",
+            "content": "Qualifier Settings"
+        },
+        {
+            "type": "collection",
+            "id": "gwp_collection1",
+            "label": "Select Collection"
+        },
+        {
+            "type": "collection",
+            "id": "gwp_collection2",
+            "label": "Select Collection"
+        },
+        {
+            "type": "collection",
+            "id": "gwp_collection3",
+            "label": "Select Collection"
+        },
+        {
+            "type": "product",
+            "id": "gwp_gift",
+            "label": "Select Gift product"
+        }
+    ]
+ }
 ]

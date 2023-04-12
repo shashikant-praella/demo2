@@ -1,64 +1,146 @@
 {{ 'global-header.css' | asset_url | stylesheet_tag }}
-
 {% assign logo_svg = section.settings.logo_svg %}
 <{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %}>
   <header class="site-header {% if section.settings.show_line_separator %}border-bottom{% endif %}" style="background-color: {{ section.settings.header_bg_color }};">
+    {% if section.settings.topbar_enabled %}
+      <div class="topbar d-flex align-items-center" data-top-bar style="background-color: {{ section.settings.topbar_bg_color }}; min-height: {{ section.settings.topbar_height }}px;">
+          <div class="container">
+              <div class="row justify-content-between align-items-center mobile-topbar text-center" style="color: {{ section.settings.topbar_text_color }};font-size: {{ section.settings.topbar_font_size }}">
+                  {% if section.settings.topbar_text %}
+                    <ul class="d-flex justify-content-lg-end justify-content-center list-unstyled mb-0 col-lg-auto topbar-left">
+                       <li class="py-1">{{ section.settings.topbar_text }}</li>
+                    </ul>
+                 {% endif %}
+
+                  <ul class="topbar-right list-unstyled d-lg-flex d-none align-items-center justify-content-start justify-content-sm-center justify-content-between font-size-md mb-0 col-12 col-lg-auto">
+                     {% if section.settings.store_phone %}
+                       <li class="d-flex pe-4">
+                          <i class="icon-phone text-white icon-size-18 me-2"></i>
+                              <a href="tel:{{ section.settings.store_phone }}" title="{{ section.settings.store_phone }}" aria-label="{{ section.settings.store_phone }}" name="{{ section.settings.store_phone }}" style="color: {{ section.settings.topbar_text_color }};" class="">
+                                {{ section.settings.store_phone }}
+                              </a>
+                        </li>
+                       {% endif %}
+                       {% if section.settings.location %}
+                        <div class="d-flex pe-4">
+                            <i class="icon-email text-white icon-size-18 me-2"></i>
+                            <a herf="{% if section.settings.location_href %}{{ section.settings.location_href }}{% else %}#{% endif %}"  title="{{ section.settings.location }}" aria-label="{{ section.settings.location }}" name="{{ section.settings.location }}" style="color: {{ section.settings.topbar_text_color }};" class="">
+                                {{ section.settings.location }}
+                            </a> 
+                        </div>
+                        {% endif %}
+    
+                        {% if section.settings.personal_shoper %}
+                        <div class="d-flex">
+                            <i class="icon-user text-white icon-size-18 me-2"></i>
+                            <a herf="{% if section.settings.personal_shoper_href %}{{ section.settings.personal_shoper_href }}{% else %}#{% endif %}" title="{{ section.settings.personal_shoper }}" aria-label="{{ section.settings.personal_shoper }}" name="{{ section.settings.personal_shoper }}" style="color: {{ section.settings.topbar_text_color }};" class="">
+                                {{ section.settings.personal_shoper }}
+                            </a> 
+                        </div>
+                       {% endif %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  {% endif %}
     {%- comment -%}Desktop Menu{%- endcomment -%}
     {%- if section.settings.menu != blank -%}
-      <nav class="navbar navbar-main navbar-expand-lg py-0" role="menubar" aria-label="Main Navigation">
-        <div class="{% if section.settings.fluid_header %}container-fluid{% else %}container px-sm-3 px-2{% endif %}">
-          <!-- Dektop Header Logo -->
-          {%- if request.page_type == 'index' -%}
-            <div class="header__heading mb-0">
-          {%- endif -%}
-              <a href="{{ routes.root_url }}" class="navbar-brand me-5 d-none d-lg-block" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
-                {%- if logo_svg != blank -%}
-                  <img src="{{ section.settings.logo_svg }}" alt="{{ shop.name | escape }}" class="img-fluid" height="auto" width="150" loading="lazy" style="width: {{ section.settings.logo_width }}px" >
-                {%- elsif section.settings.logo != blank -%}
-                  <img srcset="{{ section.settings.logo | image_url: width: 500 }}"
-                    src="{{ section.settings.logo | image_url }}"
-                    loading="lazy"
-                    class="img-fluid"
-                    width="{{ section.settings.logo.width }}"
-                    height="{{ section.settings.logo.height }}"
-                    alt="{{ section.settings.logo.alt | default: shop.name | escape }}" 
-                    style="max-width: {{ section.settings.logo_width }}px" 
-                  >
-                {%- else -%}
-                  <span class="h5 text-primary">{{ shop.name }}</span>
+      <nav class="navbar navbar-main navbar-expand-xl py-0" aria-label="Main Navigation">
+        <div class="{% if section.settings.fluid_header %}container-fluid{% else %}container{% endif %} flex-wrap">
+            <div class="collapse navbar-collapse w-100 pt-3">
+                {%- if settings.enable_search -%}
+                    <div class="col-lg-3 search-input">
+                        <div class="search-modal__content" tabindex="-1">
+                            <form action="/pages/search-results-page" method="get" role="search" class="nav-search w-100">
+                                <div class="input-group border">
+                                    <input class="search__input form-control border-0 bg-transparent" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search our store" autocomplete="off" tabindex="0">
+                                    <button class="search__button bg-transparent py-2 px-3 border-0 icon-search text-gray-900 icon-size-20" aria-label="Search"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 {%- endif -%}
-              </a>
-          {%- if request.page_type == 'index' -%}
-            </div>
-            <h1 class="d-none">{{ shop.name }}</h1>
-          {%- endif -%}
-
-          <div class="collapse navbar-collapse">
-            {% render 'desktop-navbar' %}
-          </div>
-
-          <div class="nav navbar-mobile w-100 d-flex align-items-center list-unstyled py-3 d-lg-none">
-            <div class="col-4 col-sm-4 px-0 text-left navbar-icon-links">
-                <div class="nav-item">
-                    <a class="nav-link" href="#" id="mobile-menu" title="menu" rel="nofollow" aria-label="Menu" role="button" aria-expanded="false" aria-controls="mobile-menu-drawer">
-                        <span class="icon-menu"></span>
+                <div class="header__heading mb-0 mx-auto col-md-2 col-lg-6 text-center">
+                    <a href="{{ routes.root_url }}" class="navbar-brand-desktop" name="{{ shop.name | escape }}" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
+                        {%- if logo_svg != blank -%}
+                        <img src="{{ section.settings.logo_svg }}" alt="{{ shop.name | escape }}" class="img-fluid" height="150" width="150" style="max-width: {{ section.settings.logo_width }}px">
+                        {%- elsif section.settings.logo != blank -%}
+                        <img srcset="{{ section.settings.logo | image_url: width: 500 }}"
+                            src="{{ section.settings.logo | image_url: 'pico' }}"
+                            class="img-fluid"
+                            width="{{ section.settings.logo.width }}"
+                            height="{{ section.settings.logo.height }}"
+                            alt="{{ section.settings.logo.alt | default: shop.name | escape }}" 
+                            style="max-width: {{ section.settings.logo_width }}px" >
+                        {%- else -%}
+                        <span class="h5 text-primary">{{ shop.name }}</span>
+                        {%- endif -%}
                     </a>
                 </div>
+                <div class="col-lg-3 d-flex">
+                    <ul class="navbar-nav navbar-icon-links align-items-center ms-auto">
+                        <li class="nav-item">
+                          <a class="nav-link flex-column" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
+                              <i class="icon-time"></i>
+                              <span class="font-size-md">wishlist</span>
+                          </a>
+                        </li>
+                        {% if shop.customer_accounts_enabled %}
+                            <li class="nav-item">
+                                <a class="nav-link flex-column" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
+                                    <i class="icon-user"></i>
+                                    <span class="font-size-md">Account</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column" id="cart-icon-desktop" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
+                                <i class="icon-bag align-middle"></i>
+                                <span class="visually-hidden">{{ 'templates.cart.title' | t }}</span>
+                                {%- if cart != empty -%}
+                                    {%- if cart.item_count < 100 -%}
+                                        <span aria-hidden="true" class="cart-count">{{ cart.item_count }}</span>
+                                    {%- endif -%}
+                                {%- endif -%}
+                                <span class="font-size-md">{{ 'templates.cart.title' | t }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>  
+            <div class="collapse navbar-collapse w-100">
+                {% render 'desktop-navbar' %}
             </div>
-            <div class="col-4 col-sm-4 text-center">
+          <div class="row nav navbar-mobile w-100 d-flex align-items-center list-unstyled py-3 d-xl-none justify-content-center mx-auto">
+            <div class="col-3 col-sm-4 px-0 text-left navbar-icon-links">
+                <ul class="align-items-center d-flex list-unstyled mb-0 navbar-icon-links">
+                    <li class="nav-item">
+                        <a class="nav-link flex-column" href="#" id="mobile-menu" name="menu" title="menu" rel="nofollow" aria-label="Menu" role="button" aria-expanded="false" aria-controls="mobile-menu-drawer">
+                            <span class="icon-menu"></span>
+                            <span class="font-size-xs">Menu</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ps-3">
+                      <a class="nav-link flex-column" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
+                          <i class="icon-time"></i>
+                          <span class="font-size-xs">wishlist</span>
+                      </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-sm-4 text-center">
                 {%- if request.page_type == 'index' -%}
                 <div class="header__heading mb-0">
                 {%- endif -%}
-                    <a href="{{ routes.root_url }}" class="navbar-brand nav-item" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
+                    <a href="{{ routes.root_url }}" class="navbar-brand nav-item" name="{{ shop.name | escape }}" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
                         {%- if logo_svg != blank -%}
-                            <img src="{{ logo_svg }}" alt="{{ shop.name | escape }}" class="img-fluid" style="width: {{ section.settings.logo_width }}px" loading="lazy" 
+                            <img src="{{ logo_svg }}" alt="{{ shop.name | escape }}" class="img-fluid" style="width: {{ section.settings.logo_width }}px" 
                             width="{{ section.settings.logo_width }}"
                             height="40"
                         >
                         {%- elsif section.settings.logo != blank -%}
-                          <img srcset="{{ section.settings.logo | image_url: width: 500 }}"
-                            src="{{ section.settings.logo | image_url }}"
-                            loading="lazy"
+                          <img srcset="{{ section.settings.logo | img_url: width: 500 }}"
+                            src="{{ section.settings.logo | img_url: 'pico' }}"
                             class="img-fluid"
                             width="{{ section.settings.logo.width }}"
                             height="{{ section.settings.logo.height }}"
@@ -72,62 +154,60 @@
                 </div>
                 {%- endif -%}
             </div>
-            <div class="col-4 col-sm-4 px-0 text-right">
+            <div class="col-3 col-sm-4 px-0 text-right">
                 <ul class="align-items-center d-flex justify-content-end list-unstyled mb-0 ms-auto navbar-icon-links">
-                    {% if shop.customer_accounts_enabled %}
-                        <li class="nav-item px-2">
-                            <a class="nav-link" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="account" rel="nofollow" aria-label="Account">
-                                <span class="icon-user"></span>
-                            </a>
-                        </li>
-                    {% endif %}
-                    {%- if settings.enable_search -%}
+                  {% if shop.customer_accounts_enabled %}
                     <li class="nav-item px-2">
-                      <a href="{{ routes.search_url }}" class="nav-link modal__toggle open-searchform" aria-haspopup="dialog" aria-label="{{ 'general.search.title' | t }}">
-                        <span class="icon-search"></span>
-                      </a>
+                        <a class="nav-link flex-column" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
+                            <i class="icon-user"></i>
+                            <span class="font-size-xs">Account</span>
+                        </a>
                     </li>
-                    {%- endif -%}
+                    {% endif %}
                     <li class="nav-item px-2">
-                        <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative" focusable="false" id="cart-icon-mobile" rel="nofollow" title="cart" rel="nofollow" aria-label="Cart">
-                        <span class="icon-bag align-middle"></span>
+                        <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column" focusable="false" id="cart-icon-mobile" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
+                        <i class="icon-bag align-middle"></i>
                         <span class="visually-hidden">{{ 'templates.cart.title' | t }}</span>
                         {%- if cart != empty -%}
                             {%- if cart.item_count < 100 -%}
                             <span aria-hidden="true" class="cart-count">{{ cart.item_count }}</span>
                             {%- endif -%}
                         {%- endif -%}
+                        <span class="font-size-xs">{{ 'templates.cart.title' | t }}</span>
                         </a>
                     </li>
                 </ul>
             </div>
+            {%- if settings.enable_search -%}
+              <div class="col-lg-12 search-input mt-3">
+                  <div class="search-modal__content" tabindex="-1">
+                      <form action="/pages/search-results-page" method="get" role="search" class="nav-search w-100">
+                          <div class="input-group border">
+                              <input class="search__input form-control border-0 bg-transparent" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search our store" autocomplete="off" tabindex="0">
+                              <button class="search__button bg-transparent py-2 px-3 border-0 icon-search text-gray-900 icon-size-20" aria-label="Search"></button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          {%- endif -%}
           </div>
-
         </div>
       </nav>
     {%- endif -%}
-  </header> 
+  </header>
 </{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %}>
-
-
 {%- if section.settings.enable_sticky_header -%}
-  <script src="{{ 'component-sticky-header.js' | asset_url }}" defer></script>
+<script src="{{ 'component-sticky-header.js' | asset_url }}" defer></script>
 {%- endif -%}
-
-
 {% comment %} Organization {% endcomment %}
 <script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "Organization",
     "name": {{ shop.name | json }},
-    {% if section.settings.logo or logo_svg %}
-      {% if logo_svg %}
-        "logo": {{ logo_svg | json }},
-      {% else %}
-        {% assign image_size = section.settings.logo.width | append: 'x' %}
-        "logo": {{ section.settings.logo | image_url: image_size | prepend: "https:" | json }},
-      {% endif %}
+    {% if section.settings.logo %}
+      {% assign image_size = section.settings.logo.width | append: 'x' %}
+      "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
     {% endif %}
     "sameAs": [
       {{ settings.social_twitter_link | json }},
@@ -142,12 +222,79 @@
     "url": {{ shop.url | append: page.url | json }}
   }
 </script>
-
-
 {% schema %}
 {
   "name": "t:sections.header.name",
   "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.top-header.settings.header_topbar.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "topbar_enabled",
+      "label": "t:sections.top-header.settings.header_topbar_enabled.label",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "topbar_text",
+      "label": "t:sections.top-header.settings.header_topbar_text.label"
+    },
+    {
+      "type": "text",
+      "id": "store_phone",
+      "label": "Phone No",
+      "default": "123-456-7890"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "t:sections.top-header.settings.header_topbar_location.label"
+    },
+    {
+        "type": "url",
+        "id": "location_link",
+        "label": "t:sections.top-header.settings.header_topbar_location_link.label"
+    },
+    {
+        "type": "text",
+        "id": "personal_shoper",
+        "label": "t:sections.top-header.settings.header_topbar_personal_shoper.label"
+    },
+    {
+        "type": "url",
+        "id": "personal_shoper_link",
+        "label": "t:sections.top-header.settings.header_topbar_personal_shoper_link.label"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg_color",
+      "label": "t:sections.top-header.settings.header_topbar_bg_color.label",
+      "default": "#00a9a2"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "t:sections.top-header.settings.header_topbar_text_color.label",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "topbar_height",
+      "label": "t:sections.top-header.settings.header_topbar_height.label",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "topbar_font_size",
+      "label": "t:sections.top-header.settings.header_topbar_font_size.label",
+      "default": "13px"
+    },
     {
       "type": "header",
       "content": "t:sections.header.settings.header_layout.label"
@@ -215,36 +362,6 @@
       "id": "menu",
       "default": "main-menu",
       "label": "t:sections.header.settings.menu.label"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "megamenu",
-      "name": "MegaMenu",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Menu Title",
-          "info": "Use Exact string as header"
-        },
-        {
-            "type":"image_picker",
-            "id":"image",
-            "label": "Image",
-            "info": "Use 480x480 sized image."
-        },
-        {
-            "type":"text",
-            "id":"link_text",
-            "label":"Link text"
-        },
-        {
-            "type":"url",
-            "id":"link_url",
-            "label":"URL"
-        }
-      ]
     }
   ]
 }
