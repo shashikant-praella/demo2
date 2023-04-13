@@ -321,7 +321,7 @@
   {%- assign collection1 = collections[settings.gwp_collection1].id -%}
   {%- assign collection2 = collections[settings.gwp_collection2].id -%}
   {%- assign collection3 = collections[settings.gwp_collection3].id -%}
-  
+  {{cart.items | json}}
   {%- for item in cart.items -%}
       {% assign foundMactch = false %}
       {%- if item.properties and item.properties['product_type'] == 'GWP Gift' -%}

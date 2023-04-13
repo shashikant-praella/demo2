@@ -939,7 +939,7 @@ class AjaxCart extends HTMLElement {
             quantity: 0
         }
         await this.cartAction('change', removeData);
-        return false;
+        location.reload();
       }
       if((GWP.enable_gwp == false || GWP.freeGiftEligibleQty <= 0 || cartJSON.total_price <= 0) && GWP.freeGiftFound != null){
       let removeData = {
