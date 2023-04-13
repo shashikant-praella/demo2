@@ -623,7 +623,7 @@ progress {
     font-weight: var(--bs-font-weight-button);
     font-size: var(--bs-font-size-button);
     line-height: var(--bs-line-height-button);
-    border: var(--bs-border-width-button) solid transparent;
+    border: var(--bs-border-width-button) dashed transparent;
     padding: var(--bs-y-padding-button) var(--bs-x-padding-button);
     border-radius: var(--bs-border-radius-button);
     letter-spacing: var(--bs-letter-spacing);
@@ -639,7 +639,6 @@ progress {
     background-color: transparent;
     -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-    border-style: dashed;
 }
 
 .btn-sm {
@@ -658,7 +657,10 @@ progress {
     display: block;
     width: 100%;
 }
-
+.btn-diabaled {
+    background-color: #EAEDEF;
+    color: #B7C0C8;
+}
 @media (prefers-reduced-motion: reduce) {
     .btn {
         -webkit-transition: none;
@@ -669,48 +671,42 @@ progress {
 .btn-primary {
     color: var(--bs-txt-color-btn-primary);
     background-color: var(--bs-bg-color-btn-primary);
-    border-color: var(--bs-txt-color-btn-primary);
+    position: relative;
 }
 
 .btn-primary:hover {
     color: var(--bs-txt-hover-color-btn-primary);
     background-color: var(--bs-bg-hover-color-btn-primary);
-    border-color: var(--bs-txt-hover-color-btn-primary);
 }
 
 .btn-outline-primary {
     color: var(--bs-txt-color-btn-primary);
     background-color: var(--bs-bg-color-btn-primary);
-    border-color: var(--bs-txt-color-btn-primary);
 }
 
 .btn-outline-primary:hover {
     color: var(--bs-txt-hover-color-btn-primary);
     background-color: var(--bs-bg-hover-color-btn-primary);
-    border-color: var(--bs-txt-hover-color-btn-primary);
 }
 
 .btn-secondary {
     color: var(--bs-txt-color-btn-secondary);
     background-color: var(--bs-bg-color-btn-secondary);
-    border-color: var(--bs-txt-color-btn-secondary);
+    position: relative;
 }
 
 .btn-secondary:hover {
     color: var(--bs-txt-hover-color-btn-secondary);
     background-color: var(--bs-bg-hover-color-btn-secondary);
-    border-color: var(--bs-txt-hover-color-btn-secondary);
 }
 .btn-outline-secondary {
     color: var(--bs-txt-color-btn-secondary);
     background-color: var(--bs-bg-color-btn-secondary);
-    border-color: var(--bs-bg-color-btn-secondary);
 }
 
 .btn-outline-secondary:hover {
     color: var(--bs-txt-hover-color-btn-secondary);
     background-color: var(--bs-bg-hover-color-btn-secondary);
-    border-color: var(--bs-txt-hover-color-btn-secondary);
 }
 
 .btn-indigo-dye {
@@ -737,6 +733,24 @@ progress {
     border-color: var(--bs-txt-hover-color-btn-indigo-dye);
 }
 
+.btn-primary::after, .btn-secondary::after {
+    content: "";
+    position: absolute;
+    border-radius: var(--bs-border-radius-button);
+    border-width: 1.5px;
+    border: var(--bs-border-width-button) dashed #DAAAAA;
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+.btn-primary:hover:after, .btn-secondary:hover::after {
+    border-color: var(--bs-color-indigo-dye);
+}
+
 .btn .spinner {
     display: none;
 }
@@ -750,18 +764,62 @@ progress {
 }
 
 .btn-link{
-    text-transform: uppercase;
-    font-size: var(--bs-font-size-lg);
-    color: var(--bs-body-color);
-    border-bottom: 1px solid;
-    border-color: var(--bs-body-color);
-    transition: .25s ease-in-out;  
-    display: inline-block;
+    color: var(--bs-link-color);
+    padding: 0px;
+    background-color: transparent;
 }
 
 .btn-link:hover{
-    color:var(--bs-color-primary);
-    border-bottom: 1px solid var(--bs-color-primary);
+    color: var(--bs-link-color);
+    text-decoration: underline;
+}
+.btn-text {
+    background-color: var(--bs-color-secondary);
+    color: #ffff;
+    border-radius: 0;
+    padding-left: 10px;
+}
+.btn-text:hover {
+    color: #ffff;
+    text-decoration: underline;
+}
+.btn-text-lg {
+    background-color: var(--bs-color-secondary);
+    color: #ffff;
+    border-radius: 0;
+    padding-left: 10px;
+    font-weight: 500;
+    font-size: 22px;
+}
+.btn-text-lg:hover{
+    color: #ffff;
+    text-decoration: underline;
+}
+.btn-text-lg:after, .btn-link-lg:after{
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 1.7px solid;
+    border-color: #fff;
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: 7px;
+    margin-left: 5px;
+    transition: .25s ease-in-out;
+}
+.btn-link-lg{
+    font-size: 22px;
+    font-weight: 500;
+}
+.btn-link-lg:after{
+    border-color: var(--bs-txt-color-btn-indigo-dye);
+}
+.btn-text-lg:hover:after, .btn-link-lg:hover:after{
+    margin-left: 10px;
 }
 
 .shopify-challenge__button{
