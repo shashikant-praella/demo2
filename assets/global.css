@@ -737,7 +737,6 @@ progress {
     content: "";
     position: absolute;
     border-radius: var(--bs-border-radius-button);
-    border-width: 1.5px;
     border: var(--bs-border-width-button) dashed #DAAAAA;
     -ms-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
