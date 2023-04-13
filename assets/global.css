@@ -618,7 +618,7 @@ progress {
 
 .btn {
     display: inline-block;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-family: var(--bs-font-family-button);
     font-weight: var(--bs-font-weight-button);
     font-size: var(--bs-font-size-button);
@@ -643,11 +643,13 @@ progress {
 }
 
 .btn-sm {
+    border-radius: 22px;
     font-size: var(--bs-font-size-button-sm);
     padding: var(--bs-y-padding-button-sm) var(--bs-x-padding-button-sm);
 }
 
 .btn-lg {
+    border-radius: 27px;
     font-size: var(--bs-font-size-button-lg);
     padding: var(--bs-y-padding-button-lg) var(--bs-x-padding-button-lg);
 }
