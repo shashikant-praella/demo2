@@ -17,7 +17,7 @@
                                     {% render 'cart-free-shipping-bar' %}
                                 </div>
                             {% endif %}
-                            {%- if settings.is_gwp_enabled == true -%}
+                            {%- if settings.is_gwp_enabled == true and settings.is_gwp_auto_add == false -%}
                                 <p class="free-giftText"></p>
                                 <div class="gwp-product d-none" data-freeGift></div>
                             {%- endif -%}

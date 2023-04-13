@@ -1,0 +1,152 @@
+<script>
+    class GWPdiscount {
+        constructor() {
+            this.discountcode ='{{settings.gift_product_discount}}';
+            this.freeProduct = '{{settings.free_product}}';
+            this.discountApplyName = 'checkout[reduction_code]';
+            this.alreadyAdded=false;
+            this.cartJson={};
+            this.freeProductId=null;
+            this.checkoutForm = {
+                discountInputs: null,
+                discountRemoveForm: null
+            };
+            this._fetchProduct();
+            document.addEventListener("page:load", (event) => {
+                this._getFormsElements();
+            })
+            document.addEventListener("page:change", (event) => {
+                this._getFormsElements();
+            })
+        }
+        _fetchProduct(){
+            fetch(`/products/${this.freeProduct}.json`, {method: 'GET'}).then(function(response) {
+                return response.json();
+            }).then((data)=>{
+                this.freeProductId=data.product.variants[0].id;
+            })
+        }
+        _getFormsElements(){
+            let maxTime=5;
+            let time=1  
+            let discountCodeInterval=setInterval(()=>{
+                this.checkoutForm.discountInputs=document.querySelectorAll(`[name="${this.discountApplyName}"]`);
+                this.checkoutForm.discountRemoveForm=document.querySelectorAll('[data-reduction-form="true"]');
+                if(this.checkoutForm.discountInputs.length > 0){
+                    this._checkDiscountValidation(this.discountcode);
+                    this._BindDiscountForm()
+                    this._BindRemoveDiscountForm();
+                    clearInterval(discountCodeInterval)
+                }else{
+                    if(maxTime == time){
+                        clearInterval(discountCodeInterval)
+                    }
+                    time++;
+                }
+            }, 1000);
+        }
+        _BindDiscountForm(){
+            this.checkoutForm.discountInputs.forEach((form)=> {
+                form.addEventListener('submit', (event) => {
+                    event.stopImmediatePropagation();
+                    this._checkDiscountValidation(this.discountcode)
+                });
+            })
+        }
+        _BindRemoveDiscountForm(){
+            this.checkoutForm.discountRemoveForm.forEach((discount_form)=>{
+                discount_form.addEventListener('submit',async (event) => {
+                    event.stopImmediatePropagation();
+                    for (let [i,item] of this.cartJson.items.entries()){
+                        if(item.properties['_type'] == 'checkout_gift'){
+                            await this._removeGiftProduct(i+1);
+                        }
+                    }
+                });
+            })
+        }
+        async _checkDiscountValidation(discount_code){
+            await this._cartJson();
+            let maxTime=5;
+            let time=1    
+            let discountInterval= setInterval(()=>{
+                var checkoutDiscounts=document.querySelector('.reduction-code__text');
+                if(checkoutDiscounts != null){
+                    if(!this.alreadyAdded && checkoutDiscounts.innerText.toLowerCase().trim() == discount_code.toLowerCase().trim()){
+                        this._addGiftProduct();
+                    }else{
+                        if(this.alreadyAdded && checkoutDiscounts.innerText.toLowerCase().trim() != discount_code.toLowerCase().trim()){
+                            for (let [i,item] of this.cartJson.items.entries()){
+                                if(item.properties['_type'] == 'checkout_gift'){
+                                    this._removeGiftProduct(i+1);
+                                }
+                            }
+                        }
+                    }
+                    clearInterval(discountInterval)
+                }else{
+                    if(maxTime == time){
+                        clearInterval(discountInterval)
+                    }
+                    time++;
+                }
+            });
+        }
+        _addGiftProduct(){
+            var adddata = {
+                'id': parseInt(this.freeProductId),
+                'quantity': 1,
+                properties: {
+                    '_type': "checkout_gift"
+                }
+            }
+            fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(adddata)
+            }).then(function(data) { 
+                return data.json()
+            }).then(function(product) { 
+               window.location.reload();
+            })
+            .catch(function(error) {
+               console.error('Request failed', error)
+            });
+        }
+        async _removeGiftProduct(line){
+            var adddata = {
+            'line': line,
+            'quantity': 0
+            }
+            fetch('/cart/change.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(adddata)
+            }).then(function(data) { 
+            return data.json()
+            }).then(function(product) { 
+            window.location.reload();
+            })
+            .catch(function(error) {
+            console.error('Request failed', error)
+            });
+        }
+        async _cartJson(){
+            this.alreadyAdded=false;
+            const response = await fetch('/cart.json');
+            const data = await response.json();
+            this.cartJson=data;
+            for (let [i,item] of this.cartJson.items.entries()){
+                if(item.properties['_type'] == 'checkout_gift'){
+                    this.alreadyAdded=true;
+                }
+            }  
+            return data;
+        }
+    }
+    new GWPdiscount();
+    </script>

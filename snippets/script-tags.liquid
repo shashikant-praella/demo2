@@ -72,3 +72,6 @@
 <script src="{{ 'sections.js' | asset_url }}" defer></script>
 {%- endif -%}
 
+{%- if settings.is_gwp_enabled == true -%}
+    <script src="{{ 'global-GWP-script.js' | asset_url }}" defer></script>
+{%- endif -%}

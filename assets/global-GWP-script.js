@@ -1,5 +1,4 @@
 var GWP = {};
-var GWPObserver = null;
 const GWPSchema = document.querySelector('[data-GWP-schema]');
 if(GWPSchema){
   GWP = JSON.parse(GWPSchema.innerHTML);
@@ -14,18 +13,9 @@ class customGWPJS {
         this.ajaxCart = document.querySelector('ajax-cart');
         const cart = window.globalVariables.cart;
         let  GWPGift = false;
-        let threashouldValue = null;
-        let existedFreeProduct = null;
-        let existedFreeProductLine = null;
-    
-        let finalThreshouldAmount = null;
-        let originalThreshouldAmount = null;
-        let updateQty = false;
-    
-        let eligibleThreshould = null;
-        let eligibleFreeProduct = null;
-        let eligibleFreeProductJSON = null;
-        let cartTotal = 0;
+        let [threashouldValue, existedFreeProduct, existedFreeProductLine] = [null, null, null];
+        let [finalThreshouldAmount, originalThreshouldAmount, updateQty] = [null, null, false];
+        let [eligibleThreshould, eligibleFreeProduct, eligibleFreeProductJSON, cartTotal] = [null, null, null, 0];
 
         cart.items.forEach((product, index)=>{
             if(product.properties && product.properties['product_type'] == 'GWP Gift'){
@@ -46,7 +36,7 @@ class customGWPJS {
                 }
             }else{
                 if(product.product_type != 'Gift Card'){
-                cartTotal = cartTotal + product.final_line_price;
+                    cartTotal = cartTotal + product.final_line_price;
                 }
             }
         });
@@ -54,65 +44,49 @@ class customGWPJS {
         if(GWP.enable == 'true'){
             if(GWP.threashould_3['enable'] == true && cartTotal >= GWP.threashould_3['amount']){
                 eligibleThreshould = 3;
-                eligibleFreeProduct = GWP.threashould_3['gwp_pro'];
-                finalThreshouldAmount = GWP.threashould_3['amount'];
-                eligibleFreeProductJSON = GWP.threashould_3['gwp_pro_JSON'];
-                originalThreshouldAmount = GWP.threashould_3['original_amount'];
             }else if(GWP.threashould_2['enable'] == true && cartTotal >= GWP.threashould_2['amount']){
                 eligibleThreshould = 2;
-                eligibleFreeProduct = GWP.threashould_2['gwp_pro'];
-                finalThreshouldAmount = GWP.threashould_2['amount'];
-                eligibleFreeProductJSON = GWP.threashould_2['gwp_pro_JSON'];
-                originalThreshouldAmount = GWP.threashould_2['original_amount'];
             }else if(GWP.threashould_1['enable'] == true && cartTotal >= GWP.threashould_1['amount']){
                 eligibleThreshould = 1;
-                eligibleFreeProduct = GWP.threashould_1['gwp_pro'];
-                finalThreshouldAmount = GWP.threashould_1['amount'];
-                eligibleFreeProductJSON = GWP.threashould_1['gwp_pro_JSON'];
-                originalThreshouldAmount = GWP.threashould_1['original_amount'];
+            }
+            if(eligibleThreshould != null){
+                let selectedThreashould = GWP[`threashould_${eligibleThreshould}`];
+                [eligibleFreeProduct,eligibleFreeProductJSON] = [selectedThreashould.gwp_pro, selectedThreashould.gwp_pro_JSON];
+                [finalThreshouldAmount,originalThreshouldAmount] = [selectedThreashould.amount, selectedThreashould.original_amount];
             }
         }
 
-        var removeProduct = JSON.stringify({
+        let removeProduct = JSON.stringify({
             line: existedFreeProductLine,
             quantity: 0
         });
 
-        if((GWP == undefined || eligibleThreshould == null) && GWPGift == true) {
-            this.updateGWPvariant(removeProduct, (response)=>{
-                // console.log('Removed GWP From Cart====>', response);
+        if((GWP == undefined || eligibleThreshould == null) && GWPGift) {
+            this.updateGWPvariant(removeProduct, ()=> {
                 if(this.ajaxCart) this.ajaxCart.getCartData();
             });
-        }else if(threashouldValue != null && threashouldValue != eligibleThreshould && eligibleFreeProduct != null){
-            this.updateGWPvariant(removeProduct, (response)=>{
-                // console.log('Removed GWP From Cart====>', response);
-                if(GWP.auto_add == true){
-                    this.addFreeProToCart(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
+        }else if((threashouldValue && threashouldValue != eligibleThreshould && eligibleFreeProduct != null) 
+        || (existedFreeProduct != null && existedFreeProduct != eligibleFreeProduct)){
+            this.updateGWPvariant(removeProduct, ()=> {
+                if(GWP.auto_add){
+                    this.addFreeProToCart(originalThreshouldAmount, eligibleFreeProductJSON);
                 }else{
+                    if(this.ajaxCart) this.ajaxCart.getCartData();
                     this.showFreeProduct(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
                 }
             });
-        }else if(existedFreeProduct != null && existedFreeProduct != eligibleFreeProduct){
-            this.updateGWPvariant(removeProduct, (response)=>{
-                // console.log('Removed GWP From Cart====>', response);
-                if(GWP.auto_add == true){
-                    this.addFreeProToCart(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
-                }else{
-                    this.showFreeProduct(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
-                }
-            });
-        }else if(updateQty == true){
-            var updateProduct = JSON.stringify({
+        }
+        else if(updateQty){
+            let updateProduct = JSON.stringify({
                 line: existedFreeProductLine,
                 quantity: 1
             });
-            this.updateGWPvariant(updateProduct, (response)=>{
-                // console.log('Updated GWP From Cart====>', response);
+            this.updateGWPvariant(updateProduct, ()=>{
                 if(this.ajaxCart) this.ajaxCart.getCartData();
             });
-        }else if(eligibleThreshould != null && eligibleFreeProduct != null && GWPGift == false){
-            if(GWP.auto_add == true){
-                this.addFreeProToCart(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
+        }else if(eligibleThreshould != null && eligibleFreeProduct != null && !GWPGift){
+            if(GWP.auto_add){
+                this.addFreeProToCart(originalThreshouldAmount, eligibleFreeProductJSON);
             }else{
                 this.showFreeProduct(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON);
             }
@@ -145,15 +119,7 @@ class customGWPJS {
               spend_over: originalThreshouldAmount
             }
         });
-        let fetchCart = fetch(`${routes.cart_add_url}`, { ...fetchConfig(), ...{ body }});
-        fetchCart.then(response => {
-            return response.json();
-        }).then(response => {
-            // console.log('Product Added=====>', response);
-            if(this.ajaxCart) this.ajaxCart.getCartData();
-        }).catch((e) => {
-            console.error(e);
-        });
+        fetchCart(body)
     }
 
     showFreeProduct(originalThreshouldAmount, finalThreshouldAmount, eligibleFreeProductJSON){
@@ -188,7 +154,7 @@ class customGWPJS {
         const freeGiftParent = document.querySelector('[data-freeGift]');
         if(freeGiftParent){
             freeGiftParent.innerHTML = freeProductHTML;
-            freeGiftParent.style.display = 'block';
+            freeGiftParent.classList.remove('d-none');
         }
 
         const addItemBtns = document.querySelector('[data-addFreeItem]');
@@ -204,15 +170,19 @@ class customGWPJS {
                     spend_over: currentTarget.getAttribute('data-originalThreshouldAmount')
                 }
             });
-            let fetchCart = fetch(`${routes.cart_add_url}`, { ...fetchConfig(), ...{ body }});
-            fetchCart.then(response => {
-                return response.json();
-            }).then(response => {
-                // console.log('Product Added=====>', response);
-                if(this.ajaxCart) this.ajaxCart.getCartData();
-            }).catch((e) => {
-                console.error(e);
-            });
+            fetchCart(body)
+        });
+    }
+
+    fetchCart(body){
+        let fetchCart = fetch(`${routes.cart_add_url}`, { ...fetchConfig(), ...{ body }});
+        fetchCart.then(response => {
+            return response.json();
+        }).then(response => {
+            // console.log('Product Added=====>', response);
+            if(this.ajaxCart) this.ajaxCart.getCartData();
+        }).catch((e) => {
+            console.error(e);
         });
     }
 }

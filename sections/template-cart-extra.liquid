@@ -1,0 +1,66 @@
+{%- liquid
+    assign freeGiftItems = ''
+    for item in cart.items
+    if item.properties and item.properties['product_type'] == 'PWP Gift'
+        if freeGiftItems == ''
+            assign freeGiftItems = item.id | escape
+        else
+            assign freeGiftItems = freeGiftItems | append: ',' | append: item.id
+        endif
+    endif
+    endfor
+-%}
+<script data-cart-extra-json type="application/json">
+   {
+       "total": {{ cart.total_price | money_without_currency }},
+       "items": [
+           {% for item in cart.items %}
+               {%- assign itemType = 'notPWP'-%}
+               {%- assign selectedFreeGiftID = ''-%}
+               {%- assign EligibleQty = 0 -%}
+               {%- assign eligibleFreeProduct = false -%}
+               {%- for tag in item.product.tags -%}
+                   {% if tag contains 'PWPGift' %}
+                       {%- assign itemType = 'PWP'-%}
+                       {%- assign splitTag = tag | split: '-' -%}
+                       {%- assign EligibleQty = splitTag[1] | plus: 0 -%}
+                       {%- assign selectedFreeGiftID = splitTag[2] | escape  | plus : 0 -%}
+                   {%- endif -%}
+               {%- endfor -%}
+              
+               {%- if item.properties and item.properties['product_type'] == 'PWP Gift' -%}
+                   {%- assign eligibleFreeProduct = false -%}
+                   {%- assign itemType = 'PWPGift'-%}
+                   {%- assign FreeGiftId = item.id -%}
+                   {% for itm in cart.items %}
+                       {% assign itm_id = itm.id | plus : 0 %}
+                       {% for tag in itm.product.tags %}
+                           {% if tag contains 'PWPGift' and tag contains FreeGiftId %}
+                               {%- assign eligibleFreeProduct = true -%}
+                           {% endif %}
+                       {% endfor %}
+                   {% endfor %}
+               {%- endif -%}
+              
+               {
+                   "id": {{ item.id | json }},
+                   "key": {{ item.key | json }},
+                   "title": {{ item.title | json }},
+                   "quantity": {{ item.quantity | json }},
+                   "item_type": {{ itemType | json }},
+                   "EligibleQty": {{ EligibleQty | json }},
+                   "PWPEligible": "{%- if item.quantity >= EligibleQty and EligibleQty > 0 -%}true{%- else -%}false{%- endif -%}",
+                   "PWPalreadyExistInCart": "{%- if freeGiftItems contains selectedFreeGiftID -%}true{%- else -%}false{%- endif -%}",
+                   "selectedFreeGiftID": {{ selectedFreeGiftID | json }},
+                   "eligibleFreeProduct":{{eligibleFreeProduct}},
+                   "itemTags": {{ item.product.tags | json }},
+                   "handle": {{ item.product.handle | json }},
+                   "variant_id": {{ item.variant_id | json }},
+                   "properties": {{ item.properties| json }},
+                   "itemKey": "{{ item.key }}"
+               }
+               {% unless forloop.last == true %},{% endunless %}
+           {% endfor %}
+       ]
+     }
+</script>

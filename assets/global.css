@@ -11963,3 +11963,20 @@ svg.icon.icon-caret {
     right: 0;
     width: 100%;
 }
+
+.cart-page .gwp-product .cart-img{
+    width: 150px;
+}
+.cart-page .gwp-product .cart-item-text{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cart-page .gwp-product .cart-img{
+    width: 150px;
+}
+.cart-page .gwp-product .cart-item-text{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

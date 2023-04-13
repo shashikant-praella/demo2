@@ -199,8 +199,10 @@ class AjaxCart extends HTMLElement {
           this.openCartDrawer();
       }
       //  this.cartGWP();
-       this.calculateFreeGift()
+      //  this.calculateFreeGift()
       // this.cartGWPSingleTier();
+      this.cartPWP();
+      if(typeof customGWPJS == 'function') customGWPJS.prototype.cartGWP();
     }
 
     /**
@@ -820,100 +822,100 @@ class AjaxCart extends HTMLElement {
         await this.cartAction('update', cartQty);
     }
 
-   async cartGWP() {
+  //  async cartGWP() {
 
-      let  GWP = {};
-      let cartGWPEle = document.querySelector('[data-GWP-schema]'); 
-      if(cartGWPEle){
-        GWP = JSON.parse(cartGWPEle.innerHTML);
-      }
-      let freeProducts = [];
-      if(GWP && GWP.threashould_1){
-      freeProducts.push(GWP.threashould_1.gwp_pro);
-      freeProducts.push(GWP.threashould_1.gwp_pro2);
-      freeProducts.push(GWP.threashould_1.gwp_pro3);
-      }
+  //     let  GWP = {};
+  //     let cartGWPEle = document.querySelector('[data-GWP-schema]'); 
+  //     if(cartGWPEle){
+  //       GWP = JSON.parse(cartGWPEle.innerHTML);
+  //     }
+  //     let freeProducts = [];
+  //     if(GWP && GWP.threashould_1){
+  //     freeProducts.push(GWP.threashould_1.gwp_pro);
+  //     freeProducts.push(GWP.threashould_1.gwp_pro2);
+  //     freeProducts.push(GWP.threashould_1.gwp_pro3);
+  //     }
 
-      let cartJSON = await this.cartJSON();
-      const cartItems = cartJSON.items;
-      let finalGWPAddedCount = 0;
-      let finalQty;
-      let cartTotal = 0;
-      let cartElements = [];
-      let removeExpiredGifts = false;
-      let updateGifts = false;
+  //     let cartJSON = await this.cartJSON();
+  //     const cartItems = cartJSON.items;
+  //     let finalGWPAddedCount = 0;
+  //     let finalQty;
+  //     let cartTotal = 0;
+  //     let cartElements = [];
+  //     let removeExpiredGifts = false;
+  //     let updateGifts = false;
 
 
-      cartItems.forEach((product, index) => {  
-        if(product.properties['product_type'] == 'GWP Gift'){
-          finalGWPAddedCount += product.quantity; 
-          let itemData = {
-              type: 'Gift',
-              spendOver: product.properties['spend_over'],
-              baseThreshold: product.properties['baseThreshold'],
-              quantity: product.quantity,
-              id: product.id
-          }
-          cartElements.push(itemData);
-          let proThreshould = parseInt(product.properties['baseThreshold']);
-          let GWPThreshould = parseInt(GWP.threashould_1.original_amount);
-          if(proThreshould != GWPThreshould){
-              updateGifts = true;
-          }
+  //     cartItems.forEach((product, index) => {  
+  //       if(product.properties['product_type'] == 'GWP Gift'){
+  //         finalGWPAddedCount += product.quantity; 
+  //         let itemData = {
+  //             type: 'Gift',
+  //             spendOver: product.properties['spend_over'],
+  //             baseThreshold: product.properties['baseThreshold'],
+  //             quantity: product.quantity,
+  //             id: product.id
+  //         }
+  //         cartElements.push(itemData);
+  //         let proThreshould = parseInt(product.properties['baseThreshold']);
+  //         let GWPThreshould = parseInt(GWP.threashould_1.original_amount);
+  //         if(proThreshould != GWPThreshould){
+  //             updateGifts = true;
+  //         }
 
-          let itemID = product.id;
-          if(freeProducts.includes(itemID) != true){
-              removeExpiredGifts = true;
-          }
-        }else{
-          let itemData = {
-              type: 'Regular',
-              quantity: product.quantity,
-              id: product.id
-          }
-          cartElements.push(itemData);
-          if(product.product_type != 'Gift Card'){
-              cartTotal = cartTotal + product.final_line_price;
-          }
-        }
-      });
+  //         let itemID = product.id;
+  //         if(freeProducts.includes(itemID) != true){
+  //             removeExpiredGifts = true;
+  //         }
+  //       }else{
+  //         let itemData = {
+  //             type: 'Regular',
+  //             quantity: product.quantity,
+  //             id: product.id
+  //         }
+  //         cartElements.push(itemData);
+  //         if(product.product_type != 'Gift Card'){
+  //             cartTotal = cartTotal + product.final_line_price;
+  //         }
+  //       }
+  //     });
 
-      // Calculate Final Qty for Free Product
-      let GiftThreashouldAmount = 0;
-        if(GWP && GWP.enable == true && GWP.threashould_1 && GWP.threashould_1.amount && parseInt(GWP.threashould_1.amount) != NaN && cartTotal > GWP.threashould_1.amount){
-            if(GWP.type == 'single' && cartTotal > GWP.threashould_1.amount){
-            finalQty = 1;
-            }else{
-            finalQty = cartTotal / parseInt(GWP.threashould_1.amount);
-            }
-            GiftThreashouldAmount = GWP.threashould_1.amount;
-        }else{
-            finalQty = 0;
-        }
-        finalQty = Math.floor(finalQty);
-        if((GWP == undefined || GWP['enable'] != true || finalQty <= 0) && finalGWPAddedCount > 0){
-           await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
-        }else if(removeExpiredGifts == true){
-          await this.removeFreeProductFromCart('removeExpired', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
-        }else if(GWP.enable == true && (updateGifts == true || finalGWPAddedCount > finalQty)){
-          await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
-        }else if(GWP.enable == true && finalQty > 0 && finalGWPAddedCount < finalQty){
-            let freeGiftQty = finalQty - finalGWPAddedCount;
-            let freeProducts = [];
-            if(GWP && GWP.threashould_1){
-            if(GWP.threashould_1.gwp_pro_JSON){
-                freeProducts.push(GWP.threashould_1.gwp_pro_JSON);
-            }if(GWP.threashould_1.gwp_pro2_JSON){
-                freeProducts.push(GWP.threashould_1.gwp_pro2_JSON);
-            }if(GWP.threashould_1.gwp_pro3_JSON){
-                freeProducts.push(GWP.threashould_1.gwp_pro3_JSON);
-            }
-            this.ManageFreeProInCart(GWP.threashould_1.original_amount, GWP.threashould_1.amount, finalQty, freeGiftQty, freeProducts, GWP.type);
-            }
-        }else if(cartItems.length == 1){
-          await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
-        }
-    }
+  //     // Calculate Final Qty for Free Product
+  //     let GiftThreashouldAmount = 0;
+  //       if(GWP && GWP.enable == true && GWP.threashould_1 && GWP.threashould_1.amount && parseInt(GWP.threashould_1.amount) != NaN && cartTotal > GWP.threashould_1.amount){
+  //           if(GWP.type == 'single' && cartTotal > GWP.threashould_1.amount){
+  //           finalQty = 1;
+  //           }else{
+  //           finalQty = cartTotal / parseInt(GWP.threashould_1.amount);
+  //           }
+  //           GiftThreashouldAmount = GWP.threashould_1.amount;
+  //       }else{
+  //           finalQty = 0;
+  //       }
+  //       finalQty = Math.floor(finalQty);
+  //       if((GWP == undefined || GWP['enable'] != true || finalQty <= 0) && finalGWPAddedCount > 0){
+  //          await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+  //       }else if(removeExpiredGifts == true){
+  //         await this.removeFreeProductFromCart('removeExpired', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+  //       }else if(GWP.enable == true && (updateGifts == true || finalGWPAddedCount > finalQty)){
+  //         await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+  //       }else if(GWP.enable == true && finalQty > 0 && finalGWPAddedCount < finalQty){
+  //           let freeGiftQty = finalQty - finalGWPAddedCount;
+  //           let freeProducts = [];
+  //           if(GWP && GWP.threashould_1){
+  //           if(GWP.threashould_1.gwp_pro_JSON){
+  //               freeProducts.push(GWP.threashould_1.gwp_pro_JSON);
+  //           }if(GWP.threashould_1.gwp_pro2_JSON){
+  //               freeProducts.push(GWP.threashould_1.gwp_pro2_JSON);
+  //           }if(GWP.threashould_1.gwp_pro3_JSON){
+  //               freeProducts.push(GWP.threashould_1.gwp_pro3_JSON);
+  //           }
+  //           this.ManageFreeProInCart(GWP.threashould_1.original_amount, GWP.threashould_1.amount, finalQty, freeGiftQty, freeProducts, GWP.type);
+  //           }
+  //       }else if(cartItems.length == 1){
+  //         await this.removeFreeProductFromCart('removeNoteligible', GiftThreashouldAmount, cartTotal, cartElements, freeProducts, GWP.type);
+  //       }
+  //   }
 
     // 3) Final Calculative Function
     // Run this function on page load and Cart Update
@@ -972,5 +974,93 @@ class AjaxCart extends HTMLElement {
       }
       } 
     }
+    async cartJSONExtra() {
+      let finalResponse;
+      const response = await fetch(`/cart?view=extra`,
+      {
+        method: 'GET'
+      });
+      var data = await response.text();
+
+      // Added onetime addon
+      if (response.ok) {
+        let parser = new DOMParser();
+        data = parser.parseFromString(data, 'text/html');
+        data = data.querySelector('[data-cart-extra-json]').innerHTML;
+        finalResponse = JSON.parse(data);
+        return finalResponse
+      }else{
+        console.log('search.json Request Failed: ');
+      }
+      return finalResponse;
+   };
+ 
+    async cartPWP() {
+      let cartJSON = await this.cartJSONExtra();
+      const cartItems = cartJSON.items;
+      let addProductsArray = [];
+      let removeItems = {};
+      let finalQtyArray = [];
+      let RemoveGiftFound = false;
+      let availFreeProduct=false;
+      let availRegularProduct=false;
+
+      let addPropertie = {
+        "product_type": "PWP Gift"
+      }
+      console.log(cartItems,'cartItems')
+      cartItems.forEach((item,i) => {
+        if(item.item_type == 'PWPGift') {
+
+          removeItems[item.id] = i;
+          availFreeProduct=true;
+          
+          if(item.quantity > 1) {
+            RemoveGiftFound = true;
+            finalQtyArray.push(1);
+          }
+          if (!item.eligibleFreeProduct) {
+            RemoveGiftFound = true;
+            finalQtyArray[i]=0;
+          }
+          
+        }
+        else finalQtyArray.push(item.quantity);
+
+        if(item.item_type == 'PWP' && item.PWPEligible == 'true' && item.PWPalreadyExistInCart == 'false'){
+          let addProObject = {
+            quantity: 1,
+            id: item.selectedFreeGiftID,
+            properties: addPropertie
+          }
+          addProductsArray.push(addProObject);
+        }
+
+        if(item.item_type == 'PWP') {
+          availRegularProduct=true;
+
+          if(item.PWPEligible == 'false' && item.PWPalreadyExistInCart == 'true') {
+            RemoveGiftFound = true;
+            const lineIndex = removeItems[item.selectedFreeGiftID];
+
+            if(lineIndex != undefined){
+              finalQtyArray[lineIndex] = 0;
+            }
+          }
+        }
+
+      });
+      if(addProductsArray.length > 0){
+        await this.cartAction('add', addProductsArray);
+        location.href = "/cart";
+      }
+      if(finalQtyArray.length > 0 && RemoveGiftFound == true){
+        await this.cartAction('change', finalQtyArray)
+        location.href = "/cart";
+        
+      }
+    };
+    
+  
 }
 customElements.define("ajax-cart", AjaxCart);
