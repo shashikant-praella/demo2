@@ -747,6 +747,9 @@ progress {
     left: 0;
     top: 0;
 }
+.btn-secondary::after {
+    border: var(--bs-border-width-button) dashed #91A39D;
+}
 .btn-primary:hover:after, .btn-secondary:hover::after {
     border-color: var(--bs-color-indigo-dye);
 }
