@@ -64,6 +64,13 @@
             "related_products_section_bg_color": "#ffffff",
             "related_products_section_color": "#343a40"
           }
+        },
+        "2829ad03-0613-49e1-b46d-e0a57cb9e264": {
+          "type": "addons",
+          "settings": {
+            "enable_addons": true,
+            "addons_value": "the-complete-snowboard"
+          }
         }
       },
       "block_order": [
@@ -74,7 +81,8 @@
         "b253ffff-d04d-43a0-9d68-fabdd77b595a",
         "e53b8574-dd34-4eca-8c40-ac20d2e38598",
         "product-tabs",
-        "related-products"
+        "related-products",
+        "2829ad03-0613-49e1-b46d-e0a57cb9e264"
       ],
       "settings": {
         "template_type": "classic-vertical",

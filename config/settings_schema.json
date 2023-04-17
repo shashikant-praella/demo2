@@ -1471,5 +1471,30 @@
         "label": "Select Gift product"
       }
     ]
+  },
+  {
+    "name": "Product With Purchase(PWP)",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General Details"
+      },
+      {
+        "type": "checkbox",
+        "id": "is_pwp_enabled",
+        "label": "Enable?",
+        "default": false
+      },
+      {
+        "type": "paragraph",
+        "content": "Qualifier Settings"
+      },
+      {
+        "type": "textarea",
+        "id": "pwp_productRules",
+        "label": "PWP for Products",
+        "info": "Each Entry Should be in New Line. \n For single product scenario use variantID:Qty = Gift variantID."
+      }
+    ]
   }
 ]

@@ -73,5 +73,8 @@
 {%- endif -%}
 
 {%- if settings.is_gwp_enabled == true -%}
-    <script src="{{ 'global-GWP-script.js' | asset_url }}" defer></script>
+<script src="{{ 'global-GWP-script.js' | asset_url }}" defer></script>
+{%- endif -%}
+{%- if template == 'page.quiz' -%} 
+   <script src="{{ 'template-quiz.js' | asset_url }}" defer></script>
 {%- endif -%}

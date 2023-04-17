@@ -12,7 +12,7 @@
 -%}
 <script data-cart-extra-json type="application/json">
    {
-       "total": {{ cart.total_price | money_without_currency }},
+       "total": {{ cart.total_price | money_without_currency | replace: ',', ''}},
        "items": [
            {% for item in cart.items %}
                {%- assign itemType = 'notPWP'-%}
@@ -64,3 +64,62 @@
        ]
      }
 </script>
+
+{% comment %}
+{% liquid
+    assign freeGiftItems = ''
+    assign FreeGiftRules = settings.pwp_productRules
+    if FreeGiftRules != '' and FreeGiftRules != blank
+        assign FreeGiftRules = FreeGiftRules | newline_to_br | split: '<br />'
+    endif
+    for item in cart.items
+        for rule in FreeGiftRules
+            assign ruleBreakdown = rule | split: '='
+            assign giftProId =  ruleBreakdown[1] | strip
+            assign IdQty = ruleBreakdown[0] | split: ':'
+            assign productID = IdQty[0] | plus: 0
+            assign productQty = IdQty[1] | plus: 0
+            if productID == item.id and item.quantity >= productQty
+                if freeGiftItems == '' 
+                assign freeGiftItems = giftProId 
+                else
+                    assign freeGiftItems = freeGiftItems | append: ',' | append: giftProId
+                endif
+            endif
+        endfor
+    endfor
+%}
+<script data-cart-extra-json type="application/json">
+{
+   "total": {{ cart.total_price | money_without_currency | replace: ',', ''}},
+   "PWP_Enable": {{ settings.is_pwp_enabled | json }},
+   "freeGiftItems": {{ freeGiftItems | json }},
+   "items": [
+       {% for item in cart.items %}
+           {%- liquid
+               assign itemType = 'notPWP'
+               if item.properties and item.properties['product_type'] == 'PWP Gift' 
+                   assign itemType = 'PWPGift'
+               endif 
+               if item.properties and item.properties['product_type'] == 'GWP Gift' 
+                   assign itemType = 'GWPGift'
+               endif 
+           -%}
+           {
+               "id": {{ item.id | json }},
+               "key": {{ item.key | json }},
+               "title": {{ item.title | json }},
+               "quantity": {{ item.quantity | json }},
+               "item_type": {{ itemType | json }},
+               "itemTags": {{ item.product.tags | json }},
+               "handle": {{ item.product.handle | json }},
+               "variant_id": {{ item.variant_id | json }},
+               "properties": {{ item.properties | json }},
+               "itemKey": "{{ item.key }}"
+           }
+           {% unless forloop.last == true %},{% endunless %}
+       {% endfor %}
+   ]
+}
+</script>
+{% endcomment %}

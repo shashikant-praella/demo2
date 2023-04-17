@@ -118,6 +118,7 @@
         {% endif %}
     </div>
 </div>
+{% if addOnsHTML %} {{ addOnsHTML }} {% endif %}
 
   <script class="variantsJSON-{{ product.id }}" data-variantJSON type="application/json">
     {{ product.variants | json }}

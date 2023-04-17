@@ -201,7 +201,8 @@ class AjaxCart extends HTMLElement {
       //  this.cartGWP();
       //  this.calculateFreeGift()
       // this.cartGWPSingleTier();
-      this.cartPWP();
+      this.cartPWPwithoutSchema();
+      // this.cartPWP();
       if(typeof customGWPJS == 'function') customGWPJS.prototype.cartGWP();
     }
 
@@ -995,7 +996,7 @@ class AjaxCart extends HTMLElement {
       return finalResponse;
    };
  
-    async cartPWP() {
+    async cartPWPwithoutSchema() {
       let cartJSON = await this.cartJSONExtra();
       const cartItems = cartJSON.items;
       let addProductsArray = [];
@@ -1004,29 +1005,22 @@ class AjaxCart extends HTMLElement {
       let RemoveGiftFound = false;
       let availFreeProduct=false;
       let availRegularProduct=false;
-
+ 
       let addPropertie = {
         "product_type": "PWP Gift"
       }
-      console.log(cartItems,'cartItems')
       cartItems.forEach((item,i) => {
-        if(item.item_type == 'PWPGift') {
-
+        if(item.item_type == 'PWPGift' == true && item.quantity > 1){
+          RemoveGiftFound = true;
+          finalQtyArray.push(1);
+        }else{
+          finalQtyArray.push(item.quantity);
+        }
+        if(item.item_type == 'PWPGift'){
           removeItems[item.id] = i;
           availFreeProduct=true;
-          
-          if(item.quantity > 1) {
-            RemoveGiftFound = true;
-            finalQtyArray.push(1);
-          }
-          if (!item.eligibleFreeProduct) {
-            RemoveGiftFound = true;
-            finalQtyArray[i]=0;
-          }
-          
         }
-        else finalQtyArray.push(item.quantity);
-
+    
         if(item.item_type == 'PWP' && item.PWPEligible == 'true' && item.PWPalreadyExistInCart == 'false'){
           let addProObject = {
             quantity: 1,
@@ -1035,31 +1029,79 @@ class AjaxCart extends HTMLElement {
           }
           addProductsArray.push(addProObject);
         }
-
-        if(item.item_type == 'PWP') {
-          availRegularProduct=true;
-
-          if(item.PWPEligible == 'false' && item.PWPalreadyExistInCart == 'true') {
-            RemoveGiftFound = true;
-            const lineIndex = removeItems[item.selectedFreeGiftID];
-
-            if(lineIndex != undefined){
-              finalQtyArray[lineIndex] = 0;
-            }
+        if(item.item_type == 'PWP' && item.PWPEligible == 'false' && item.PWPalreadyExistInCart == 'true'){
+          RemoveGiftFound = true;
+          const lineIndex = removeItems[item.selectedFreeGiftID];
+          if(lineIndex != undefined){
+            finalQtyArray[lineIndex] = 0;
           }
         }
+        if(item.item_type == 'PWP'){
+          availRegularProduct=true;
+        }
 
+        if (item.item_type == 'PWPGift' &&!item.eligibleFreeProduct) {
+          RemoveGiftFound = true;
+          finalQtyArray[i]=0;
+        }
       });
-      if(addProductsArray.length > 0){
-        await this.cartAction('add', addProductsArray);
-        location.href = "/cart";
-      }
-      if(finalQtyArray.length > 0 && RemoveGiftFound == true){
-        await this.cartAction('change', finalQtyArray)
-        location.href = "/cart";
-        
-      }
+      if(addProductsArray.length > 0) this.cartAction('add', addProductsArray);
+      if(finalQtyArray.length > 0 && RemoveGiftFound == true) this.cartAction('update', finalQtyArray);
+   
+    
     };
+    async cartPWP() {
+      let cartJSON = await this.cartJSONExtra();
+      if(cartJSON == undefined){
+          cartJSON = {};
+      }
+      const cartItems = cartJSON.items;
+      let addProductsArray = [];
+      let finalQtyArray = [];
+      let updateGiftFound = false;
+      // PWP Data
+      let finalFreeGiftItems =  [];
+      let addPropertie = {
+          "product_type": "PWP Gift"
+      }
+      // Code to get PWP Free Items list
+      if(cartJSON.freeGiftItems && cartJSON.freeGiftItems != ''){
+          finalFreeGiftItems = cartJSON.freeGiftItems.split(',');
+      }
+      cartItems.forEach((item,i) => {
+        let itemID = item.id.toString();
+        let itemIndex = finalFreeGiftItems.indexOf(itemID);
+        if(item.item_type == 'PWPGift'){
+            if(cartJSON.PWP_Enable == false || cartJSON.freeGiftItems == '' || finalFreeGiftItems.length <= 0 || finalFreeGiftItems.includes(itemID) == false){
+                updateGiftFound = true;
+                finalQtyArray.push(0);
+            }else if(item.quantity > 1 || finalFreeGiftItems.includes(itemID) == true){
+                if(item.quantity > 1){ updateGiftFound = true; }
+                    finalQtyArray.push(1);
+                    finalFreeGiftItems.splice(itemIndex, 1);
+                }else{
+                    finalQtyArray.push(1);
+                }
+        }else{
+          finalQtyArray.push(item.quantity);
+        }
+      });
+      // Create PWP Final Add Product Array
+      if(finalFreeGiftItems.length > 0 && cartJSON.PWP_Enable == true){
+          finalFreeGiftItems.forEach(function(element){
+              let addProObject = {
+              quantity: 1,
+                  id: element,
+                  properties: addPropertie
+              }
+              addProductsArray.push(addProObject);
+          });
+      }
+      // add Products for PWP
+      if(addProductsArray.length > 0) this.cartAction('add', addProductsArray);
+      if(finalQtyArray.length > 0 && updateGiftFound == true) this.cartAction('update', finalQtyArray);
+     
+};
     
   
 }

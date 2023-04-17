@@ -12,6 +12,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+[class^="meissnericon-"], [class*=" meissnericon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Meissner-icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .icon-menu:before {
   content: "\e901";
@@ -107,6 +121,85 @@
 .icon-time:before {
   content: "\e91e";
 }
+
+/* Meissner-icons */
+.meissnericon-whishlist:before {
+  content: "\e900";
+  /* color: #29425c; */
+}
+.meissnericon-account:before {
+  content: "\e909";
+  color: #29425c;
+}
+.meissnericon-cart:before {
+  content: "\e90b";
+  color: #29425c;
+}
+.meissnericon-Group-63:before {
+  content: "\e90d";
+  color: #fff;
+}
+.meissnericon-Group-1275:before {
+  content: "\e90e";
+  color: #fff;
+}
+.meissnericon-Group-1287:before {
+  content: "\e90f";
+}
+.meissnericon-Group-1288:before {
+  content: "\e910";
+}
+.meissnericon-Group-1289:before {
+  content: "\e911";
+}
+.meissnericon-Group-1291:before {
+  content: "\e912";
+  color: #fff;
+}
+.meissnericon-Group-1336:before {
+  content: "\e913";
+  color: #fff;
+}
+.meissnericon-Path-209:before {
+  content: "\e914";
+  color: #fff;
+}
+.meissnericon-bg-image1:before {
+  content: "\e901";
+  color: #b7c0c8;
+}
+.meissnericon-bg-image2:before {
+  content: "\e902";
+  color: #b7c0c8;
+}
+.meissnericon-bg-image4:before {
+  content: "\e903";
+  color: #b7c0c8;
+}
+.meissnericon-bg-image5:before {
+  content: "\e904";
+  color: #fff;
+}
+.meissnericon-bg-image6:before {
+  content: "\e905";
+  color: #b7c0c8;
+}
+.meissnericon-bg-image7:before {
+  content: "\e906";
+  color: #29425c;
+}
+.meissnericon-bg-image8:before {
+  content: "\e907";
+  color: #c7c6cc;
+}
+.meissnericon-bg-image-9:before {
+  content: "\e908";
+  color: #b7c0c8;
+}
+.meissnericon-search:before {
+  content: "\e90a";
+}
+
 
 .icon-size-10{ font-size: 10px; }
 .icon-size-12{ font-size: 12px; }

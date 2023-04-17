@@ -65,3 +65,6 @@
 {%- if template.directory == 'customers' -%}
     <link href="{{ 'template-account.css' | asset_url }}" rel="stylesheet" type="text/css">
 {%- endif -%}
+{%- if template == 'page.quiz' -%} 
+ {{ 'template-quiz.css' | asset_url | stylesheet_tag }}
+{%- endif -%}

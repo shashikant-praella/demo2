@@ -107,7 +107,7 @@
         padding: 1rem 0.75rem;
     }
     .navbar-main .nav-item.active > .nav-link {
-        color: var(--bs-color-primary);
+        /* color: var(--bs-); */
         -webkit-transition: all 0.2s ease-in-out;
         transition: all 0.2s ease-in-out;
         font-weight: 600;

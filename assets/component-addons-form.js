@@ -61,7 +61,8 @@ class AddonsVariantSelects extends HTMLElement {
         let options = (this.variantPicker == 'variant-select') ? this._getOptionsFromSelect() : this._getOptionsFromRadio();
 
         let variantsArray = this._getVariantData();
-        variantsArray.find((variant) => {
+       
+        variantsArray.find((variant) => {           
             let mappedValues = variant.options.map((option, index) => {
                 return options[index] === option;
             });
@@ -80,7 +81,6 @@ class AddonsVariantSelects extends HTMLElement {
 
     renderProductInfo(currentVariant, container) {
         if(!currentVariant || !container) return;
-
         // Price Update
         let price = Shopify.formatMoney(currentVariant.price, window.globalVariables.money_format);
         let priceElement = container.querySelector('[data-addons-currentPrice]');

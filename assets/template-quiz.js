@@ -115,12 +115,12 @@ class templateQuizJS {
             }`
         });
 
-        fetch('/api/2021-07/graphql.json', {
+        fetch('/api/2023-04/graphql.json', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Origin": "*",
-                'X-Shopify-Storefront-Access-Token': "4b9bd64d82710cd5bb0efe98a4a4e7ff"
+                'X-Shopify-Storefront-Access-Token': "be3096405f964869ce58b06a26176ecf"
             },
             body: body,
         })

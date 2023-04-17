@@ -17,7 +17,7 @@
     "type_body_line_height": "1.75",
     "xs_font_size": "13px",
     "sm_font_size": "16px",
-    "md_font_size": "18px",
+    "md_font_size": "14px",
     "lg_font_size": "18px",
     "xl_font_size": "18px",
     "h1_font_size": "50px",
@@ -61,7 +61,7 @@
     "main_logo_socials": "shopify:\/\/shop_images\/wp3850825-4k-pc-wallpapers.jpg",
     "enable_cart_drawer": true,
     "enable_search": true,
-    "enable_swatches": true,
+    "enable_swatches": false,
     "enable_quickshop": true,
     "enable_search_article": true,
     "no_image_replacement": "shopify:\/\/shop_images\/mlouye-brick-macaron-s1.jpg",
@@ -129,7 +129,7 @@
           "logo_svg": "",
           "logo": "shopify:\/\/shop_images\/logo_2x_bf0c3f66-ee15-447b-b857-a3d2af98b297.png",
           "logo_width": 200,
-          "menu": "footer"
+          "menu": "main-menu"
         }
       },
       "footer": {

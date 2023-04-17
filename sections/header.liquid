@@ -8,22 +8,22 @@
               <div class="row justify-content-between align-items-center mobile-topbar text-center" style="color: {{ section.settings.topbar_text_color }};font-size: {{ section.settings.topbar_font_size }}">
                   {% if section.settings.topbar_text %}
                     <ul class="d-flex justify-content-lg-end justify-content-center list-unstyled mb-0 col-lg-auto topbar-left">
-                       <li class="py-1">{{ section.settings.topbar_text }}</li>
+                       <li class="py-1 font-size-md">{{ section.settings.topbar_text }}</li>
                     </ul>
                  {% endif %}
 
                   <ul class="topbar-right list-unstyled d-lg-flex d-none align-items-center justify-content-start justify-content-sm-center justify-content-between font-size-md mb-0 col-12 col-lg-auto">
                      {% if section.settings.store_phone %}
-                       <li class="d-flex pe-4">
-                          <i class="icon-phone text-white icon-size-18 me-2"></i>
+                       <li class="d-flex align-items-center pe-4">
+                          <i class="meissnericon-Path-209 text-white icon-size-22 me-2"></i>
                               <a href="tel:{{ section.settings.store_phone }}" title="{{ section.settings.store_phone }}" aria-label="{{ section.settings.store_phone }}" name="{{ section.settings.store_phone }}" style="color: {{ section.settings.topbar_text_color }};" class="">
                                 {{ section.settings.store_phone }}
                               </a>
                         </li>
                        {% endif %}
                        {% if section.settings.location %}
-                        <div class="d-flex pe-4">
-                            <i class="icon-email text-white icon-size-18 me-2"></i>
+                        <div class="d-flex align-items-center pe-4">
+                            <i class="meissnericon-bg-image2 text-white icon-size-22 me-2"></i>
                             <a herf="{% if section.settings.location_href %}{{ section.settings.location_href }}{% else %}#{% endif %}"  title="{{ section.settings.location }}" aria-label="{{ section.settings.location }}" name="{{ section.settings.location }}" style="color: {{ section.settings.topbar_text_color }};" class="">
                                 {{ section.settings.location }}
                             </a> 
@@ -31,8 +31,8 @@
                         {% endif %}
     
                         {% if section.settings.personal_shoper %}
-                        <div class="d-flex">
-                            <i class="icon-user text-white icon-size-18 me-2"></i>
+                        <div class="d-flex align-items-center">
+                            <i class="meissnericon-whishlist text-white icon-size-22 me-2"></i>
                             <a herf="{% if section.settings.personal_shoper_href %}{{ section.settings.personal_shoper_href }}{% else %}#{% endif %}" title="{{ section.settings.personal_shoper }}" aria-label="{{ section.settings.personal_shoper }}" name="{{ section.settings.personal_shoper }}" style="color: {{ section.settings.topbar_text_color }};" class="">
                                 {{ section.settings.personal_shoper }}
                             </a> 
@@ -52,9 +52,9 @@
                     <div class="col-lg-3 search-input">
                         <div class="search-modal__content" tabindex="-1">
                             <form action="/pages/search-results-page" method="get" role="search" class="nav-search w-100">
-                                <div class="input-group border">
+                                <div class="input-group border border-indigo-dye-200">
                                     <input class="search__input form-control border-0 bg-transparent" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search our store" autocomplete="off" tabindex="0">
-                                    <button class="search__button bg-transparent py-2 px-3 border-0 icon-search text-gray-900 icon-size-20" aria-label="Search"></button>
+                                    <button class="search__button bg-transparent py-2 px-3 border-0 meissnericon-search text-gray-900 icon-size-30" aria-label="Search"></button>
                                 </div>
                             </form>
                         </div>
@@ -81,21 +81,21 @@
                     <ul class="navbar-nav navbar-icon-links align-items-center ms-auto">
                         <li class="nav-item">
                           <a class="nav-link flex-column" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
-                              <i class="icon-time"></i>
+                              <i class="meissnericon-whishlist icon-size-30"></i>
                               <span class="font-size-md">wishlist</span>
                           </a>
                         </li>
                         {% if shop.customer_accounts_enabled %}
                             <li class="nav-item">
                                 <a class="nav-link flex-column" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
-                                    <i class="icon-user"></i>
+                                    <i class="meissnericon-account icon-size-30"></i>
                                     <span class="font-size-md">Account</span>
                                 </a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
                             <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column" id="cart-icon-desktop" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
-                                <i class="icon-bag align-middle"></i>
+                                <i class="meissnericon-cart align-middle icon-size-30"></i>
                                 <span class="visually-hidden">{{ 'templates.cart.title' | t }}</span>
                                 {%- if cart != empty -%}
                                     {%- if cart.item_count < 100 -%}
@@ -122,7 +122,7 @@
                     </li>
                     <li class="nav-item ps-3">
                       <a class="nav-link flex-column" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
-                          <i class="icon-time"></i>
+                          <i class="meissnericon-whishlist"></i>
                           <span class="font-size-xs">wishlist</span>
                       </a>
                     </li>
@@ -159,14 +159,14 @@
                   {% if shop.customer_accounts_enabled %}
                     <li class="nav-item px-2">
                         <a class="nav-link flex-column" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
-                            <i class="icon-user"></i>
+                            <i class="meissnericon-account"></i>
                             <span class="font-size-xs">Account</span>
                         </a>
                     </li>
                     {% endif %}
                     <li class="nav-item px-2">
                         <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column" focusable="false" id="cart-icon-mobile" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
-                        <i class="icon-bag align-middle"></i>
+                        <i class="meissnericon-cart align-middle"></i>
                         <span class="visually-hidden">{{ 'templates.cart.title' | t }}</span>
                         {%- if cart != empty -%}
                             {%- if cart.item_count < 100 -%}
@@ -182,9 +182,9 @@
               <div class="col-lg-12 search-input mt-3">
                   <div class="search-modal__content" tabindex="-1">
                       <form action="/pages/search-results-page" method="get" role="search" class="nav-search w-100">
-                          <div class="input-group border">
+                          <div class="input-group border border-indigo-dye-200">
                               <input class="search__input form-control border-0 bg-transparent" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search our store" autocomplete="off" tabindex="0">
-                              <button class="search__button bg-transparent py-2 px-3 border-0 icon-search text-gray-900 icon-size-20" aria-label="Search"></button>
+                              <button class="search__button bg-transparent py-2 px-3 border-0 meissnericon-search text-gray-900 icon-size-30" aria-label="Search"></button>
                           </div>
                       </form>
                   </div>

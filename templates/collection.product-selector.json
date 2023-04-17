@@ -1,0 +1,11 @@
+{
+    "wrapper": "section",
+    "sections": {
+      "product-grid": {
+        "type": "template-collection-selector"
+      }
+    },
+    "order": [
+      "product-grid"
+    ]
+  }

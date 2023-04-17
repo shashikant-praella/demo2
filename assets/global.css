@@ -870,22 +870,22 @@ progress {
 }
 
 .form-control::-webkit-input-placeholder {
-    color: var(--bs-input-ph-text-color);
+    color: var(--bs-color-indigo-dye-300);
     opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-    color: var(--bs-input-ph-text-color);
+    color: var(--bs-color-indigo-dye-300);
     opacity: 1;
 }
 
 .form-control::-ms-input-placeholder {
-    color: var(--bs-input-ph-text-color);
+    color: var(--bs-color-indigo-dye-300);
     opacity: 1;
 }
 
 .form-control::placeholder {
-    color: var(--bs-input-ph-text-color);
+    color: var(--bs-color-indigo-dye-300);
     opacity: 1;
 }
 
@@ -2793,7 +2793,9 @@ textarea.form-control-lg {
 .border-black {
     border-color: var(--bs-color-black) !important;
 }
-
+.border-indigo-dye-200 {
+    border-color: var(--bs-color-indigo-dye-200) !important;
+}
 .text-primary {
     color: var(--bs-color-primary) !important;
 }
@@ -11704,7 +11706,7 @@ table {
     }
 }
 
-.spinner {
+/* .spinner {
     display: inline-block;
     width: var(--bs-line-height-button);
     height: var(--bs-line-height-button);
@@ -11715,7 +11717,7 @@ table {
     vertical-align: top;
     animation: spinner 0.75s linear infinite;
     margin: 0 auto;
-}
+} */
 
 .cart-items.updating {
     pointer-events: none;
