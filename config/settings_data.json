@@ -110,6 +110,21 @@
     "sections": {
       "header": {
         "type": "header",
+        "blocks": {
+          "def94ef0-d546-4e09-8283-aae3e13329ae": {
+            "type": "megamenu",
+            "settings": {
+              "title": "Sewing",
+              "image": "shopify:\/\/shop_images\/Component_40.jpg",
+              "link_text": "",
+              "link_url": "shopify:\/\/collections",
+              "column": "row-cols-3"
+            }
+          }
+        },
+        "block_order": [
+          "def94ef0-d546-4e09-8283-aae3e13329ae"
+        ],
         "settings": {
           "topbar_enabled": true,
           "topbar_text": "<p>Free Standard Shipping. <a href=\"#\" title=\"home\">Learn More<\/a><\/p>",

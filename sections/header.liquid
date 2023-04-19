@@ -363,6 +363,59 @@
       "default": "main-menu",
       "label": "t:sections.header.settings.menu.label"
     }
+  ],
+  "blocks": [
+    {
+      "type": "megamenu",
+      "name": "Megamenu with Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Title",
+          "info": "Use Exact string as header"
+        },
+        {
+          "type":"image_picker",
+          "id":"image",
+          "label": "Image"
+        },
+        {
+          "type":"text",
+          "id":"link_text",
+          "label":"Link text"
+        },
+        {
+          "type":"url",
+          "id":"link_url",
+          "label":"URL"
+        },
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Nav Item Column",
+          "options": [
+            {
+              "value": "row-cols-3",
+              "label": "3"
+            },
+            {
+              "value": "row-cols-4",
+              "label": "4"
+            },
+            {
+              "value": "row-cols-5",
+              "label": "5"
+            },
+            {
+              "value": "row-cols-6",
+              "label": "6"
+            }
+          ],
+          "default": "row-cols-3"
+        }
+      ]
+    }
   ]
 }
 {% endschema %}

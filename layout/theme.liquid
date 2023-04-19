@@ -149,6 +149,17 @@
         soldOut: `{{ 'products.product.sold_out' | t }}`,
         unavailable: `{{ 'products.product.unavailable' | t }}`,
       }
+      window.cartLabels = {
+        title: "Cart",
+        quantity: {
+            "label": "Quantity",
+            "input_label": "Quantity for ${product}",
+            "increase": "Increase quantity for ${product}",
+            "decrease": "Decrease quantity for ${product}"
+        },
+        remove: "Remove",
+        free: "Free"
+    }
     </script>
 
     {% if settings.enable_login_helper %}

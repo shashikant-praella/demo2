@@ -1,4 +1,3 @@
-
 .cart-drawer {
     position: fixed;
     z-index: 1170;
@@ -22,13 +21,6 @@
     visibility: visible !important;
     transform: translateZ(0);
     overflow: auto;
-}
-
-.cart-drawer > .row.empty_cart{
-    flex: 1 1 auto;
-}
-.cart-drawer > .row.empty_cart form{
-    justify-content: center;
 }
 
 .cart-drawer form{
@@ -100,7 +92,7 @@
     flex: 0 0 auto;
     width: 25%;
 }
- 
+
 .cart-drawer .delivery-shipping{
     padding: 1rem;
     background: var(--bs-color-primary-100);
@@ -129,99 +121,4 @@
 }
 .cart-drawer .section-min-height{
     min-height: auto;
-}
-
-
-
-
-.swatch input {
-    display: none;
-}
-
-.swatch .form-label {
-    padding: 0.25rem 0.5rem;
-    min-width: 32px;
-    cursor: pointer;
-    text-align: center;
-    border: 1px solid var(--bs-body-color);
-    font-size: var(--bs-font-size-md);
-    /* border-radius: 2rem; */
-}
-
-.swatch input:checked+label {
-    background: var(--bs-color-black);
-    color: var(--bs-body-bg);
-    border: 1px solid var(--bs-color-black);
-}
-
-.swatch.color-swatch .swatch-label {
-    min-width: 16px;
-    min-height: 16px;
-    display: block;
-    border-radius: 50%;
-    border: 0;
-    position: relative;
-}
-
-.swatch.color-swatch {
-    border-radius: 50%;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
-}
-
-.swatch.color-swatch input:checked+.swatch-label:after {
-    content: '';
-    display: block;
-    position: absolute;
-    background: #fff;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.swatch.color-swatch input:checked+.swatch-label.White:after {
-    background: #000;
-}
-
-.product-form__input {
-    margin-bottom: 1rem !important;
-}
-
-.product-form form {
-    margin-top: 0 !important;
-}
-
-.product-form .form__label {
-    display: none;
-}
-
-.progress {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin-inline: 1rem;
-    height: 0.5rem;
-    overflow: hidden;
-    font-size: .75rem;
-    background-color: var(--bs-color-gray-100);
-    border-radius: 3.75rem;
-}
-.progress-bar {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    background-color: var(--bs-color-primary);
-    transition: width .6s ease;
-    border-radius: 3.75rem;
 }

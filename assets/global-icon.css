@@ -129,11 +129,11 @@
 }
 .meissnericon-account:before {
   content: "\e909";
-  color: #29425c;
+  /* color: #29425c; */
 }
 .meissnericon-cart:before {
   content: "\e90b";
-  color: #29425c;
+  /* color: #29425c; */
 }
 .meissnericon-Group-63:before {
   content: "\e90d";
