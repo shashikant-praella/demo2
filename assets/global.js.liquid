@@ -1277,3 +1277,59 @@ if(document.querySelectorAll('.product-thumb--image').length > 0) {
   });
 }
 {%- endif -%}
+
+class ShippingCalculator extends HTMLElement {
+  constructor() {
+    super();
+    this._setupCounries();
+    this.form = this.querySelector('form');
+    this.form.addEventListener('submit', this._calculateShipping.bind(this));
+    this.btn=this.form.querySelector('[data-calculate-button]')
+  }
+  _setupCounries() {
+    new Shopify.CountryProvinceSelector('ShippingCountryNew', 'ShippingProvinceNew', {
+      hideElement: 'ShippingProvinceContainerNew'
+    });
+  }
+  async _calculateShipping(evt){
+    evt.preventDefault();
+    this.country = this.form.querySelector("[name='country']").value;
+    this.province = this.form.querySelector("[name='province']").value;
+    this.zip = this.form.querySelector("[name='zip']").value;
+    let requestURL=`/cart/shipping_rates.json?shipping_address[zip]=${this.zip}&shipping_address[country]=${this.country}&shipping_address[province]=${this.province}`;
+    this.btn?.classList.add('loading'); 
+    const response = await fetch(requestURL)
+    const data = await response.json();
+    if(response.ok){
+      let rates=data.shipping_rates;
+      this.querySelector('[data-total-rates]').innerHTML=`There ${rates.length == 1 ? 'is' : 'are' }  ${rates.length} shipping rate available for ${this.zip}, ${this.province}, ${this.country}`;
+      let html=``;
+      rates.forEach((rate)=>{
+        html+=`<li>${rate.name} delivery => <strong>${parseFloat(rate.price) == 0 ? 'Free' : `${rate.price} ${rate.currency}` } </strong></li>`
+      });
+      this.querySelector('[data-list-rates]').innerHTML=html;
+      this.querySelector('[data-error-container]').innerHTML='';
+      this.querySelector('[data-success-container').classList.remove('d-none');
+      this.querySelector('[data-error-container]').classList.add('d-none');
+    }else if(response.status == 422){
+      let errorText= data.zip || data.country || data.province;
+      this.querySelector('[data-total-rates]').innerHTML="";
+      this.querySelector('[data-list-rates]').innerHTML="";
+      if(errorText){
+        if(this.querySelector('[data-error-container]') != null){
+          this.querySelector('[data-error-container]').classList.remove('d-none');
+          this.querySelector('[data-success-container').classList.add('d-none')
+          this.querySelector('[data-error-container]').innerHTML=`<p class="m-0">${errorText}</p>` 
+        }
+      }
+    }
+    else{
+      notificationEle?.updateNotification('Error', 'Something went wrong', {
+        type: 'error',
+        timeout: 2000
+      });
+    } 
+    this.btn?.classList.remove('loading'); 
+  }
+}
+customElements.define("shipping-calculator", ShippingCalculator); 

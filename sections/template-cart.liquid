@@ -201,7 +201,13 @@
                         </div>
                     {% endif %}
                 </form>
-                
+                {% render 'shipping-calculator' %}
+                <div class="discount-code col-12 pt-4">
+                    <div class="input-group col-6">
+                    <input type="text" name="discountCode" class="form-control" placeholder="Enter Discount Code" data-discountCode />
+                    <input type="submit" name="applyDiscount" class="btn btn-primary" data-apply-discount>
+                    </div>
+                </div>
                 {% if settings.enable_cart_notes %}
                     {%- assign cartNote = cart.note -%}
                     <div class="col-12 col-lg-7 pt-4 {% unless cart.item_count > 0 %}d-none{% endunless %}" data-cartNote>

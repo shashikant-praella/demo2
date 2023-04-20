@@ -8,8 +8,8 @@
         {% assign main_menu = section.settings.main_menu_linklist %}
         {% assign secondary_menu = section.settings.secondary_menu_linklist %}
 
-        <div class="drawer-header d-flex justify-content-between align-items-center px-4 py-3 bg-primary-100">
-            <a href="{{ routes.root_url }}" class="navbar-brand nav-item mobile-header--logo" tabindex="0" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
+        <div class="drawer-header d-flex justify-content-between align-items-center">
+            <a href="{{ routes.root_url }}" class="navbar-brand nav-item mobile-header--logo d-block w-100 text-center py-2 " tabindex="0" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
                 {%- if logo_svg != blank -%}
                     <img src="{{ section.settings.logo_svg }}" alt="{{ shop.name | escape }}" class="img-fluid" style="width: {{ section.settings.logo_width }}px" loading="lazy" width="150" height="150">
                 {%- elsif logo_image != blank -%}
@@ -22,29 +22,29 @@
                         alt="{{ section.settings.logo.alt | default: shop.name | escape }}" 
                         style="max-width: {{ section.settings.logo_width }}px" >
                 {%- else -%}
-                    <span class="h5 text-primary">{{ shop.name }}</span>
+                    <span class="text-primary text-body fw-medium">Menu</span>
                 {%- endif -%}
             </a>
-            <a href="#" class="btn-close ml-auto float-right close-mobile--navbar" title="close" rel="nofollow" aria-label="Close">
-                <span class="icon-close"></span>
+            <a href="#" class="btn-close ml-auto float-right close-mobile--navbar p-3" title="close" rel="nofollow" aria-label="Close">
+                <span class="icon-close icon-size-16"></span>
             </a>
         </div>
 
         <div class="drawer-body">
         {% if main_menu %}
             <nav class="navbar-mobile {% if section.settings.mobilemenu_style == 'slide-submenu' %}navbar-mobile-slide{% else %}navbar-mobile-dropdown{% endif %}" aria-label="main-menu-list">
-                <ul class="navbar-nav" id="main-menu-list">
+                <ul class="navbar-nav bg-white fw-bold px-4 font-size-sm" id="main-menu-list">
                 {% for link in linklists[main_menu].links %}
                     {% assign child_list_handle = link.title | handleize %}
                     {% if link.links != blank %}
                     <li class="nav-item dropdown {% if link.active %}active{% endif %} second-level">
-                        <a class="nav-link submenu-toggle d-flex align-items-center {{ link.handle }}" is="drop-down" tabindex="0" data-href="{{ link.url }}" role="button" data-toggle="open" data-target="#submenu-{{ child_list_handle }}" aria-expanded="false" title="{{ link.title }}" aria-label="{{ link.title }}">
+                        <a class="nav-link submenu-toggle d-flex align-items-center text-indigo-dye {{ link.handle }}" is="drop-down" tabindex="0" data-href="{{ link.url }}" role="button" data-toggle="open" data-target="#submenu-{{ child_list_handle }}" aria-expanded="false" title="{{ link.title }}" aria-label="{{ link.title }}">
                             <span class="nav-link-title">{{ link.title }}</span> 
                             <span class="icon-arrow-right text-center"></span>
                         </a>
-                        <div class="submenu submenu-div dropdown-menu toggle-content" id="submenu-{{ child_list_handle }}" data-type="content">
+                        <div class="submenu submenu-div dropdown-menu px-4 toggle-content" id="submenu-{{ child_list_handle }}" data-type="content">
                             {% if section.settings.mobilemenu_style == 'slide-submenu' %}
-                            <a class="nav-link d-flex align-items-center close-submenu fw-bold text-uppercase py-3 {{ link.handle }}" tabindex="0" title="{{ link.title }}" aria-label="{{ link.title }}">
+                            <a class="nav-link d-flex align-items-center close-submenu fw-bold text-uppercase py-3 {{ link.handle }} text-indigo-dye" tabindex="0" title="{{ link.title }}" aria-label="{{ link.title }}">
                                 <span class="icon-arrow-left me-2"></span><span class="menu-title">{{ link.title }}</span> 
                             </a>
                             {% endif %}
@@ -52,20 +52,20 @@
                             {% for childlink in link.links %}
                                 {% assign subchild_list_handle = childlink.title | handleize %}
                                 {% if childlink.links != blank %}
-                                    <div class="nav-item dropdown {% if forloop.first %}open{% endif %}">
-                                        <a class="nav-link submenu-toggle d-flex align-items-center {{ link.handle }}" is="drop-down" tabindex="0" data-href="{{ link.url }}" role="button" data-toggle="open" data-target="#submenu-{{ child_list_handle }}" aria-expanded="false" title="{{ link.title }}" aria-label="{{ link.title }}">
+                                    <div class="nav-item dropdown {% if forloop.first %}open{% endif %} fw-normal">
+                                        <a class="nav-link submenu-toggle d-flex align-items-center text-indigo-dye {{ link.handle }}" is="drop-down" tabindex="0" data-href="{{ link.url }}" role="button" data-toggle="open" data-target="#submenu-{{ child_list_handle }}" aria-expanded="false" title="{{ link.title }}" aria-label="{{ link.title }}">
                                             <span class="nav-link-title">{{ childlink.title }}</span> <span class="icon-arrow-right text-center"></span>
                                         </a>
-                                        <div class="submenu submenu-div dropdown-menu toggle-content" id="submenu-{{ subchild_list_handle }}" data-type="content">
+                                        <div class="submenu submenu-div dropdown-menu px-4 toggle-content" id="submenu-{{ subchild_list_handle }}" data-type="content">
                                             {% if section.settings.mobilemenu_style == 'slide-submenu' %}
-                                            <a class="nav-link d-flex align-items-center close-submenu fw-bold text-uppercase py-3 {% if childlink.active %} active{% endif %} {{ childlink.handle }}" title="{{ childlink.title }}" aria-label="{{ childlink.title }}">
+                                            <a class="nav-link d-flex align-items-center close-submenu  text-uppercase py-3 text-indigo-dye fw-bold {% if forloop.last and childlink.title == "View All" %}&nbsp; fw-bold {% endif %} {% if childlink.active %} active{% endif %} {{ childlink.handle }}" title="{{ childlink.title }}" aria-label="{{ childlink.title }}">
                                                 <span class="icon-arrow-left me-2"></span>{{ childlink.title }}
                                             </a>
                                             {% endif %}
 
                                             {% for subchildlink in childlink.links %}
-                                                <div class="nav-item">
-                                                    <a is="simple-menu-item" class="nav-link d-flex align-items-center {% if subchildlink.active %} active{% endif %} {{ subchildlink.handle }}" href="{{ subchildlink.url }}" title="{{ subchildlink.title }}" aria-label="{{ subchildlink.title }}">
+                                                <div class="nav-item fw-normal border-0">
+                                                    <a is="simple-menu-item" class="nav-link d-flex align-items-center text-indigo-dye {% if forloop.last and subchildlink.title == "View All" %}&nbsp; fw-bold {% endif %} {% if subchildlink.active %} active{% endif %} {{ subchildlink.handle }}" href="{{ subchildlink.url }}" title="{{ subchildlink.title }}" aria-label="{{ subchildlink.title }}">
                                                         {{ subchildlink.title }}
                                                     </a>
                                                 </div>
@@ -73,8 +73,8 @@
                                         </div>
                                     </div>
                                 {% else %}
-                                    <div class="nav-item">
-                                        <a is="simple-menu-item" class="nav-link d-flex align-items-center {% if childlink.active %} active{% endif %} {{ childlink.handle }}" href="{{ childlink.url }}" title="{{ childlink.title }}" aria-label="{{ childlink.title }}">
+                                    <div class="nav-item border-0">
+                                        <a is="simple-menu-item" class="nav-link d-flex align-items-center text-indigo-dye fw-normal{% if childlink.active %} active{% endif %} {{ childlink.handle }} {% if forloop.last and childlink.title == "View All" %} fw-bold {% endif %}" href="{{ childlink.url }}" title="{{ childlink.title }}" aria-label="{{ childlink.title }}">
                                             {{ childlink.title }}
                                         </a>
                                     </div>
@@ -84,7 +84,7 @@
                     </li>
                     {% else %}
                     <li class="nav-item {% if link.active %} active{% endif %}">
-                        <a class="nav-link d-flex align-items-center" href="{{ link.url }}" is="simple-menu-item" title="{{ link.title }}" aria-label="{{ link.title }}">
+                        <a class="nav-link d-flex align-items-center  {% if forloop.last %}text-primary {% else %} text-indigo-dye{% endif -%} " href="{{ link.url }}" is="simple-menu-item" title="{{ link.title }}" aria-label="{{ link.title }}">
                         {{ link.title }}
                         </a>
                     </li>
@@ -95,7 +95,7 @@
         {% endif %}
         {% if secondary_menu %}
             <nav class="navbar-mobile navbar-mobile-secondary" aria-label="secondary-menu-list">
-                <ul class="navbar-nav" id="secondary-menu-list">
+                <ul class="navbar-nav bg-white" id="secondary-menu-list">
                 {% for link in linklists[secondary_menu].links %}
                     {% assign child_list_handle = link.title | handleize %}
                         {% if link.links != blank %}
@@ -124,28 +124,42 @@
         {% endif %}
         </div>
     
-        <div class="drawer-footer text-left px-2 py-3 mt-auto">
+        <div class="drawer-footer text-left px-2 py-3 mt-auto bg-indigo-dye">
         {% if section.settings.mobile_nav_show_social_links %}
             {% if section.settings.col_3_heading != blank %}
                 <h6 class="small mb-3">{{ section.settings.col_3_social_heading }}</h6>
             {% endif %}
     
             <ul class="list-unstyled list-inline social-icons">
-                {% if section.settings.social_icon_facebook %}
+                {% if settings.social_instagram_link %}
                 <li class="list-inline-item">
-                    <a href="{{ settings.social_facebook_link }}" title="Facebook" rel="nofollow" aria-label="Facebook"><span class="icon-facebook"></span></a>
+                    <a href="{{ settings.social_instagram_link }}" target="_blank" title="Instagram" rel="nofollow" aria-label="Instagram">
+                        <span class="icon-instagram text-white border-solid border-1 p-2 rounded-circle "></span>
+                    </a>
                 </li>
                 {% endif %}
-        
-                {% if section.settings.social_icon_twitter %}
+
+                {% if settings.social_pinterest_link %}
                 <li class="list-inline-item">
-                    <a href="{{ settings.social_twitter_link }}" title="Twitter" rel="nofollow" aria-label="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="{{ settings.social_pinterest_link }}" target="_blank" name="pinterest" title="pinterest" rel="nofollow noreferrer" aria-label="pinterest">
+                        <span class="icon-pinterest text-white border-solid border-1 p-2 rounded-circle"></span>
+                    </a>
                 </li>
                 {% endif %}
-        
-                {% if section.settings.social_icon_instagram %}
+            
+                {% if settings.social_youtube_link %}
                 <li class="list-inline-item">
-                    <a href="{{ settings.social_instagram_link }}" title="Instagram" rel="nofollow" aria-label="Instagram"><span class="icon-instagram"></span></a>
+                    <a href="{{ settings.social_youtube_link }}" target="_blank"  title="YouTube" rel="nofollow" aria-label="YouTube" >
+                        <span class="icon-youtube-new text-white border-solid border-1 p-2 rounded-circle "></span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if settings.social_facebook_link %}
+                <li class="list-inline-item">
+                    <a href="{{ settings.social_facebook_link }}" target="_blank" title="Facebook" rel="nofollow" aria-label="Facebook">
+                        <span class="icon-facebook text-white border-solid border-1 p-2 rounded-circle "></span>
+                    </a>
                 </li>
                 {% endif %}
             </ul>

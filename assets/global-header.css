@@ -299,3 +299,9 @@
         height: 100%;
         object-fit: contain;
     }
+    .drawer-header {
+        background-color: #F7F6F6;
+    }
+    .drawer-header .close-mobile--navbar {
+        background-color: #EAE7E7;
+    }

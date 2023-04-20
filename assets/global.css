@@ -2796,6 +2796,10 @@ textarea.form-control-lg {
 .border-indigo-dye-200 {
     border-color: var(--bs-color-indigo-dye-200) !important;
 }
+.border-solid {
+   border-style: solid;
+}
+
 .text-primary {
     color: var(--bs-color-primary) !important;
 }

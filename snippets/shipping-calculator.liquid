@@ -1,0 +1,49 @@
+<shipping-calculator>
+    <div class="border border-2 border-gray-100 container my-4 py-3">
+      <form>
+        <div class="pb-2">
+          <div class="row mb-4">
+            <div class="col-md-4 col-12 mt-3 mt-md-0">
+              <select
+                placeholder="shipping_country"
+                id="ShippingCountryNew"
+                class="form-select"
+                name="country"
+              >
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+            <div class="col-md-4 col-12 mt-3 mt-md-0">
+              <div id="ShippingProvinceContainerNew" style="display:none">
+                <select
+                  placeholder="{{ 'customer.addresses.province' | t }}"
+                  id="ShippingProvinceNew"
+                  class="form-select"
+                  name="province"
+                ></select>
+              </div>
+            </div>    
+            <div class="col-md-4 col-12 mt-3 mt-md-0">
+              <input type="text" class="form-control" name="zip" placeholder="zipcode">
+            </div>
+          </div>
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary" data-calculate-button>
+              <span class="add-text">Calculate</span>
+              <span class="spinner"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+      <div>
+        <div class="border border-success d-none p-2 mt-2" data-success-container>
+          <div class="total-rates" data-total-rates></div>
+          <div class="list-rates">
+            <ol data-list-rates></ol>
+          </div>
+        </div>
+        <div class="border border-danger d-none p-2 mt-2" data-error-container></div>
+      </div>
+    </div>
+  </shipping-calculator>
+  

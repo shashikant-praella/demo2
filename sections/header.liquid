@@ -115,14 +115,14 @@
             <div class="col-3 col-sm-4 px-0 text-left navbar-icon-links">
                 <ul class="align-items-center d-flex list-unstyled mb-0 navbar-icon-links">
                     <li class="nav-item">
-                        <a class="nav-link flex-column" href="#" id="mobile-menu" name="menu" title="menu" rel="nofollow" aria-label="Menu" role="button" aria-expanded="false" aria-controls="mobile-menu-drawer">
-                            <span class="icon-menu"></span>
+                        <a class="nav-link flex-column text-indigo-dye" href="#" id="mobile-menu" name="menu" title="menu" rel="nofollow" aria-label="Menu" role="button" aria-expanded="false" aria-controls="mobile-menu-drawer">
+                            <span class="icon-menu icon-size-30"></span>
                             <span class="font-size-xs">Menu</span>
                         </a>
                     </li>
-                    <li class="nav-item ps-3">
-                      <a class="nav-link flex-column" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
-                          <i class="meissnericon-whishlist"></i>
+                    <li class="nav-item ps-2">
+                      <a class="nav-link flex-column text-indigo-dye" href="#" name="wishlist" title="wishlist" rel="nofollow" aria-label="wishlist">
+                          <i class="meissnericon-whishlist icon-size-30"></i>
                           <span class="font-size-xs">wishlist</span>
                       </a>
                     </li>
@@ -157,16 +157,16 @@
             <div class="col-3 col-sm-4 px-0 text-right">
                 <ul class="align-items-center d-flex justify-content-end list-unstyled mb-0 ms-auto navbar-icon-links">
                   {% if shop.customer_accounts_enabled %}
-                    <li class="nav-item px-2">
-                        <a class="nav-link flex-column" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
-                            <i class="meissnericon-account"></i>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link flex-column text-indigo-dye" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" name="account" title="account" rel="nofollow" aria-label="Account">
+                            <i class="meissnericon-account icon-size-30"></i>
                             <span class="font-size-xs">Account</span>
                         </a>
                     </li>
                     {% endif %}
                     <li class="nav-item px-2">
-                        <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column" focusable="false" id="cart-icon-mobile" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
-                        <i class="meissnericon-cart align-middle"></i>
+                        <a href="{{ routes.cart_url }}" class="nav-link header__icon--cart position-relative flex-column text-indigo-dye" focusable="false" id="cart-icon-mobile" rel="nofollow" name="cart" title="cart" rel="nofollow" aria-label="Cart">
+                        <i class="meissnericon-cart align-middle icon-size-30"></i>
                         <span class="visually-hidden">{{ 'templates.cart.title' | t }}</span>
                         {%- if cart != empty -%}
                             {%- if cart.item_count < 100 -%}
@@ -179,7 +179,7 @@
                 </ul>
             </div>
             {%- if settings.enable_search -%}
-              <div class="col-lg-12 search-input mt-3">
+              <div class="col-lg-12 search-input mt-3 px-0">
                   <div class="search-modal__content" tabindex="-1">
                       <form action="/pages/search-results-page" method="get" role="search" class="nav-search w-100">
                           <div class="input-group border border-indigo-dye-200">

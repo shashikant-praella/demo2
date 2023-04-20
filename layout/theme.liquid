@@ -159,7 +159,12 @@
         },
         remove: "Remove",
         free: "Free"
-    }
+      }
+      window.freeShipping = {
+        free_ship_limit: {{ settings.free_shipping_value | json }},
+        free_ship_success: {{ settings.free_shipping_txt | json }},
+        free_ship_away: {{ settings.free_shipping_left | json }},
+      }
     </script>
 
     {% if settings.enable_login_helper %}

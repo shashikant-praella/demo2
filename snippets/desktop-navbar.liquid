@@ -30,7 +30,7 @@
                                         <ul class="list-unstyled">
                                             {%- for thirdlink in menus[third_list_handle].links -%}
                                             <li class="nav-item px-0">
-                                                <a href="{{ thirdlink.url }}" class="nav-link link-view-all px-0 {%- if forloop.last and thirdlink.title == "View All" -%}&nbsp; fw-bold {%- endif -%}" name="{{ thirdlink.title }}" title="{{ thirdlink.title }}" aria-label="{{ thirdlink.title }}">{{ thirdlink.title }}</a>
+                                                <a href="{{ thirdlink.url }}" class="nav-link link-view-all px-0 {% if forloop.last and thirdlink.title == "View All" %}&nbsp; fw-bold {% endif %}" name="{{ thirdlink.title }}" title="{{ thirdlink.title }}" aria-label="{{ thirdlink.title }}">{{ thirdlink.title }}</a>
                                             </li>
                                             {%- endfor -%}
                                         </ul>
