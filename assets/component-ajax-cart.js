@@ -231,6 +231,8 @@ class AjaxCart extends HTMLElement {
      *  Quantity - to update quantity value of product
      * @param {array} -bundleRemoveidsArray
      * bundleRemoveidsArray - store bundle products quntity of main product 
+     * @param {object} -jsonItems
+     * jsonItems - objecxt create for update bundle products with main products 
      */
     async updateBundleItemQty(line, quantity, lineItem){
       let bundleRemoveids = lineItem.getAttribute('bundle-removeids');

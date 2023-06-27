@@ -1,9 +1,9 @@
 {%liquid for block in section.blocks
-      if block.type == 'addons' 
-        if block.settings.enable_addons
+      if block.type == 'bundle' 
+        if block.settings.enable_bundle
           capture addOnsHTML
-              assign addOnProducts = product.metafields.custom.addonproduct
-              render 'addons-form', addOnProducts: addOnProducts, addons_title: block.settings.addons_title.
+              assign addOnProducts = product.metafields.custom.bundle_products
+              render 'addons-form', addOnProducts: addOnProducts, addons_title: block.settings.bundle_title.
           endcapture
           endif
       endif
@@ -459,20 +459,20 @@
       ]
     },
     {
-        "type": "addons",
-        "name": "Addon",
+        "type": "bundle",
+        "name": "Bundle",
         "limit": 1,
         "settings": [
             {
                 "type": "checkbox",
-                "id": "enable_addons",
+                "id": "enable_bundle",
                 "default": true,
-                "label": "Enable Addons?"
+                "label": "Enable Bundle?"
             },
             {
                 "type": "text",
-                "id": "addons_title",
-                "label": "Pair it with"
+                "id": "bundle_title",
+                "label": "Title"
             }
         ]
     }

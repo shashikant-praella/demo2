@@ -2,18 +2,23 @@
 {%- if addOnProductsList.size > 0 -%}
   <h5 class="my-5">{{ addons_title }}</h5>
   {%- for addOnProduct in addOnProducts.value -%}
+    {% assign current_variant = addOnProduct.selected_or_first_available_variant %}
     <addons-form class="product-form pt-3" data-product-grid>
       <div class="my-4 border rounded-lg p-3">
         <input type="checkbox" id="addon-{{ addOnProduct.id }}" data-addon-selection class="form-check-input d-none"> 
         <input type="hidden" class="variant--id" value="{{ addOnProduct.selected_or_first_available_variant.id }}">
         <div class="row align-items-center">
           <div class="col-md-3 ps-md-0">
-            <a href="{{ addOnProduct.url }}" class="d-block">
-              <img src="{{ addOnProduct.featured_image | img_url: '150x' }}" class="w-100" 
-              alt="{{ addOnProduct.title }}" 
-              loading="lazy" 
-              width="{{ addOnProduct.featured_image.width }}"
-              height="{{ addOnProduct.featured_image.width | divided_by: addOnProduct.featured_image.aspect_ratio }}" data-addons-feauredImage>
+            <a href="{{ addOnProduct.url }}" class="d-block" rel="{{ addOnProduct.title }}" title="{{ addOnProduct.title }}">
+              {%- if addOnProduct.featured_image != blank -%}
+                <img src="{{ addOnProduct.featured_image | img_url: '150x' }}" class="w-100" 
+                alt="{{ addOnProduct.title }}" 
+                loading="lazy" 
+                width="{{ addOnProduct.featured_image.width }}"
+                height="{{ addOnProduct.featured_image.width | divided_by: addOnProduct.featured_image.aspect_ratio }}" data-addons-feauredImage>
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
             </a>
           </div>
           <div class="col-md-6 pt-md-0 pt-3">
@@ -76,11 +81,14 @@
             </div>
           </div>
           <div class="col-md-3">
-              <button  data-id="{{ addOnProduct.id }}" class="btn-primary btn-sm addon-add-btn"> Add</button>
+              <button type="button" data-id="{{ addOnProduct.id }}" class="btn-primary btn-sm addon-add-btn {% unless current_variant.available %}disabled{% endunless %}"
+                {% unless current_variant.available %}disabled{% endunless %}> {%- if current_variant.available -%}Add{%- else-%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+              </button>
           </div>
         </div>
       </div>
         <script class="addons-variantsJSON-{{ addOnProduct.id }}" data-addons-variantJSON type="application/json">
+          {{ addOnProduct | json }}
           {{ addOnProduct.variants | json }}
         </script>
     </addons-form>

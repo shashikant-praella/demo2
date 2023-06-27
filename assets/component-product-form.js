@@ -67,7 +67,12 @@ class ProductForm extends HTMLElement {
           document.querySelector('#PopupModal-quickshop .close-quickshop').dispatchEvent(new Event('click'))
         }
         this.cartElement.getCartData('open_drawer');
-        if(qtyInput) qtyInput.value = 1;
+        if (qtyInput) qtyInput.value = 1;
+        if (pdpContainer) {
+          document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
+            AddOnBtns.innerText = 'Add';
+          });
+        }
       })
       .catch((e) => {
         console.error(e);
