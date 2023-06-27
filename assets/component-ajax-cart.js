@@ -152,7 +152,7 @@ class AjaxCart extends HTMLElement {
      * @param {string} cartHTML String formatted response from fetch cart.js call
      * @param {string} action Open Drawer as value if need to Open Cart drawer
      */
-    _updateCart(response, action){
+    async _updateCart(response, action){
       this.setAttribute('updating', true);
 
       // Convert the HTML string into a document object
@@ -194,7 +194,8 @@ class AjaxCart extends HTMLElement {
       if(drawerSelectors.cartIconMobile) drawerSelectors.cartIconMobile.innerHTML = cartIcon.innerHTML;
 
       if(window.globalVariables.cart_drawer && action == 'open_drawer' && window.globalVariables.template != 'cart'){
-          this.openCartDrawer();
+          await this.openCartDrawer();
+          
       }
     }
 
@@ -203,44 +204,86 @@ class AjaxCart extends HTMLElement {
      *
      * @param {string} action Open Drawer as value if need to Open Cart drawer or else let it be empty
      */
-    getCartData(action){
+    async getCartData(action){
         let cartRoute = `${routes.cart_fetch_url}?sections=template-cart,header`;
         if(window.globalVariables.template != 'cart'){
           cartRoute = `${routes.cart_fetch_url}?sections=template-cart-drawer,header`;
         }
-
-        fetch(cartRoute).then(response => {
-          return response.json();
-        }).then(response => {
-            this._updateCart(response, action);
+       fetch(cartRoute).then( async response => {
+          return await response.json();
+        }).then(async response => {
+            await this._updateCart(response, action);
         }).catch((e) => {
             console.error(e);
         }).finally(() => {
             // Cart HTML fetch done
         });
     }
-  
+   /**
+     * Update Bundle Quantity API call 
+     *
+     * @param {string} -line, lineitem, bundleRemoveids, items
+     * line - Line Index value of cart Item (Starts from 1), 
+     * lineItem - row of selected line item
+     * bundleRemoveids - ids values of bundle products with main product
+     * items - value of remove items id and quantity
+     * @param {integer} -quantity
+     *  Quantity - to update quantity value of product
+     * @param {array} -bundleRemoveidsArray
+     * bundleRemoveidsArray - store bundle products quntity of main product 
+     */
+    async updateBundleItemQty(line, quantity, lineItem){
+      let bundleRemoveids = lineItem.getAttribute('bundle-removeids');
+      if(bundleRemoveids && bundleRemoveids != '' && bundleRemoveids != null) {
+          bundleRemoveids = bundleRemoveids.slice(0, -2);
+          let bundleRemoveidsArray = bundleRemoveids.split(",");
+          let items = '';
+          bundleRemoveidsArray.forEach((bundleRemoveid, index) => {
+            let bundleRemoveIdValue = bundleRemoveid.trim(' ').toString();
+            let itemValue = bundleRemoveIdValue+":"+quantity;
+            items += itemValue+",";
+          }); 
+
+          items = '{'+items.slice(0, -1)+'}';
+          let jsonItems = items.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+            return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+          });
+          jsonItems = JSON.parse(jsonItems);
+          const response = await fetch(`/cart/update.js`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
+            body :  JSON.stringify({ updates: jsonItems })
+          });
+          const data = await response.json();
+      }
+    }
      /**
      * Update Quantity API call 
      *
-     * @param {string} line Line Index value of cart Item (Starts from 1)
-     * @param {integer} quantity Quantity to update
+     * @param {string} - line
+     * line Line Index value of cart Item (Starts from 1)
+     * @param {integer} - quantity
+     * quantity Quantity to update
      */
-    updateItemQty(line, quantity){
-        let lineItem = document.querySelectorAll('[data-cart-item]')[line-1];
+    async updateItemQty(line, quantity){
 
-        if(lineItem){ lineItem.classList.add('updating'); }
-        const body = JSON.stringify({
-            line,
-            quantity
-        });
-  
-        fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body }})
-        .then((response) => {
-            return response.text();
+      let lineItem = document.querySelectorAll('[data-cart-item]')[line-1];
+
+      //function for update bundle quantity
+      await this.updateBundleItemQty(line, quantity, lineItem);
+
+      if(lineItem){ lineItem.classList.add('updating'); }
+      const body = JSON.stringify({
+          line,
+          quantity
+      });
+       await fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body }})
+        .then(async (response) => {
+            return await response.text();
         })
-        .then((_state) => {
-          this.getCartData();
+        .then(async (_state) => {
+         await this.getCartData();
           setTimeout(() => {
             if(lineItem){ lineItem.classList.remove('updating'); }
           }, 1000);
@@ -257,13 +300,11 @@ class AjaxCart extends HTMLElement {
      *
      * @param {event} Event instance
      */
-    removeItem(event){
+    async removeItem(event){
       event.preventDefault();
       let currentTarget = event.currentTarget;
       let itemIndex = currentTarget.dataset.index || null;
-      if(itemIndex != null){
-          this.updateItemQty(itemIndex, 0);
-      }
+      await this.updateItemQty(itemIndex, 0);
     }
   
     /**

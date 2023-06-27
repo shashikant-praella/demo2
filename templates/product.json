@@ -3,26 +3,10 @@
     "main": {
       "type": "template-product",
       "blocks": {
-        "3b316236-d91e-4dd0-953a-173c1f40bfcf": {
-          "type": "price",
-          "settings": {
-          }
-        },
         "76185562-4eb8-429b-a627-624a152e3944": {
           "type": "vendor",
           "settings": {
             "show_vendor": true
-          }
-        },
-        "b253ffff-d04d-43a0-9d68-fabdd77b595a": {
-          "type": "product_form",
-          "settings": {
-          }
-        },
-        "e53b8574-dd34-4eca-8c40-ac20d2e38598": {
-          "type": "share",
-          "settings": {
-            "show_social_share": true
           }
         },
         "f74187b8-c891-42b8-9a6b-2c67a497b018": {
@@ -31,10 +15,34 @@
             "subtitle": ""
           }
         },
+        "3b316236-d91e-4dd0-953a-173c1f40bfcf": {
+          "type": "price",
+          "settings": {
+          }
+        },
         "fcbf423b-3c83-4097-901c-ca70b8b80e5c": {
           "type": "description",
           "disabled": true,
           "settings": {
+          }
+        },
+        "b253ffff-d04d-43a0-9d68-fabdd77b595a": {
+          "type": "product_form",
+          "settings": {
+          }
+        },
+        "bf284840-ee93-4c6c-9c74-a7232a1b3e23": {
+          "type": "addons",
+          "settings": {
+            "enable_addons": true,
+            "addons_title": "OUR RECOMMENDED  ACCESSORIES",
+            "addons_value": "manish-in-person-appointment"
+          }
+        },
+        "e53b8574-dd34-4eca-8c40-ac20d2e38598": {
+          "type": "share",
+          "settings": {
+            "show_social_share": true
           }
         },
         "product-tabs": {
@@ -72,6 +80,7 @@
         "3b316236-d91e-4dd0-953a-173c1f40bfcf",
         "fcbf423b-3c83-4097-901c-ca70b8b80e5c",
         "b253ffff-d04d-43a0-9d68-fabdd77b595a",
+        "bf284840-ee93-4c6c-9c74-a7232a1b3e23",
         "e53b8574-dd34-4eca-8c40-ac20d2e38598",
         "product-tabs",
         "related-products"

@@ -1,14 +1,42 @@
 /**
- * Addons Form Components
- *
+ * Addons/ bundle manage on cart page add multiple products
+ * with main products
  */
-class AddonsForm extends HTMLElement {
-    constructor() {
-    super();
-        this.form = this
+/**
+ * Get started details about Addons/bundle products
+ @param {string} -  addOnCheckbox
+ * addOnCheckbox - checkbox value of add button click product 
+ * @param {number} - data_id
+ * data_id - Geting id of click product add button
+ */
+
+if(document.querySelector('addons-form')){
+    window.addOnProducts = {
+     
+        // funtion run when window load and all click event write in this function
+        init(){
+            // function when click add button of product addon section
+            document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
+                AddOnBtns.addEventListener('click', (AddOnBtn) => {
+                    let data_id = AddOnBtn.target.getAttribute('data-id');
+                    let addOnCheckbox =  document.getElementById(`${'addon-'+data_id}`);
+                    if(!addOnCheckbox.checked){
+                        AddOnBtn.target.innerText = 'Added';
+                        addOnCheckbox.setAttribute('checked', true);   
+                    }
+                    else {
+                        AddOnBtn.target.innerText = 'Add';
+                        addOnCheckbox.removeAttribute('checked'); 
+                    }
+                });
+            });
+        },
+    
     }
+    window.addOnProducts.init();
 }
-customElements.define('addons-form', AddonsForm);
+       
+
 
 class AddonsVariantSelects extends HTMLElement {
     constructor() {

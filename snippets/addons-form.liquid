@@ -1,92 +1,89 @@
-{%- if addOnProduct -%}
-<addons-form class="product-form pt-3" data-product-grid>
-    <input type="hidden" class="variant--id" value="{{ addOnProduct.selected_or_first_available_variant.id }}">
-
-    <div class="mb-4 border rounded-lg p-3">
-      <div class="row align-items-center">
-        <div class="col-md-1">
-          <div class="custom-control form-check">
-            <input type="checkbox" id="addon-1" data-addon-selection class="form-check-input"> 
-            <label for="addon-1" class="form-check-label"></label>
+{% assign addOnProductsList = addOnProducts | split: "," %}
+{%- if addOnProductsList.size > 0 -%}
+  <h5 class="my-5">{{ addons_title }}</h5>
+  {%- for addOnProduct in addOnProducts.value -%}
+    <addons-form class="product-form pt-3" data-product-grid>
+      <div class="my-4 border rounded-lg p-3">
+        <input type="checkbox" id="addon-{{ addOnProduct.id }}" data-addon-selection class="form-check-input d-none"> 
+        <input type="hidden" class="variant--id" value="{{ addOnProduct.selected_or_first_available_variant.id }}">
+        <div class="row align-items-center">
+          <div class="col-md-3 ps-md-0">
+            <a href="{{ addOnProduct.url }}" class="d-block">
+              <img src="{{ addOnProduct.featured_image | img_url: '150x' }}" class="w-100" 
+              alt="{{ addOnProduct.title }}" 
+              loading="lazy" 
+              width="{{ addOnProduct.featured_image.width }}"
+              height="{{ addOnProduct.featured_image.width | divided_by: addOnProduct.featured_image.aspect_ratio }}" data-addons-feauredImage>
+            </a>
           </div>
-        </div>
-        <div class="col-md-3 ps-md-0">
-          <a href="{{ addOnProduct.url }}" class="d-block">
-            <img src="{{ addOnProduct.featured_image | img_url: '150x' }}" class="w-100" 
-            alt="{{ addOnProduct.title }}" 
-            loading="lazy" 
-            width="{{ addOnProduct.featured_image.width }}"
-            height="{{ addOnProduct.featured_image.width | divided_by: addOnProduct.featured_image.aspect_ratio }}" data-addons-feauredImage>
-          </a>
-        </div>
-        <div class="col-md-8 pt-md-0 pt-3">
-          <a href="{{ addOnProduct.url }}" class="d-block">
-            <p class="fw-medium mb-2">{{ addOnProduct.title }}</p>
-          </a> 
-          <p class="font-size-small font-weight-normal mb-1 upsellProdPrice" data-addons-currentPrice>{{ addOnProduct.price | money }}</p> 
-          <div class="">
-            {% unless addOnProduct.has_only_default_variant %}
-              {%- if settings.enable_swatches -%}
-                <addons-variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ addOnProduct.url | within: collection }}" data-type="variant-radios">
-                  {%- for option in addOnProduct.options_with_values -%}
-                      <fieldset class="js product-form__input addon-fieldset mb-4 {% if option.name == 'Color' or option.name == 'color' %}color-swatch{% endif %} addons-options" data-addons-optionindex="{{ forloop.index }}">
-                          <legend class="form__label fw-medium text-uppercase font-size-sm mb-2">{{ option.name }}: <span class="selected-option">{{ option.selected_value }}</span></legend>
-                          <ul class="list-unstyled d-flex my-0 py-0">
-                              {%- for value in option.values -%}
-                                  {%- capture swatchID -%}swatch-{{ addOnProduct.id }}-addons-{{ option.name | handleize }}-{{ value | handleize }}{%- endcapture -%}
-                                  <li class="me-2">
-                                      <div class="swatch {% if option.name == 'Color' or option.name == 'color' %}color-swatch{% endif %}">
-                                          <input type="radio" class="form-control addon-swatch" id="{{ swatchID }}"
-                                              name="addons-{{ option.name }}" value="{{ value | escape }}"
-                                              {% if format == 'grid' and current_variant == false %}{% if forloop.first %}checked{% endif %}{% else %}{% if option.selected_value == value %}checked{% endif %}{% endif %} 
-                                              data-handle="{{ value | handle }}">
-                                          <label class="form-label swatch-label {{ value }}" for="{{ swatchID }}" title="{{ value }}"> {% unless option.name == 'Color' or option.name == 'color' %} {{ value }} {% endunless %}  </label>
-                                      </div>
-                                  </li>
-                              {%- endfor -%}
-                              </ul>
-                      </fieldset>
-                  {%- endfor -%}
-                </addons-variant-radios>
-              {%- else -%}
-                <addons-variant-selects class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ addOnProduct.url | within: collection }}" data-type="variant-select">
-                  {%- for option in addOnProduct.options_with_values -%}
-                    <div class="product-form__input product-form__input--dropdown mb-4 addons-options" data-addons-optionindex="{{ forloop.index }}">
-                      <label class="fw-medium text-uppercase font-size-sm mb-2" for="Option-{{ section.id }}-{{ forloop.index0 }}" title="{{ option.selected_value }}">
-                        {{ option.name }}: <span class="selected-option">{{ option.selected_value }}</span>
-                      </label>
-                      <div class="select">
-                        <select id="addons-Option-{{ section.id }}-{{ forloop.index0 }}" class="form-select addons-variant_selector" name="options[addons-{{ option.name | escape }}]">
-                          {%- for value in option.values -%}
-                            <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
-                              {{ value }}
-                            </option>
-                          {%- endfor -%}
-                        </select>
+          <div class="col-md-6 pt-md-0 pt-3">
+            <a href="{{ addOnProduct.url }}" class="d-block">
+              <p class="fw-medium mb-2">{{ addOnProduct.title }}</p>
+            </a> 
+            <p class="font-size-small font-weight-normal mb-1 upsellProdPrice" data-addons-currentPrice>{{ addOnProduct.price | money }}</p> 
+            <div class="">
+              {% unless addOnProduct.has_only_default_variant %}
+                {%- if settings.enable_swatches -%}
+                  <addons-variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ addOnProduct.url | within: collection }}" data-type="variant-radios">
+                    {%- for option in addOnProduct.options_with_values -%}
+                        <fieldset class="js product-form__input addon-fieldset mb-4 {% if option.name == 'Color' or option.name == 'color' %}color-swatch{% endif %} addons-options" data-addons-optionindex="{{ forloop.index }}">
+                            <legend class="form__label fw-medium text-uppercase font-size-sm mb-2">{{ option.name }}: <span class="selected-option">{{ option.selected_value }}</span></legend>
+                            <ul class="list-unstyled d-flex my-0 py-0">
+                                {%- for value in option.values -%}
+                                    {%- capture swatchID -%}swatch-{{ addOnProduct.id }}-addons-{{ option.name | handleize }}-{{ value | handleize }}{%- endcapture -%}
+                                    <li class="me-2">
+                                        <div class="swatch {% if option.name == 'Color' or option.name == 'color' %}color-swatch{% endif %}">
+                                            <input type="radio" class="form-control addon-swatch" id="{{ swatchID }}"
+                                                name="addons-{{ option.name }}" value="{{ value | escape }}"
+                                                {% if format == 'grid' and current_variant == false %}{% if forloop.first %}checked{% endif %}{% else %}{% if option.selected_value == value %}checked{% endif %}{% endif %} 
+                                                data-handle="{{ value | handle }}">
+                                            <label class="form-label swatch-label {{ value }}" for="{{ swatchID }}" title="{{ value }}"> {% unless option.name == 'Color' or option.name == 'color' %} {{ value }} {% endunless %}  </label>
+                                        </div>
+                                    </li>
+                                {%- endfor -%}
+                                </ul>
+                        </fieldset>
+                    {%- endfor -%}
+                  </addons-variant-radios>
+                {%- else -%}
+                  <addons-variant-selects class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ addOnProduct.url | within: collection }}" data-type="variant-select">
+                    {%- for option in addOnProduct.options_with_values -%}
+                      <div class="product-form__input product-form__input--dropdown mb-4 addons-options" data-addons-optionindex="{{ forloop.index }}">
+                        <label class="fw-medium text-uppercase font-size-sm mb-2" for="Option-{{ section.id }}-{{ forloop.index0 }}" title="{{ option.selected_value }}">
+                          {{ option.name }}: <span class="selected-option">{{ option.selected_value }}</span>
+                        </label>
+                        <div class="select">
+                          <select id="addons-Option-{{ section.id }}-{{ forloop.index0 }}" class="form-select addons-variant_selector" name="options[addons-{{ option.name | escape }}]">
+                            {%- for value in option.values -%}
+                              <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                                {{ value }}
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                  {%- endfor -%}
-                </addons-variant-selects>
-              {%- endif -%}
-            {% endunless %}
-            <div class="col-5 px-0 d-flex align-items-center">
-              <div class="mr-3">
-                <label for="Quantity">{{ 'products.product.quantity.label' | t }}</label>
-              </div> 
-              <div class="input-group input-group-sm pillow_protector pillow_Qty">
-                <div class="product_qty position-relative">
-                  <input type="number" value="1" id="addon_quantity_{{ addOnProduct.id }}" pattern="[0-9]*" aria-label="{{ 'products.product.quantity.label' | t }}" class="product-quantity w-100 ps-3 py-1 ms-2"> 
+                    {%- endfor -%}
+                  </addons-variant-selects>
+                {%- endif -%}
+              {% endunless %}
+              <div class="col-5 px-0 d-flex align-items-center">
+                <div class="input-group input-group-sm pillow_protector pillow_Qty">
+                  <div class="product_qty position-relative">
+                    <input type="hidden" value="1" id="addon_quantity_{{ addOnProduct.id }}" pattern="[0-9]*" aria-label="{{ 'products.product.quantity.label' | t }}" class="product-quantity w-100 ps-3 py-1 ms-2"> 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="col-md-3">
+              <button  data-id="{{ addOnProduct.id }}" class="btn-primary btn-sm addon-add-btn"> Add</button>
+          </div>
         </div>
       </div>
-    </div>
-
-    <script class="addons-variantsJSON-{{ addOnProduct.id }}" data-addons-variantJSON type="application/json">
-      {{ addOnProduct.variants | json }}
-    </script>
-</addons-form>
+        <script class="addons-variantsJSON-{{ addOnProduct.id }}" data-addons-variantJSON type="application/json">
+          {{ addOnProduct.variants | json }}
+        </script>
+    </addons-form>
+  {%- endfor -%}
 <script src="{{ 'component-addons-form.js' | asset_url }}" defer></script>
 {%- endif -%}

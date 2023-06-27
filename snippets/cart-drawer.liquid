@@ -82,12 +82,15 @@
                                                 {%- endfor -%}
                                                 </ul>
                                             {%- endif -%}
-
+                                            {% assign bundleProductId = '' %}
                                             {% if item.properties.size != 0 %}
                                                 <ul class="list-unstyled">
                                                 {%- for property in item.properties -%}
                                                     {%- assign property_first_char = property.first | slice: 0 -%}
                                                     {%- if property.last != blank and property_first_char != '_' -%}
+                                                        {%- if  property.first == 'Bundle Products' -%}
+                                                            {% assign bundleProductId = bundleProductId | append: property.last | append: ', '%}
+                                                        {%- endif -%}
                                                         <li>
                                                             <span class="text-muted small text-capitalize">{{ property.first }}:</span>
                                                             <span class="text-muted small text-capitalize">
@@ -140,12 +143,14 @@
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                         <a class="my-0 text-danger ms-3"
                                             href="#"
                                             title="{{ 'templates.cart.remove' | t }}"
                                             aria-label="{{ 'templates.cart.remove' | t }}"
                                             data-toggle="tooltip"
                                             data-itemRemove data-index="{{ forloop.index }}"
+                                            bundle-removeIds = "{{ bundleProductId }}"
                                             data-placement="left">
                                             <span class="icon-close"></span>
                                         </a>

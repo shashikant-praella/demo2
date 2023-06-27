@@ -1,3 +1,14 @@
+{%liquid for block in section.blocks
+      if block.type == 'addons' 
+        if block.settings.enable_addons
+          capture addOnsHTML
+              assign addOnProducts = product.metafields.custom.addonproduct
+              render 'addons-form', addOnProducts: addOnProducts, addons_title: block.settings.addons_title.
+          endcapture
+          endif
+      endif
+  endfor
+%}
 <div data-section-id="{{ section.id }}" data-template="product" class="{% if product.has_only_default_variant %}only-default-variant{% endif %}">
   {%- liquid 
     assign productExcludeTag = settings.product_exclude_tag_text
@@ -177,6 +188,7 @@
                           render 'form-product', product: product, current_variant: current_variant, format: 'product-page'
                         endunless
                       -%}
+                      {{ addOnsHTML }}
                     {%- when 'share' -%}
                         {% if block.settings.show_social_share %}
                             <div class="d-flex align-items-center mt-5 mb-3">
@@ -187,7 +199,6 @@
                     {%- endcase -%}
                   {%- endfor -%}
                 </div>
-
             </div>
         </div>
     </div>
@@ -446,6 +457,24 @@
           "default": "#343a40"
         }
       ]
+    },
+    {
+        "type": "addons",
+        "name": "Addon",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable_addons",
+                "default": true,
+                "label": "Enable Addons?"
+            },
+            {
+                "type": "text",
+                "id": "addons_title",
+                "label": "Pair it with"
+            }
+        ]
     }
   ],
   "settings": [

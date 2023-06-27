@@ -20,27 +20,40 @@ class ProductForm extends HTMLElement {
    */
   onSubmitHandler(evt) {
     evt.preventDefault();
-    const addItems = [];
+    let addItems = [];
     const submitButton = this.querySelector('[type="submit"]');
     const qtyInput = this.querySelector('[data-qty-input]');
     const pdpContainer = this.closest('.product-details-wrapper');
 
     submitButton.setAttribute('disabled', true);
     submitButton.classList.add('loading');
-
-    addItems.push(JSON.parse(serializeForm(this.form)))
+  
+    // funtion when addon product functionality available
     if(pdpContainer){
       let addOnItemsEle = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
+      let mainProductId = this.querySelector('[name="id"]').value; //get main product id
+      let budnleProductIDArray = [];  //array for store bundle product id value
+      let mainProductQty = this.querySelector('[name="quantity"]').value; //get main product quantity  
       addOnItemsEle.forEach((addOn)=>{
         if(!addOn.disabled){
           let addOnParent = addOn.closest('addons-form');
+          let addonVaraintId = addOnParent.querySelector('.variant--id').value;
           let addOnJSON = {
-            id: addOnParent.querySelector('.variant--id').value,
-            quantity: addOnParent.querySelector('.product-quantity').value
+            id: addonVaraintId,
+            quantity: mainProductQty,
+            properties:{'bundle product id': mainProductId}
           }
           addItems.push(addOnJSON);
+          budnleProductIDArray.push(addonVaraintId)
         }
       });
+      // when bundle product grather than 0 line item property add on main product
+      if(budnleProductIDArray.length > 0) this.querySelector('[properies-addon]').innerHTML = `<input type="hidden" name="properties[Bundle Products]" value="${budnleProductIDArray}">`
+      addItems.push(JSON.parse(serializeForm(this.form)))
+      addItems = addItems.reverse();
+    }
+    else {
+      addItems.push(JSON.parse(serializeForm(this.form)));
     }
 
     const body = JSON.stringify({
