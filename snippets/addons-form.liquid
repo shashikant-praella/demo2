@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="col-md-3">
-              <button type="button" data-id="{{ addOnProduct.id }}" class="btn-primary btn-sm addon-add-btn {% unless current_variant.available %}disabled{% endunless %}"
+              <button type="button" data-id="{{ addOnProduct.id }}" class="btn-primary btn-sm {% unless current_variant.available %}disabled {%else%} addon-add-btn {% endunless %}"
                 {% unless current_variant.available %}disabled{% endunless %}> {%- if current_variant.available -%}Add{%- else-%}{{ 'products.product.sold_out' | t }}{%- endif -%}
               </button>
           </div>
