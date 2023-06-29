@@ -51,17 +51,26 @@
 
                                     {% if item.properties.size != 0 %}
                                         {% assign bundleProductId = null %}
+                                        {% assign bundleRandomValue = null %}
                                         {%- for property in item.properties -%}
                                             {%- assign property_first_char = property.first | slice: 0 -%}
                                             {%- if property.last != blank and property_first_char != '_' -%}
                                                 {%- if  property.first == 'Bundle Products' -%}
                                                     {% assign bundleProductId = bundleProductId | append: property.last | append: ', '%}
                                                 {%- endif -%}
+                                                {%- if  property.first == 'Random Value' -%}
+                                                    {% assign bundleRandomValue = bundleRandomValue | append: property.last | append: ', '%}
+                                                {%- endif -%}
                                             {%- endif -%}
                                         {%- endfor -%}
                                     {% endif %}
 
-                                    <div class="cart-items py-4 px-md-3 border-bottom" data-index="{{ forloop.index }}"  data-cart-item data-variant-id="{{ item.id }}" {% if item.properties['Bundle Products'] %} bundle-removeids="{{ bundleProductId }}" {% endif %}>
+                                    <div class="cart-items py-4 px-md-3 border-bottom" data-index="{{ forloop.index }}"  data-cart-item 
+                                        data-variant-id="{{ item.id }}" 
+                                        {% if item.properties['Bundle Products'] %} bundle-removeids="{{ bundleProductId }}" {% endif %} 
+                                        {% if item.properties['Random Value'] %} bundle-RandomValue="{{ bundleRandomValue }}" {% endif %}
+                                        item-id="{{ item.id }}"
+                                        data-qty="{{ item.quantity }}">
                                         <div class="row align-items-center cart-item">
                                             <div class="col-12 mb-3 mb-md-0 col-md-6 cart-product-img">
                                                 <div class="d-flex align-items-center">
@@ -140,14 +149,14 @@
                                                             <label for="{{ 'templates.cart.quantity.label' | t }}" title="{{ 'templates.cart.quantity.label' | t }}">{{ 'templates.cart.quantity.label' | t }}</label>
                                                             <div class="input-group input-group-sm">
                                                                 <div class="input-group-prepend">
-                                                                    <a href="#" class="input-group-text py-2 px-3 h-100" rel="nofollow" aria-label="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}"  bundle-removeIds = "{{ bundleProductId }}" title="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}" data-for="decrease" data-qty-btn>
+                                                                    <a href="#" class="input-group-text py-2 px-3 h-100" rel="nofollow" aria-label="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}"  title="{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}" data-for="decrease" data-qty-btn>
                                                                         <span class="btn-decrease d-flex h-100 align-items-center"><span class="icon-minus"></span></span>
                                                                         <span class="visually-hidden">{{ 'templates.cart.quantity.decrease' | t: product: item.title | escape }}</span>
                                                                     </a>
                                                                 </div>
-                                                                <input type="number" name="updates[]" id="updates_{{ item.key }}" aria-label="{{ 'templates.cart.quantity.input_label' | t: product: item.title | escape }}"  bundle-removeIds = "{{ bundleProductId }}" value="{{ item.quantity }}" step="1" min="1" inputmode="numeric" data-qty-input data-index="{{ forloop.index }}" class="quantity form-control text-center px-2 py-1" readonly>
+                                                                <input type="number" name="updates[]" id="updates_{{ item.key }}" aria-label="{{ 'templates.cart.quantity.input_label' | t: product: item.title | escape }}"  value="{{ item.quantity }}" step="1" min="1" inputmode="numeric" data-qty-input data-index="{{ forloop.index }}" class="quantity form-control text-center px-2 py-1" readonly>
                                                                 <div class="input-group-append">
-                                                                    <a href="#" class="input-group-text py-2 px-3 h-100 {% if varStatus == 'modify' or varStatus == 'locked' %}disabled{% endif %}" rel="nofollow"  bundle-removeIds = "{{ bundleProductId }}" aria-label="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" title="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" data-for="increase" data-qty-btn>
+                                                                    <a href="#" class="input-group-text py-2 px-3 h-100 {% if varStatus == 'modify' or varStatus == 'locked' %}disabled{% endif %}" rel="nofollow"  aria-label="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" title="{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}" data-for="increase" data-qty-btn>
                                                                         <span class="btn-increase d-flex h-100 align-items-center"><span class="icon-plus"></span></span>
                                                                         <span class="visually-hidden">{{ 'templates.cart.quantity.increase' | t: product: item.title | escape }}</span>
                                                                     </a>
@@ -160,7 +169,6 @@
                                                             aria-label="{{ 'templates.cart.remove' | t }}"
                                                             data-toggle="tooltip"
                                                             data-itemRemove data-index="{{ forloop.index }}"
-                                                            bundle-removeIds = "{{ bundleProductId }}"
                                                             data-placement="left">
                                                             <span class="icon-close"></span>
                                                         </a>

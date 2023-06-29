@@ -34,21 +34,26 @@ class ProductForm extends HTMLElement {
       let mainProductId = this.querySelector('[name="id"]').value; //get main product id
       let budnleProductIDArray = [];  //array for store bundle product id value
       let mainProductQty = this.querySelector('[name="quantity"]').value; //get main product quantity  
-      addOnItemsEle.forEach((addOn)=>{
-        if(!addOn.disabled){
-          let addOnParent = addOn.closest('addons-form');
-          let addonVaraintId = addOnParent.querySelector('.variant--id').value;
-          let addOnJSON = {
-            id: addonVaraintId,
-            quantity: mainProductQty,
-            properties:{'bundle product id': mainProductId}
+      let randomValue = Math.random().toFixed(4);
+      if(addOnItemsEle.length > 0) {
+        addOnItemsEle.forEach((addOn)=> {
+          if(!addOn.disabled){
+            let addOnParent = addOn.closest('addons-form');
+            let addonVaraintId = addOnParent.querySelector('.variant--id').value;
+            let addOnJSON = {
+              id: addonVaraintId,
+              quantity: mainProductQty,
+              properties:{'bundle product id': mainProductId, 'Random Value': randomValue}
+            }
+            addItems.push(addOnJSON);
+            budnleProductIDArray.push(addonVaraintId)
           }
-          addItems.push(addOnJSON);
-          budnleProductIDArray.push(addonVaraintId)
-        }
-      });
+        });
+      } 
       // when bundle product grather than 0 line item property add on main product
-      if(budnleProductIDArray.length > 0) this.querySelector('[properies-addon]').innerHTML = `<input type="hidden" name="properties[Bundle Products]" value="${budnleProductIDArray}">`
+      if(budnleProductIDArray.length > 0) this.querySelector('[properies-addon]').innerHTML = `
+      <input type="hidden" name="properties[Random Value]" value="${randomValue}">
+      <input type="hidden" name="properties[Bundle Products]" value="${budnleProductIDArray}">`
       addItems.push(JSON.parse(serializeForm(this.form)))
       addItems = addItems.reverse();
     }
@@ -69,9 +74,18 @@ class ProductForm extends HTMLElement {
         this.cartElement.getCartData('open_drawer');
         if (qtyInput) qtyInput.value = 1;
         if (pdpContainer) {
-          document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
-            AddOnBtns.innerText = 'Add';
-          });
+          let AddonSelection = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
+          if(AddonSelection.length > 0){
+            AddonSelection.forEach(checkboxSelection => {
+              checkboxSelection.removeAttribute('checked');
+            });
+          }
+          let addonAddbtn = document.querySelectorAll('.addon-add-btn')
+          if(AddonSelection.length > 0) {
+            document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
+              AddOnBtns.innerText = 'Add';
+            });
+          }
         }
       })
       .catch((e) => {

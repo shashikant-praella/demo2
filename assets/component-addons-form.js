@@ -12,21 +12,22 @@
 
 if(document.querySelector('addons-form')){
     window.addOnProducts = {
-     
+     bundleProductsList: document.querySelectorAll('.addon-add-btn'),
+     addOnCheckbox: null,
         // funtion run when window load and all click event write in this function
         init(){
             // function when click add button of product addon section
-            document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
-                AddOnBtns.addEventListener('click', (AddOnBtn) => {
-                    let data_id = AddOnBtn.target.getAttribute('data-id');
-                    let addOnCheckbox =  document.getElementById(`${'addon-'+data_id}`);
-                    if(!addOnCheckbox.checked){
-                        AddOnBtn.target.innerText = 'Added';
-                        addOnCheckbox.setAttribute('checked', true);   
+            this.bundleProductsList.forEach((addOnBtns) => {
+                addOnBtns.addEventListener('click', (addOnBtn) => {
+                    let data_id = addOnBtn.target.getAttribute('data-id');
+                    if(data_id) this.addOnCheckbox =  document.getElementById(`${'addon-'+data_id}`);
+                    if(!this.addOnCheckbox.checked){
+                        addOnBtn.target.innerText = 'Added';
+                        this.addOnCheckbox.setAttribute('checked', true);   
                     }
                     else {
-                        AddOnBtn.target.innerText = 'Add';
-                        addOnCheckbox.removeAttribute('checked'); 
+                        addOnBtn.target.innerText = 'Add';
+                        this.addOnCheckbox.removeAttribute('checked'); 
                     }
                 });
             });

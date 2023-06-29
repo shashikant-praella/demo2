@@ -67,17 +67,25 @@
 
                                     {% if item.properties.size != 0 %}
                                         {% assign bundleProductId = null %}
+                                        {% assign bundleRandomValue = null %}
                                         {%- for property in item.properties -%}
                                             {%- assign property_first_char = property.first | slice: 0 -%}
                                             {%- if property.last != blank and property_first_char != '_' -%}
                                                 {%- if  property.first == 'Bundle Products' -%}
                                                     {% assign bundleProductId = bundleProductId | append: property.last | append: ', '%}
                                                 {%- endif -%}
+                                                {%- if  property.first == 'Random Value' -%}
+                                                    {% assign bundleRandomValue = bundleRandomValue | append: property.last | append: ', '%}
+                                                {%- endif -%}
                                             {%- endif -%}
                                         {%- endfor -%}
                                     {% endif %}
 
-                                    <div class="cart-items py-4 border-bottom" data-index="{{ forloop.index }}"  data-cart-item data-variant-id="{{ item.id }}"  {% if item.properties['Bundle Products'] %} bundle-removeids="{{ bundleProductId }}" {% endif %}>
+                                    <div class="cart-items py-4 border-bottom" data-index="{{ forloop.index }}"  data-cart-item data-variant-id="{{ item.id }}" 
+                                        {% if item.properties['Bundle Products'] %} bundle-removeids="{{ bundleProductId }}" {% endif %} 
+                                        {% if item.properties['Random Value'] %} bundle-RandomValue="{{ bundleRandomValue }}" {% endif %}
+                                        item-id="{{ item.id }}"
+                                        data-qty="{{ item.quantity }}">
                                         <div class="row align-items-center cart-item">
                                             <div class="col-12 mb-3 mb-md-0 col-md-6 cart-product-img">
                                                 <div class="d-flex align-items-center">

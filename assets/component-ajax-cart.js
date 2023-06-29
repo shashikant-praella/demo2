@@ -236,28 +236,41 @@ class AjaxCart extends HTMLElement {
      */
     async updateBundleItemQty(line, quantity, lineItem){
       let bundleRemoveids = lineItem.getAttribute('bundle-removeids');
-      if(bundleRemoveids && bundleRemoveids != '' && bundleRemoveids != null) {
-          bundleRemoveids = bundleRemoveids.slice(0, -2);
-          let bundleRemoveidsArray = bundleRemoveids.split(",");
-          let items = '';
-          bundleRemoveidsArray.forEach((bundleRemoveid, index) => {
-            let bundleRemoveIdValue = bundleRemoveid.trim(' ').toString();
-            let itemValue = bundleRemoveIdValue+":"+quantity;
-            items += itemValue+",";
-          }); 
+      let bundleRandomValue = lineItem.getAttribute('bundle-RandomValue');
+      let itemId = lineItem.getAttribute('item-id');
 
-          items = '{'+items.slice(0, -1)+'}';
-          let jsonItems = items.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
-            return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
-          });
-          jsonItems = JSON.parse(jsonItems);
-          const response = await fetch(`/cart/update.js`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
-            body :  JSON.stringify({ updates: jsonItems })
-          });
-          const data = await response.json();
+      if(itemId && itemId != null && bundleRemoveids && bundleRemoveids != '' && bundleRemoveids != null && bundleRandomValue && bundleRandomValue != '' && bundleRandomValue != null ) {
+        // bundleRemoveids = bundleRemoveids.slice(0, -2);
+        // let bundleRemoveidsArray = bundleRemoveids.split(",");
+        // let items = '';
+        // bundleRemoveidsArray.forEach((bundleRemoveid) => {
+        //   let bundleRemoveIdValue = bundleRemoveid.trim(' ').toString();
+        //   let itemValue = bundleRemoveIdValue+":"+quantity;
+        //   items += itemValue+",";
+        // }); 
+
+        // items = '{'+items.slice(0, -1)+'}';
+        // let jsonItems = items.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+        //   return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+        // });
+        // jsonItems = JSON.parse(jsonItems);
+        let qtyArray = [];
+        document.querySelectorAll('.cart-body .cart-items').forEach((cartItem) => {
+          let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
+          let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
+          if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
+          else  qtyArray.push(qtyValue);
+        });
+        console.log(qtyArray);
+        
+        const response = await fetch(`/cart/update.js`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
+          body :  JSON.stringify({ updates: qtyArray })
+        });
+        const data = await response.json();
+        return false;
       }
     }
      /**
