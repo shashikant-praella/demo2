@@ -240,29 +240,13 @@ class AjaxCart extends HTMLElement {
       let itemId = lineItem.getAttribute('item-id');
 
       if(itemId && itemId != null && bundleRemoveids && bundleRemoveids != '' && bundleRemoveids != null && bundleRandomValue && bundleRandomValue != '' && bundleRandomValue != null ) {
-        // bundleRemoveids = bundleRemoveids.slice(0, -2);
-        // let bundleRemoveidsArray = bundleRemoveids.split(",");
-        // let items = '';
-        // bundleRemoveidsArray.forEach((bundleRemoveid) => {
-        //   let bundleRemoveIdValue = bundleRemoveid.trim(' ').toString();
-        //   let itemValue = bundleRemoveIdValue+":"+quantity;
-        //   items += itemValue+",";
-        // }); 
-
-        // items = '{'+items.slice(0, -1)+'}';
-        // let jsonItems = items.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
-        //   return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
-        // });
-        // jsonItems = JSON.parse(jsonItems);
         let qtyArray = [];
         document.querySelectorAll('.cart-body .cart-items').forEach((cartItem) => {
           let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
           let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
           if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
           else  qtyArray.push(qtyValue);
-        });
-        console.log(qtyArray);
-        
+        });        
         const response = await fetch(`/cart/update.js`,
         {
           method: 'POST',
