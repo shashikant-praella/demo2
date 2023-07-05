@@ -1327,5 +1327,32 @@
         "default": "devteam@praella.com"
       }
     ]
+  },
+  {
+    "name": "Warranty Feautres",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_warranty_feautres",
+        "label": "Enable Warranty Feautres?"
+      },
+      {
+        "type": "textarea",
+        "id": "local_zip_code",
+        "label": "Please enter local zipcodes",
+        "info":"Each entry must be on a new line."     
+      },
+      {
+        "type": "product",
+        "id": "warranty_feautre_product",
+        "label": "Warranty Feautre Product"
+      },
+      {
+        "type": "text",
+        "id": "product_tag_warranty",
+        "label": "Please enter product tag",
+        "info":"This tag use for identify product belongs to which collection"     
+      }
+    ]
   }
 ]

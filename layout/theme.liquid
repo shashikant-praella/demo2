@@ -83,8 +83,61 @@
             </div>
           </div>
       </div>
-    </modal-dialog>
-
+    </modal-dialog> 
+    {% comment %} popup for warranty products start {% endcomment %}
+    {% if settings.local_zip_code and settings.warranty_feautre_product != blank %}
+      {%- liquid  
+        assign warranty_product = all_products[settings.warranty_feautre_product] 
+        assign warranty_current_variant = warranty_product.selected_or_first_available_variant
+        assign warranty_featured_image = warranty_current_variant.featured_image | default: warranty_product.featured_image
+      %}
+  
+      <modal-dialog id="PopupModal-warranty">
+        <div class="modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" data-warrantyPopup>
+              <div class="modal-content p-4">
+                <div class="modal-head">
+                  <button class="btn p-2 close-quickshop" type="button" id="ModalClose-warranty" aria-label="{{ 'sections.video-with-text.close_video' | t }}">
+                    <span class="icon-close"></span>
+                  </button>
+                </div>
+                <div class="model-header text-center"><p>{{ 'warranty-feautres.popup.top-label' | t }} </p></div>
+                <div class="modal-body warranty-section">
+                  <p class="h5 text-center">{{ 'warranty-feautres.popup.title' | t }}</p>
+                  <div class="warrenty-product row">
+                    <div class="col-md-4">
+                      {% if warranty_featured_image != blank %}
+                      <img src="{{ warranty_featured_image | image_url: width: 100 }}" alt="{{ warranty_product.title }}"
+                        width="" height="" loading="lazy"/>
+                        {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'img-fluid' }}
+                      {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                      <p>{{ warranty_product.title }}</p>
+                      <p class="warranty-price">
+                        {%- if warranty_current_variant.compare_at_price > warranty_current_variant.price -%}<s class="h6 text-gray-600 mr-2 money" data-comparePrice>{{ warranty_current_variant.compare_at_price | money }}</s>{%- endif -%}
+                      <span class="actual-price money" data-currentPrice>{{ warranty_current_variant.price | money }}</span>
+                      </p>
+                      <a href="#" class="btn-link" title="View full details" 
+                        aria-label="View full details" 
+                        rel="nofollow"> View full details</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="align-items-center d-flex justify-content-end model-footer">
+                  <a href="#" class="btn-link me-4" warrenty_popup_close title="{{ 'warranty-feautres.popup.cancel_btn' | t }}" 
+                    aria-label="{{ 'warranty-feautres.popup.cancel_btn' | t }}" 
+                    rel="nofollow">{{ 'warranty-feautres.popup.cancel_btn' | t }}</a>
+                  <a href="#" warranty_product_id="{{ warranty_current_variant.id }}" class="btn btn-primary" warrenty_add_to_cart title="{{ 'warranty-feautres.popup.submit_btn' | t }}" 
+                    aria-label="{{ 'warranty-feautres.popup.submit_btn' | t }}" rel="nofollow">{{ 'warranty-feautres.popup.submit_btn' | t }}</a>
+                </div>
+              </div>
+            </div>
+        </div>
+      </modal-dialog> 
+   {% endif %}
+    {% comment %} popup for warranty products end {% endcomment %}
     <custom-notification>
       <div class="snotifyToast">
         <div class="snotifyToast-dialog">
@@ -138,14 +191,22 @@
       window.cartStrings = {
         error: `{{ 'sections.cart.cart_error' | t }}`,
         quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`
-      }
+      };
 
       window.variantStrings = {
         addToCart: `{{ 'products.product.add_to_cart' | t }}`,
         upsellAddText: `{{ 'products.product.upsell_add' | t }}`,
         soldOut: `{{ 'products.product.sold_out' | t }}`,
         unavailable: `{{ 'products.product.unavailable' | t }}`,
-      }
+      };
+
+      {%- if settings.enable_warranty_feautres -%}
+        window.warranty_features = {
+          locallocal_zip_code: {{ settings.local_zip_code | newline_to_br | strip_newlines | split: '<br />' | json }},
+          warranty_feautre_product: `{{ all_products[settings.warranty_feautre_product].id }}`,
+          warranty_collection_tag: "{{ settings.product_tag_warranty }}"
+        }
+      {%- endif -%}
     </script>
 
     {% if settings.enable_login_helper %}

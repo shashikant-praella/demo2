@@ -17,6 +17,13 @@ class ProductForm extends HTMLElement {
    * Product Form Submit event
    *
    * @param {evt} Event instance
+   * @param {string} -  zipcode_wrapper, zip_code_value, submitBtn, userZipcodeForm
+   * zipcode_wrapper - use for get outer div form of zipcode form, 
+   * zip_code_value - get zip value enter by user, 
+   * submitBtn - zipcode form submit button, 
+   * userZipcodeForm - html section of zipcode form
+   * @param {json} - localZipCode
+   * 
    */
   onSubmitHandler(evt) {
     evt.preventDefault();
@@ -24,10 +31,44 @@ class ProductForm extends HTMLElement {
     const submitButton = this.querySelector('[type="submit"]');
     const qtyInput = this.querySelector('[data-qty-input]');
     const pdpContainer = this.closest('.product-details-wrapper');
+    const userZipcodeForm = this.querySelector('user-zipcode-form');
 
     submitButton.setAttribute('disabled', true);
     submitButton.classList.add('loading');
   
+    // function when warranty features functionality 
+    if(userZipcodeForm) {
+      let CookiesZipcode = Utility.getCookie('cookiesZipcode');
+      if(CookiesZipcode && CookiesZipcode != undefined) {
+        let zipcode_wrapper = document.querySelector("zipcode-wrapper");
+        let zip_code_value = document.querySelector("[zip-code-value]");
+        if(zipcode_wrapper && zip_code_value) {
+          zip_code_value.innerText = CookiesZipcode;
+          zipcode_wrapper.classList.remove('d-none');
+        }
+        let localZipCode = window?.warranty_features?.locallocal_zip_code;
+        if(localZipCode) if(localZipCode.indexOf(CookiesZipcode) === -1) {
+          let popupWarranty =  document.getElementById('PopupModal-warranty');
+          let modalWarranty = popupWarranty.querySelector('.modal');
+          if(modalWarranty) {
+            modalWarranty.classList.add('open');
+            siteOverlay.prototype.showOverlay();
+            Utility.trapFocus(popupWarranty);
+            Utility.forceFocus(popupWarranty.querySelector('[id^="ModalClose-"]'));
+          }
+          // let submitBtn = document.querySelector('[name="add"]');
+          // if(submitBtn) submitBtn.classList.add('d-none');
+          // userZipcodeForm.classList.remove('d-none');
+          return false;
+        }
+      }
+      else {
+        let submitBtn = document.querySelector('[name="add"]');
+        if(submitBtn) submitBtn.classList.add('d-none');
+        userZipcodeForm.classList.remove('d-none');
+        return false;
+      }
+    }
     // funtion when addon product functionality available
     if(pdpContainer){
       let addOnItemsEle = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
@@ -74,14 +115,13 @@ class ProductForm extends HTMLElement {
         this.cartElement.getCartData('open_drawer');
         if (qtyInput) qtyInput.value = 1;
         if (pdpContainer) {
-          let AddonSelection = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
-          if(AddonSelection.length > 0){
-            AddonSelection.forEach(checkboxSelection => {
+          let addonSelection = pdpContainer.querySelectorAll('[data-addon-selection]:checked');
+          if(addonSelection.length > 0){
+            addonSelection.forEach(checkboxSelection => {
               checkboxSelection.removeAttribute('checked');
             });
           }
-          let addonAddbtn = document.querySelectorAll('.addon-add-btn')
-          if(AddonSelection.length > 0) {
+          if(addonSelection.length > 0) {
             document.querySelectorAll('.addon-add-btn').forEach((AddOnBtns) => {
               AddOnBtns.innerText = 'Add';
             });

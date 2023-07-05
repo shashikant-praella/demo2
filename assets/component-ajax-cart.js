@@ -225,38 +225,90 @@ class AjaxCart extends HTMLElement {
      * @param {string} -line, lineitem, bundleRemoveids, items
      * line - Line Index value of cart Item (Starts from 1), 
      * lineItem - row of selected line item
-     * bundleRemoveids - ids values of bundle products with main product
      * items - value of remove items id and quantity
-     * @param {integer} -quantity
+     * @param {integer} -quantity, bundleRandomValue
      *  Quantity - to update quantity value of product
-     * @param {array} -bundleRemoveidsArray
+     * bundleRandomValue - to get bundle Random Value of cart item
+     * @param {array} -bundleRemoveidsArray, qtyArray
      * bundleRemoveidsArray - store bundle products quntity of main product 
-     * @param {object} -jsonItems
-     * jsonItems - objecxt create for update bundle products with main products 
+     * qtyArray - Store qty of products 
      */
-    async updateBundleItemQty(line, quantity, lineItem){
-      let bundleRemoveids = lineItem.getAttribute('bundle-removeids');
-      let bundleRandomValue = lineItem.getAttribute('bundle-RandomValue');
-      let itemId = lineItem.getAttribute('item-id');
-
-      if(itemId && itemId != null && bundleRemoveids && bundleRemoveids != '' && bundleRemoveids != null && bundleRandomValue && bundleRandomValue != '' && bundleRandomValue != null ) {
+    async updateBundleItemQty(quantity, bundleRandomValue){
         let qtyArray = [];
-        document.querySelectorAll('.cart-body .cart-items').forEach((cartItem) => {
-          let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
-          let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
-          if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
-          else  qtyArray.push(qtyValue);
-        });        
-        const response = await fetch(`/cart/update.js`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': `application/json` },
-          body :  JSON.stringify({ updates: qtyArray })
-        });
-        const data = await response.json();
-        return false;
-      }
+        let cartItems = document.querySelectorAll('.cart-body .cart-items');
+        if(cartItems.length > 0 ) {
+          cartItems.forEach((cartItem) => {
+            let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
+            let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
+            if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
+            else qtyArray.push(qtyValue);
+          });        
+          const body =  JSON.stringify({ updates: qtyArray });
+
+          await fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body }})
+          .then(async (response) => {
+              return await response.text();
+          })
+          .then(async (_state) => {
+           
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
     }
+
+    /**
+     * Update warranty product Quantity API call 
+     *
+     * @param {string} -line, lineitem, bundleRemoveids, items
+     * line - Line Index value of cart Item (Starts from 1), 
+     * lineItem - row of selected line item
+     * items - value of remove items id and quantity
+     * @param {integer} -quantity, bundleRandomValue
+     *  Quantity - to update quantity value of product
+     * bundleRandomValue - to get bundle Random Value of cart item
+     * @param {array} -bundleRemoveidsArray, qtyArray
+     * bundleRemoveidsArray - store bundle products quntity of main product 
+     * qtyArray - Store qty of products 
+     */
+    async updateWarrantyItemQty(quantity,lineWarranty, line) {  
+      //   const body = JSON.stringify({
+      //     line,
+      //     quantity
+      //  });
+      //  await fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body }})
+      //   .then(async (response) => {
+      //       return await response.text();
+      //   })
+      //   .then(async (_state) => {
+      //   }).catch((error) => {
+      //     console.log(error);
+      //   });
+
+        let qtyArray = [];
+        let cartItems = document.querySelectorAll('.cart-body .cart-items');
+        if(cartItems.length > 0 ) {
+          cartItems.forEach((cartItem, index) => {
+            let itemLine = index+1;
+            let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
+            if(lineWarranty == itemLine || itemLine == line) qtyArray.push(quantity);
+            else qtyArray.push(qtyValue);
+          });        
+          const body =  JSON.stringify({ updates: qtyArray });
+
+          await fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body }})
+          .then(async (response) => {
+              return await response.text();
+          })
+          .then(async (_state) => {
+            await this.getCartData();
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
+
+    }
+
      /**
      * Update Quantity API call 
      *
@@ -265,14 +317,31 @@ class AjaxCart extends HTMLElement {
      * @param {integer} - quantity
      * quantity Quantity to update
      */
-    async updateItemQty(line, quantity){
+    async updateItemQty(line, quantity) {
 
       let lineItem = document.querySelectorAll('[data-cart-item]')[line-1];
 
       //function for update bundle quantity
-      await this.updateBundleItemQty(line, quantity, lineItem);
+      let bundleRandomValue = lineItem.getAttribute('bundle-RandomValue');
+      let itemId = lineItem.getAttribute('item-id');
 
-      if(lineItem){ lineItem.classList.add('updating'); }
+      if(itemId && itemId != null && 
+        bundleRandomValue && 
+        bundleRandomValue != '' && bundleRandomValue != null) {
+          await this.updateBundleItemQty(quantity, bundleRandomValue);
+          return false;
+      } 
+
+      //function for update warranty quantity
+      let wrrantyProduct = document.querySelector(`[warranty-product="${itemId}"]`);
+      let lineWarrantyProduct = null;
+      if(wrrantyProduct) lineWarrantyProduct = wrrantyProduct.dataset.index || null
+      if(itemId && itemId != null && wrrantyProduct && wrrantyProduct != undefined){
+        await this.updateWarrantyItemQty(quantity, lineWarrantyProduct, line);
+        return false;
+      } 
+
+      if(lineItem) lineItem.classList.add('updating'); 
       const body = JSON.stringify({
           line,
           quantity

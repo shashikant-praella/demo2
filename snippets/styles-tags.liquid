@@ -65,3 +65,7 @@
 {%- if template.directory == 'customers' -%}
     <link href="{{ 'template-account.css' | asset_url }}" rel="stylesheet" type="text/css">
 {%- endif -%}
+
+{%- if settings.enable_warranty_feautres -%}
+    <link href="{{ 'warranty-feautres.css' | asset_url }}" rel="stylesheet" type="text/css">
+{%- endif -%}

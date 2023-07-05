@@ -28,6 +28,7 @@
         },
         "9a73dd34-545d-499e-85e0-3828f578fc17": {
           "type": "bundle",
+          "disabled": true,
           "settings": {
             "enable_bundle": true,
             "bundle_title": "OUR RECOMMENDED ACCESSORIES"

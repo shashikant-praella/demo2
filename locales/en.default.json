@@ -404,5 +404,22 @@
     "general": {
       "link_title": "TODO"
     }
+  },
+  "warranty-feautres": {
+    "popup": {
+      "top-label": "Added to cart",
+      "title": "Would you like to add a Meissner Protection Plan?",
+      "cancel_btn": "No thanks, I’ll risk it.",
+      "submit_btn": "Add 4-Year Plan"
+    },
+    "zipcode-form": {
+      "label": "Please Enter Your Zip code",
+      "button": "Submit"
+    },
+    "cart": {
+      "qty_update_label": "Warranty Product update with Main product",
+      "label": "Add Meisner Protection Plan"
+
+    }
   }
 }
