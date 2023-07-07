@@ -71,7 +71,7 @@
                                                     {% assign bundleProductId = bundleProductId | append: property.last | append: ', '%}
                                                 {%- endif -%}
                                                 {%- if  property.first == 'Random Value' -%}
-                                                    {% assign bundleRandomValue = bundleRandomValue | append: property.last | append: ', '%}
+                                                    {% assign bundleRandomValue = property.last %}
                                                 {%- endif -%}
                                                 {% comment %} For Warranty Products {% endcomment %}
                                                 {%- if  property.first == 'Warranty Product' -%}
@@ -246,7 +246,7 @@
                                         </div>
                                         {% comment %} Add warrenty  product using checkbox section start {% endcomment %}
                                         {% if warrantyProductAdded == false and item.product.tags contains settings.product_tag_warranty %}
-                                            <cart-warranty-product class="cart-warranty-product ms-5 position-relative pt-5 d-none">
+                                            <cart-warranty-product class="cart-warranty-product ms-5 position-relative pt-5">
                                                 <p class="fw-semibold">{{ 'warranty-feautres.cart.label' | t }}</p>
                                                 <label class="d-block mb-2" for="warranty_product_add_checkbox" warranty_product_add_label>
                                                 <input id="warranty_product_add_checkbox" item-id-main="{{ item.id }}" item-qty-main="{{ item.quantity }}"  warranty_product_add_checkbox type="checkbox" name="warranty-product" class="me-2" value="{{ warranty_current_variant.id }}">{{ warranty_product.title }} - <span class="warranty-price">

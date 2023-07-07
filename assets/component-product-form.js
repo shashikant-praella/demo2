@@ -61,6 +61,9 @@ class ProductForm extends HTMLElement {
           // userZipcodeForm.classList.remove('d-none');
           return false;
         }
+        else {
+          alert("You Local user can add warrenty product offline")
+        }
       }
       else {
         let submitBtn = document.querySelector('[name="add"]');

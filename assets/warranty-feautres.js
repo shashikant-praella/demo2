@@ -63,9 +63,10 @@ class user_zipcode_form extends HTMLElement {
            
     }
     // function for add main product when close or thank you button click on popup
-    submitProduct() {
+    submitProduct(randomValue) {
         let addItems = [];
-        let productForm = document.querySelector('[data-product-container]');
+        let productContainer = document.querySelector('[data-product-container]'); 
+        let productForm = productContainer.querySelector('product-form');
         let formSubmitProduct = productForm.querySelector('form');
         let submitButton = productForm.querySelector('[name="add"]');
         let qtyInput = productForm.querySelector('[data-qty-input]');
@@ -73,10 +74,25 @@ class user_zipcode_form extends HTMLElement {
         submitButton.setAttribute('disabled', true);
         submitButton.classList.add('loading');
         addItems.push(JSON.parse(serializeForm(formSubmitProduct)));
-     
-        const body = JSON.stringify({
-          items: addItems
+
+        let body = JSON.stringify({
+            id: addItems[0].id,
+            quantity: addItems[0].quantity
         });
+
+        if(this.addWarranty == true){
+            body = JSON.stringify({
+                id: addItems[0].id,
+                quantity: addItems[0].quantity,
+                properties: {
+                    'Random Value': randomValue
+                  }
+                
+            });
+        }
+        else {
+            alert("You Local user can add warrenty product offline");
+        }
         
         fetch(`${routes.cart_add_url}`, { ...fetchConfig(), body })
           .then((response) => response.json())
@@ -108,15 +124,19 @@ class user_zipcode_form extends HTMLElement {
     }
     // function for add warranty product when click add warranty button
     addWarrantyProduct() {
-        let productForm = document.querySelector('[data-product-container]');
+        let productContainer = document.querySelector('[data-product-container]'); 
+        let productForm = productContainer.querySelector('product-form');
         let mainProductId = productForm.querySelector('[name="id"]').value;
+        let randomValue = Math.random().toFixed(4);
+
         if(this.warranty_product_id) {
             const body = JSON.stringify({
                 id: this.warranty_product_id,
                 quantity: 1,
                 properties: {
                   'Product Type': 'Warrenty',
-                  'Main Product': mainProductId
+                  'Main Product': mainProductId,
+                  'Random Value': randomValue
                 }
             });
             let fetchCart = fetch(`${routes.cart_add_url}`, { ...fetchConfig(), ...{ body }});
@@ -124,7 +144,7 @@ class user_zipcode_form extends HTMLElement {
                 return response.json();
             }).then(async (response) => {
                 this.addWarranty = true;
-                await this.submitProduct();
+                await this.submitProduct(randomValue);
             }).catch((e) => {
                 console.error(e);
             });
@@ -192,10 +212,6 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
         if(this.warrantyProductAddCheckbox) this.warranty_product_id_Checkbox = this.warrantyProductAddCheckbox.value;
         if(this.warranty_product_add_label) this.warranty_product_add_label.addEventListener('click', this.addWarrantyProductToCart.bind(this));
         // check zipcode and based on it show checkbox on cart show/hide warranty product checkbox form
-        let CookiesZipcode = Utility.getCookie('cookiesZipcode');
-        if(CookiesZipcode && CookiesZipcode != undefined) {
-          let localZipCode = window?.warranty_features?.locallocal_zip_code;
-          if(localZipCode) if(localZipCode.indexOf(CookiesZipcode) == -1) {
             let cartItems = document.querySelectorAll('.cart-body .cart-items');
             if(cartItems.length > 0 ) {
               cartItems.forEach((cartItem) => {
@@ -203,37 +219,61 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
                 if(cartWarranty) cartWarranty.classList.remove('d-none')
               });
             }
-          }
-        }
+          
+        
 
     }
     addWarrantyProductToCart() {
-        document.querySelector('cart-warranty-product').classList.add('disabled');
-        let mainProductId = this.warrantyProductAddCheckbox.getAttribute('item-id-main');
-        let mainProductQty = this.warrantyProductAddCheckbox.getAttribute('item-qty-main');
-        if(mainProductId && mainProductId != undefined && mainProductId != null && 
-            mainProductQty && mainProductQty != undefined && mainProductQty != null && 
-            this.warranty_product_id_Checkbox != null && this.warranty_product_id_Checkbox != undefined ) {
-            const body = JSON.stringify({
-                id: this.warranty_product_id_Checkbox,
-                quantity: mainProductQty,
-                properties: {
-                  'Product Type': 'Warrenty',
-                  'Main Product': mainProductId
+        let CookiesZipcode = Utility.getCookie('cookiesZipcode');
+        if(!CookiesZipcode){
+                let zipCodeValue = prompt("Please enter your zipcode:", "");
+                if (zipCodeValue == null || zipCodeValue == "") {
+                    this.warrantyProductAddCheckbox = document.querySelector('[warranty_product_add_checkbox]');
+                    if(this.warrantyProductAddCheckbox) document.querySelector('[warranty_product_add_checkbox]').checked = false;
                 }
-            }); 
-
-            fetch(`${routes.cart_add_url}`, { ...fetchConfig(), body })
-            .then((response) => response.json())
-            .then(() => {
-                let cartElement = document.querySelector('ajax-cart');
-                if(cartElement) cartElement.getCartData('open_drawer');
-            })
-            .catch((e) => {
-                console.error(e);
-            })
-            .finally(() => {});
+                else {
+                    Utility.setCookie('cookiesZipcode', zipCodeValue, 1) 
+                   // this.addWarrantyProductToCart();
+                }
         }
+        else {
+            let localZipCode = window?.warranty_features?.locallocal_zip_code;
+            if(localZipCode) 
+            if(localZipCode.indexOf(CookiesZipcode) == -1) {
+                document.querySelector('cart-warranty-product').classList.add('disabled');
+                let mainProductId = this.warrantyProductAddCheckbox.getAttribute('item-id-main');
+                let mainProductQty = this.warrantyProductAddCheckbox.getAttribute('item-qty-main');
+                if(mainProductId && mainProductId != undefined && mainProductId != null && 
+                    mainProductQty && mainProductQty != undefined && mainProductQty != null && 
+                    this.warranty_product_id_Checkbox != null && this.warranty_product_id_Checkbox != undefined ) {
+                    const body = JSON.stringify({
+                        id: this.warranty_product_id_Checkbox,
+                        quantity: mainProductQty,
+                        properties: {
+                        'Product Type': 'Warrenty',
+                        'Main Product': mainProductId
+                        }
+                    }); 
+    
+                    fetch(`${routes.cart_add_url}`, { ...fetchConfig(), body })
+                    .then((response) => response.json())
+                    .then(() => {
+                        let cartElement = document.querySelector('ajax-cart');
+                        if(cartElement) cartElement.getCartData('open_drawer');
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    })
+                    .finally(() => {});
+                }
+            }
+            else {
+                alert("You Local user can add warrenty product offline");
+                return false;
+            }
+           
+        }
+        
     }
 
 }

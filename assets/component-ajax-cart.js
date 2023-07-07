@@ -250,7 +250,7 @@ class AjaxCart extends HTMLElement {
               return await response.text();
           })
           .then(async (_state) => {
-           
+            await this.getCartData();
           }).catch((error) => {
             console.log(error);
           });
@@ -271,20 +271,7 @@ class AjaxCart extends HTMLElement {
      * bundleRemoveidsArray - store bundle products quntity of main product 
      * qtyArray - Store qty of products 
      */
-    async updateWarrantyItemQty(quantity,lineWarranty, line) {  
-      //   const body = JSON.stringify({
-      //     line,
-      //     quantity
-      //  });
-      //  await fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body }})
-      //   .then(async (response) => {
-      //       return await response.text();
-      //   })
-      //   .then(async (_state) => {
-      //   }).catch((error) => {
-      //     console.log(error);
-      //   });
-
+    async updateWarrantyItemQty(quantity, ) {  
         let qtyArray = [];
         let cartItems = document.querySelectorAll('.cart-body .cart-items');
         if(cartItems.length > 0 ) {
@@ -294,6 +281,12 @@ class AjaxCart extends HTMLElement {
             if(lineWarranty == itemLine || itemLine == line) qtyArray.push(quantity);
             else qtyArray.push(qtyValue);
           });        
+          cartItems.forEach((cartItem) => {
+            let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
+            let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
+            if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
+            else qtyArray.push(qtyValue);
+          });    
           const body =  JSON.stringify({ updates: qtyArray });
 
           await fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body }})
@@ -332,14 +325,14 @@ class AjaxCart extends HTMLElement {
           return false;
       } 
 
-      //function for update warranty quantity
-      let wrrantyProduct = document.querySelector(`[warranty-product="${itemId}"]`);
-      let lineWarrantyProduct = null;
-      if(wrrantyProduct) lineWarrantyProduct = wrrantyProduct.dataset.index || null
-      if(itemId && itemId != null && wrrantyProduct && wrrantyProduct != undefined){
-        await this.updateWarrantyItemQty(quantity, lineWarrantyProduct, line);
-        return false;
-      } 
+      // //function for update warranty quantity
+      // let wrrantyProduct = document.querySelector(`[warranty-product="${itemId}"]`);
+      // let lineWarrantyProduct = null;
+      // if(wrrantyProduct) lineWarrantyProduct = wrrantyProduct.dataset.index || null
+      // if(itemId && itemId != null && wrrantyProduct && wrrantyProduct != undefined){
+      //   await this.updateWarrantyItemQty(quantity, lineWarrantyProduct, line);
+      //   return false;
+      // } 
 
       if(lineItem) lineItem.classList.add('updating'); 
       const body = JSON.stringify({
