@@ -197,9 +197,8 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
  */
 /**
  * Get started details about Addons/bundle products
- @param {string} -  this.warrantyProductAddCheckbox, this.warranty_product_add_label, this.warranty_product_id_Checkbox
+ @param {string} -  this.warrantyProductAddCheckbox, this.warranty_product_id_Checkbox
  * this.warrantyProductAddCheckbox - html of cart page warranty product add when click on checkbox, 
-    this.warranty_product_add_label -  html of chekcbox cart page warranty product add when click on checkbox, 
     this.warranty_product_id_Checkbox - warranty product id
  */
 
@@ -207,13 +206,12 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
     constructor() {
         super();
         this.warrantyProductAddCheckbox = document.querySelector('[warranty_product_add_checkbox]');
-        this.warranty_product_add_label = document.querySelector('[warranty_product_add_label]');
         this.warranty_product_id_Checkbox = null
         this.localZipCode = window?.warranty_features?.locallocal_zip_code;
         this.CookiesZipcode = Utility.getCookie('cookiesZipcode');
 
         if(this.warrantyProductAddCheckbox) this.warranty_product_id_Checkbox = this.warrantyProductAddCheckbox.value;
-        if(this.warranty_product_add_label) this.warranty_product_add_label.addEventListener('click', this.addWarrantyProductToCart.bind(this));
+        if(this.warrantyProductAddCheckbox) this.warrantyProductAddCheckbox.addEventListener('click', this.addWarrantyProductToCart.bind(this));
         // check zipcode and based on it show checkbox on cart show/hide warranty product checkbox form
             let cartItems = document.querySelectorAll('.cart-body .cart-items');
             if(cartItems.length > 0 ) {

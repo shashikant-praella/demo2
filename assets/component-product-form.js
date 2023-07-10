@@ -56,13 +56,10 @@ class ProductForm extends HTMLElement {
             Utility.trapFocus(popupWarranty);
             Utility.forceFocus(popupWarranty.querySelector('[id^="ModalClose-"]'));
           }
-          // let submitBtn = document.querySelector('[name="add"]');
-          // if(submitBtn) submitBtn.classList.add('d-none');
-          // userZipcodeForm.classList.remove('d-none');
           return false;
         }
         else {
-          alert("You Local user can add warrenty product offline")
+          alert("Your Local user you can add warrenty product offline");
         }
       }
       else {
