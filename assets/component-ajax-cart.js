@@ -271,36 +271,30 @@ class AjaxCart extends HTMLElement {
      * bundleRemoveidsArray - store bundle products quntity of main product 
      * qtyArray - Store qty of products 
      */
-    // async updateWarrantyItemQty(quantity, ) {  
-    //     let qtyArray = [];
-    //     let cartItems = document.querySelectorAll('.cart-body .cart-items');
-    //     if(cartItems.length > 0 ) {
-    //       cartItems.forEach((cartItem, index) => {
-    //         let itemLine = index+1;
-    //         let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
-    //         if(lineWarranty == itemLine || itemLine == line) qtyArray.push(quantity);
-    //         else qtyArray.push(qtyValue);
-    //       });        
-    //       cartItems.forEach((cartItem) => {
-    //         let itemRandomValue = cartItem.getAttribute('bundle-RandomValue');
-    //         let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
-    //         if(bundleRandomValue == itemRandomValue ) qtyArray.push(quantity);
-    //         else qtyArray.push(qtyValue);
-    //       });    
-    //       const body =  JSON.stringify({ updates: qtyArray });
+    async updateWarrantyItemQty(quantity, lineWarranty, line) {  
+        let qtyArray = [];
+        let cartItems = document.querySelectorAll('.cart-body .cart-items');
+        if(cartItems.length > 0 ) {
+          cartItems.forEach((cartItem, index) => {
+            let itemLine = index+1;
+            let qtyValue = parseInt(cartItem.getAttribute('data-qty'));
+            if(lineWarranty == itemLine || itemLine == line) qtyArray.push(quantity);
+            else qtyArray.push(qtyValue);
+          });          
+          const body =  JSON.stringify({ updates: qtyArray });
 
-    //       await fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body }})
-    //       .then(async (response) => {
-    //           return await response.text();
-    //       })
-    //       .then(async (_state) => {
-    //         await this.getCartData();
-    //       }).catch((error) => {
-    //         console.log(error);
-    //       });
-    //     }
+          await fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body }})
+          .then(async (response) => {
+              return await response.text();
+          })
+          .then(async (_state) => {
+            await this.getCartData();
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
 
-    // }
+    }
 
      /**
      * Update Quantity API call 
@@ -314,16 +308,28 @@ class AjaxCart extends HTMLElement {
 
       let lineItem = document.querySelectorAll('[data-cart-item]')[line-1];
 
-      //function for update bundle quantity
       let bundleRandomValue = lineItem.getAttribute('bundle-RandomValue');
       let itemId = lineItem.getAttribute('item-id');
+      let wrrantyProduct = document.querySelector(`[warranty-product="${itemId}"]`);
+      let lineWarrantyProduct = null;
+      if(wrrantyProduct) lineWarrantyProduct = wrrantyProduct.dataset.index || null
 
       if(itemId && itemId != null && 
         bundleRandomValue && 
         bundleRandomValue != '' && bundleRandomValue != null) {
+        //function for update bundle quantity
           await this.updateBundleItemQty(quantity, bundleRandomValue);
           return false;
       } 
+      else if(bundleRandomValue == null &&
+         itemId && itemId != null && 
+         wrrantyProduct && wrrantyProduct != undefined) {
+          //function for update warranty quantity
+          await this.updateWarrantyItemQty(quantity, lineWarrantyProduct, line);
+          return false;
+      }
+
+      
 
       if(lineItem) lineItem.classList.add('updating'); 
       const body = JSON.stringify({
