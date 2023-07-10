@@ -33,6 +33,7 @@ class user_zipcode_form extends HTMLElement {
         if(this.popupWarranty ) this.modalWarranty = this.popupWarranty.querySelector('.modal');
         this.warranty_product_id = this.warrentyAddToCartBtn.getAttribute('warranty_product_id');
         this.warrantyProductAddCheckbox = document.querySelector('[warranty_product_add_checkbox]');
+        this.localZipCode = window?.warranty_features?.locallocal_zip_code;
      
         if(this.warrentyPopupCloseBtn) this.warrentyPopupCloseBtn.addEventListener('click', this.submitProduct.bind(this));
         if(this.warrentyPopupCloseIcon) this.warrentyPopupCloseIcon.addEventListener('click', this.submitProduct.bind(this));
@@ -46,8 +47,7 @@ class user_zipcode_form extends HTMLElement {
         let zipCodeInput = this.querySelector('[name="user_zipcode"]');
         if(zipCodeInput) zipCodeValue = zipCodeInput.value;
         if(zipCodeValue) Utility.setCookie('cookiesZipcode', zipCodeValue, 1) 
-        let localZipCode = window?.warranty_features?.locallocal_zip_code;
-        if(localZipCode) if(localZipCode.indexOf(zipCodeValue) < 0) this.showPopupWarranty();
+        if(this.localZipCode) if(this.localZipCode.indexOf(zipCodeValue) < 0) this.showPopupWarranty();
         else this.submitProduct();
     }
     // function for show warranty popup
@@ -91,7 +91,7 @@ class user_zipcode_form extends HTMLElement {
             });
         }
         else {
-            alert("You Local user can add warrenty product offline");
+            if(this.localZipCode.indexOf(this.CookiesZipcode) != -1) alert("Your Local user you can add warrenty product offline");
         }
         
         fetch(`${routes.cart_add_url}`, { ...fetchConfig(), body })
@@ -209,6 +209,9 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
         this.warrantyProductAddCheckbox = document.querySelector('[warranty_product_add_checkbox]');
         this.warranty_product_add_label = document.querySelector('[warranty_product_add_label]');
         this.warranty_product_id_Checkbox = null
+        this.localZipCode = window?.warranty_features?.locallocal_zip_code;
+        this.CookiesZipcode = Utility.getCookie('cookiesZipcode');
+
         if(this.warrantyProductAddCheckbox) this.warranty_product_id_Checkbox = this.warrantyProductAddCheckbox.value;
         if(this.warranty_product_add_label) this.warranty_product_add_label.addEventListener('click', this.addWarrantyProductToCart.bind(this));
         // check zipcode and based on it show checkbox on cart show/hide warranty product checkbox form
@@ -224,8 +227,7 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
 
     }
     addWarrantyProductToCart() {
-        let CookiesZipcode = Utility.getCookie('cookiesZipcode');
-        if(!CookiesZipcode){
+        if(!this.CookiesZipcode){
                 let zipCodeValue = prompt("Please enter your zipcode:", "");
                 if (zipCodeValue == null || zipCodeValue == "") {
                     this.warrantyProductAddCheckbox = document.querySelector('[warranty_product_add_checkbox]');
@@ -237,9 +239,8 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
                 }
         }
         else {
-            let localZipCode = window?.warranty_features?.locallocal_zip_code;
-            if(localZipCode) 
-            if(localZipCode.indexOf(CookiesZipcode) == -1) {
+            if(this.localZipCode) 
+            if(this.localZipCode.indexOf(this.CookiesZipcode) == -1) {
                 document.querySelector('cart-warranty-product').classList.add('disabled');
                 let mainProductId = this.warrantyProductAddCheckbox.getAttribute('item-id-main');
                 let mainProductQty = this.warrantyProductAddCheckbox.getAttribute('item-qty-main');
@@ -268,7 +269,8 @@ customElements.define('zipcode-wrapper', zipcodeWrapper);
                 }
             }
             else {
-                alert("You Local user can add warrenty product offline");
+                alert("Your Local user you can add warrenty product offline");
+                this.warrantyProductAddCheckbox.checked = false;
                 return false;
             }
            
