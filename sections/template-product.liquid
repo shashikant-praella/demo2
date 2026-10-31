@@ -3,7 +3,7 @@
         if block.settings.enable_bundle
           capture addOnsHTML
               assign addOnProducts = product.metafields.custom.bundle_products
-              render 'addons-form', addOnProducts: addOnProducts, addons_title: block.settings.bundle_title.
+              render 'addons-form', addOnProducts: addOnProducts, addons_title: block.settings.bundle_title
           endcapture
           endif
       endif
@@ -552,3 +552,15 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "              render 'addons-form', addOnProducts: addOnProducts, addons_title:
+    block.settings.bundle_title."
+  to: "              render 'addons-form', addOnProducts: addOnProducts, addons_title:
+    block.settings.bundle_title"
+  position: 218..325
+{% endcomment %}
